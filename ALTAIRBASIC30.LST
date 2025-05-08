@@ -1515,12 +1515,12 @@ F3      MAC      6-SEP-64 03:11         DISPATCH TABLES,RESERVED WORDS, ERROR TE
   1035                  000261          19020           Q=Q+1
   1036                  000261          19040           LESSTK=Q                ;A LESS THAN SIGN
   1037                                  19060   ;
-  1038                                  19080   ; NOTE DANGER OF ONE RESERVED WORD BEING PART
+  1038                                  19080   ; NOTE DANGER OF ONE RESERVED WORD BEING A PART
   1039                                  19100   ; OF ANOTHER
   1040                                  19120   ; IE . . IF 2 GREATER THAN F OR T=5 THEN...
   1041                                  19140   ; WILL NOT WORK!!! SINCE "FOR" WILL BE CRUNCHED!!
-  1042                                  19160   ; IN ANY CASE MAKE SURE THE SMALLER WORLD APPEAR
-  1043                                  19180   ; SECOND IN THE REESRVED WORLD TABLE ("INP" AND "INPUT")
+  1042                                  19160   ; IN ANY CASE MAKE SURE THE SMALLER WORD APPEARS
+  1043                                  19180   ; SECOND IN THE RESERVED WORD TABLE ("INP" AND "INPUT")
   1044                                  19190   ; ANOTHER EXAMPLE: IF T OR Q THEN ... "TO" IS CRUNCHED
   1045                                  19200   ;
   1046                  000262          19240           ONEFUN=Q
@@ -3692,7 +3692,7 @@ F3      MAC      6-SEP-64 03:11         THE "LIST" COMMAND
   2655                                  38420   SUBTTL  THE "LIST" COMMAND
   2656
   2657                                  38460   IFN     LENGTH-2,<
-  2658                                  38480   IFD     LPTSW,<
+  2658                                  38480   IFN     LPTSW,<
   2659                                  38500   LLIST:  MVI     A,1             ;GET NON ZERO VALUE
   2660                                  38520           STA     PRTFLG>         ;ASVE IN I/O FLAG
   2661                                  38540   LIST:   CALL    LINGET          ;GET LINE NUMBER INTO [D,E]
@@ -4459,7 +4459,7 @@ F3      MAC      6-SEP-64 03:11         RESTORE,STOP,END,LINGET,CHRCON
   3171                                  46160   ; CODES SET UP TO REFLECT ITS VALUE.
   3172                                  46180   ;
   3173  003642' 001000  000053          46200   LINGET: DCX     H
-  3174  003643' 001000  000021          46220   LINGT2: LXI     D$CODE          ;ZERO ACCUMULATED LINE #
+  3174  003643' 001000  000021          46220   LINGT2: LXI     D,$CODE         ;ZERO ACCUMULATED LINE #
   3175  003644' 000000  000000'
   3176  003645' 000000  003635'
   3177  003646' 001000  000327          46240   MORLIN: CHRGET
@@ -19650,7 +19650,7 @@ F4      MAC     23-AUG-64 06:08         SYSTEM INITIALIZATION CODE
   4441  003602' 000000  000000*
   4442  003603' 000000  003572'
   4443                                  71920   DFLENT:
-  4444                                  71940   IFN     STRING,<                ;ET UP DEFAULT STRING SPACE
+  4444                                  71940   IFN     STRING,<                ;SET UP DEFAULT STRING SPACE
   4445  003604' 001000  000021          71960           LXI     D,$CODE+^D65536-^D50+1
   4446  003605' 000000  177717*
   4447  003606' 000000  003602'
@@ -19864,13 +19864,13 @@ F4      MAC     23-AUG-64 06:08         SYSTEM INITIALIZATION CODE
   4613  004002' 000000  000000*
   4614  004003' 000000  003777'
   4615                                  73940   IFN     CONSSW,<
-  4616                                  73960           LXI     H,CONSDD##>
+  4616                                  73960           LXI     H,CONSDO##>
   4617  004004' 001000  000042          73980           SHLD    $CODE+2
   4618  004005' 000000  000002*
   4619  004006' 000000  004002'
   4620  004007' 001000  000351          74000           PCHL
   4621
-  4622                                  74040   IFE     ECTFNC,<
+  4622                                  74040   IFE     EXTFNC,<
   4623                                  74060   TBLDO:  ADR(INITSA)
   4624                                  74080           ADR(FNS)
   4625                                  74100           ADR(SINFIX)
@@ -20125,7 +20125,7 @@ F4      MAC     23-AUG-64 06:08         SYSTEM INITIALIZATION CODE
   4818  004256' 000000  000000          74860           0
   4819  004257'                         74880   LASTWR::                        ;LAST WORD OF SYSTEM CODE+1
   4820  004257'                         74900           BLOCK   ^D30            ;SPACE FOR TEMP STACK
-  4821  004115'                         74920   TSTACK::
+  4821  004315'                         74920   TSTACK::
   4822                                  74940   IFE     LENGTH,<
   4823                                  74960           BLOCK   ^D13000>
   4824                                  74980   IFN     LENGTH,<
