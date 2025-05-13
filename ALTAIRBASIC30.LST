@@ -362,25 +362,25 @@ F3      MAC      6-SEP-64 03:11         SOME EXPLANATION
    192                                  02240                           ROUTINE IS CALLED. IF SO,
    193                                  02260                           THE CHRGET RST IS DROPPED INTO SO
    194                                  02280                           THE CHARACTER AFTER THE MATCHED
-   195                                  02300                           ONE WILL BE PUT IN (A) AND
+   195                                  02300                           ONE WILL BE PUT IN [A] AND
    196                                  02320                           THE CONDITION CODES WILL REFLECT THIS
    197                                  02340                           EXAMPLE: SYNCHK THENTK (THE MATCH CHARACTER IS
    198                                  02360                           GIVEN IN THE LOCATION AFTER THE RST)
-   199                                  02380                           WOULD CHECK TO MAKE SURE (H,L) POINTED TO A THENTK
-   200                                  02400                           AND IF SO FETCH THE NEXT CHARACTER INTO (A)
+   199                                  02380                           WOULD CHECK TO MAKE SURE [H,L] POINTED TO A THENTK
+   200                                  02400                           AND IF SO FETCH THE NEXT CHARACTER INTO [A]
    201                                  02420                           IF NOT, A "SYNTAX ERROR" WOULD BE GIVEN.
    202
    203                                  02460                   2       CHRGET
-   204                                  02480                           USING (H,L) AS THE TEXT POINTER
+   204                                  02480                           USING [H,L] AS THE TEXT POINTER
    205                                  02500                           THE TEXT POINTER IS INCREMENTED
-   206                                  02520                           AND THE NEXT CHARACTER IS FETCHED INTO (A)
+   206                                  02520                           AND THE NEXT CHARACTER IS FETCHED INTO [A]
    207                                  02540                           IF THE CHARACTER IS A " " IT IS SKIPPED
    208                                  02560                           OVER AND THE NEXT CHARACTER IS FETCHED,
    209                                  02580                           THE STATEMENT TERMINATIONS ":" AND 0
    210                                  02600                           LEAVE THE ZERO FLAG SET.
    211                                  02620                           THE NUMERICS "0" THROUGH "9" LEAVE THE CARRY
    212                                  02640                           FLAG SET. THE CURRENT CHARACTER CAN BE
-   213                                  02660                           REFETCHED INTO (a) BY DOING A MOV A,M.
+   213                                  02660                           REFETCHED INTO [a] BY DOING A MOV A,M.
    214                                  02680                           IF THE CONDITION CODES MUST BE SET UP AGAIN
    215                                  02700                           ONE SINCE SPACES MAY BE IN-BETWEEN.
    216                                  02720                           OCX H,DCX M,CHRGET WILL NOT ALWAYS WORK.
@@ -388,8 +388,8 @@ F3      MAC      6-SEP-64 03:11         SOME EXPLANATION
    218                                  02760
    219
    220                                  02800                   3       OUTCHR
-   221                                  02820                           THE CHARACTER IN (A) IS PRINTED ON
-   222                                  02840                           THE USER'S TERMINAL. (A) AND THE
+   221                                  02820                           THE CHARACTER IN [A] IS PRINTED ON
+   222                                  02840                           THE USER'S TERMINAL. [A] AND THE
    223                                  02860                           CONDITION CODES ARE PRESERVED
    224
 
@@ -407,12 +407,12 @@ BASIC MCS 8080  GATES/ALLEN/DAVIDOFF    MACRO 47(113) 03:12 10-SEP-75 PAGE 2-1
 F3      MAC      6-SEP-64 03:11         SOME EXPLANATION
 
    225                                  02900                   4       COMPAR
-   226                                  02920                           (D,E) AND (H,L) ARE COMPARED AS UNSIGNED
+   226                                  02920                           [D,E] AND [H,L] ARE COMPARED AS UNSIGNED
    227                                  02940                           DOUBLE-BYTE INTEGERS. CARRY IS SET IF
-   228                                  02960                           (H,L) IS LESS THAN (D,E). ZERO IS SET IF THEY
-   229                                  02980                           ARE EQUAL. (A) IS SMASHED. THE ONLY DEFINITE
-   230                                  03000                           THING THAT CAN BE SAID ABOUT (A) ON RETURN
-   231                                  03020                           IS THAT IF THE ZERO FLAG IS SET, (A) WILL
+   228                                  02960                           [H,L] IS LESS THAN [D,E]. ZERO IS SET IF THEY
+   229                                  02980                           ARE EQUAL. [A] IS SMASHED. THE ONLY DEFINITE
+   230                                  03000                           THING THAT CAN BE SAID ABOUT [A] ON RETURN
+   231                                  03020                           IS THAT IF THE ZERO FLAG IS SET, [A] WILL
    232                                  03040                           EQUAL 0.
    233
    234                                  03080                   5       FSIGN
@@ -423,9 +423,9 @@ F3      MAC      6-SEP-64 03:11         SOME EXPLANATION
    239
    240                                  03200                   6       PUSHM
    241                                  03220                           A DOUBLE BYTE QUANTITY POINTED
-   242                                  03240                           TO BY (H,L) IS PUSHED ONTO THE
-   243                                  03260                           STACK, (B,C) IS SET EQUAL TO THE
-   244                                  03280                           VALUE PUSHED, (H,L) IS INCREMENTED BY TWO
+   242                                  03240                           TO BY [H,L] IS PUSHED ONTO THE
+   243                                  03260                           STACK, [B,C] IS SET EQUAL TO THE
+   244                                  03280                           VALUE PUSHED, [H,L] IS INCREMENTED BY TWO
    245
    246                                  03320                   7       IN THE 4K VERSION RST 7 IS UNUSED AND THE LOCATIONS
    247                                  03340                           ASSOCIATD WITH IT ARE USED TO CONTINUE
@@ -508,8 +508,8 @@ F3      MAC      6-SEP-64 03:11         SOME EXPLANATION
    310                                  04600                   TO ERROR. THE STACK WILL BE RESET AND ALL
    311                                  04620                   PROGRAM CONTEXT WILL BE LOST. VARIABLES
    312                                  04640                   VALUES AND THE ACTUAL PROGRAM REMAIN INTACT.
-   313                                  04660                   ONLY THE VALUE OF (E) IS IMPORTANT WHEN
-   314                                  04680                   THE BRANCH IS MADE TO ERROR, (E) IS USED AS AN
+   313                                  04660                   ONLY THE VALUE OF [E] IS IMPORTANT WHEN
+   314                                  04680                   THE BRANCH IS MADE TO ERROR, [E] IS USED AS AN
    315                                  04700                   INDEX INTO ERRTAB WHICH GIVES THE TWO
    316                                  04720                   CHARACTER ERROR MESSAGE THAT WILL BE PRINTER ON THE
    317                                  04740                   USER'S TERMINAL.
@@ -613,8 +613,8 @@ F3      MAC      6-SEP-64 03:11         SOME EXPLANATION
    387                                  06140                   NAME BEFORE DISPATCHING. WHEN RETURNING
    388                                  06160                   BACK TO NEWSTT THE ONLY THING THAT
    389                                  06180                   MUST BE SET UP IS THE TEXT POINTER IN
-   390                                  06200                   (H,L). NEWSTT WILL CHECK TO MAKE SURE
-   391                                  06220                   (H,L) IS POINTING TO A STATEMENT TERMINATOR.
+   390                                  06200                   [H,L]. NEWSTT WILL CHECK TO MAKE SURE
+   391                                  06220                   [H,L] IS POINTING TO A STATEMENT TERMINATOR.
    392                                  06240                   IF A STATEMENT SHOULDN'T BE PERFORMED UNLESS
    393                                  06260                   IT IS PROPERLY FORMATTED (I.E "NEW") IT CAN
    394                                  06280                   SIMPLY DO A "RNZ" AFTER READING ALL OF
@@ -631,7 +631,7 @@ F3      MAC      6-SEP-64 03:11         SOME EXPLANATION
    405                                  06500                   CURRENT LINE NUMBER) IN OLDLIN SINCE THE ^C CHECK
    406                                  06520                   IS MADE BEFORE THE STATEMENT POINTED TO IS
    407                                  06540                   EXECUTED. "STOP" AND "END" STORE THE TEXT POINTER
-   408                                  06560                   IN (H,L) WHICH POINTERS AT THEIR TERMINATING
+   408                                  06560                   IN [H,L] WHICH POINTERS AT THEIR TERMINATING
    409                                  06580                   CHARACTER IN OLDTXT.
    410
    411                                  06620           STATEMENT CODE
@@ -641,11 +641,11 @@ F3      MAC      6-SEP-64 03:11         SOME EXPLANATION
    415                                  06700                   ITSELF.
    416
    417                                  06740           FRMEVL, THE FORMULA EVALUATOR
-   418                                  06760                   GIVEN AN (H,L) POINTING TO THE STARTING
+   418                                  06760                   GIVEN AN [H,L] POINTING TO THE STARTING
    419                                  06780                   CHARACTER OF A FORMULA FRMEVL
    420                                  06800                   EVALUATES THE FORMULATE AND LEAVES
    421                                  06820                   THE VALUE IN THE FLOATING ACCUMULATOR (FAC).
-   422                                  06840                   (H,L) IS RETURNED POINTING TO THE FIRST CHARACTER
+   422                                  06840                   [H,L] IS RETURNED POINTING TO THE FIRST CHARACTER
    423                                  06860                   THAT COULD NOT BE INTERPRETED AS PART OF THE
    424                                  06880                   FORMULA. THE ALGORITHM USES THE STACK
    425                                  06900                   TO STORE TEMPORARY RESULTS:
@@ -710,7 +710,7 @@ F3      MAC      6-SEP-64 03:11         SOME EXPLANATION
    471                                  07820                   THEIR PRECEDENCE OR THE END OF THE FORMULA
    472                                  07840                   WILL BE EVALUATED. WHEN FRMEVL DOES A RETURN
    473                                  07860                   BECAUSE IT SEES AN OPERATOR OF HIGHER PRECEDENCE
-   474                                  07880                   IT DOES NOT PASS THE TEXT POINTER IN (H,L), SO
+   474                                  07880                   IT DOES NOT PASS THE TEXT POINTER IN [H,L], SO
    475                                  07900                   AFTER THE UNARY OPERATION HAS BEEN PERFORMED
    476                                  07920                   ON THE FAC THE TEXT POINTER MUST BE FETCHED FROM
    477                                  07940                   A TEMPORARY LOCATION THAT FRMEVL USES AND
@@ -2695,7 +2695,7 @@ F3      MAC      6-SEP-64 03:11         ERROR HANDLER, READY, COMPACTIFICATION, 
   1874  002072' 001000  000036          27940   SNERR:  MVI     E,ERRSN         ;"SYNTAX ERROR"
   1875  002073' 000000  000002
   1876  002074' 001000  000001          27960           XWD     ^O1000,1        ;"LXI B," OVER THE NEXT 2
-  1877  002075' 001000  000036          27980   DV0ERR: MVI     E,ERRDV0        ;DIVISION BY ZERT
+  1877  002075' 001000  000036          27980   DV0ERR: MVI     E,ERRDV0        ;DIVISION BY ZERO
   1878  002076' 000000  000013
   1879                                  28000   IFN     LENGTH,<
   1880  002077' 001000  000001          28020           XWD     ^O1000,1        ;SKIP NEXT TWO
@@ -2751,7 +2751,7 @@ F3      MAC      6-SEP-64 03:11         ERROR HANDLER, READY, COMPACTIFICATION, 
 BASIC MCS 8080  GATES/ALLEN/DAVIDOFF    MACRO 47(113) 03:12 10-SEP-75 PAGE 8-1
 F3      MAC      6-SEP-64 03:11         ERROR HANDLER, READY, COMPACTIFICATION, NEW, CLEAR, MAIN
 
-  1919  002132' 001000  000052          28480           LMLD    CURLIN          ;CURRENT LINE #
+  1919  002132' 001000  000052          28480           LHLD    CURLIN          ;CURRENT LINE #
   1920  002133' 000000  001607'
   1921  002134' 000000  002130'
   1922  002135' 001000  000174          28500           MOV     A,H             ;SEE IF IN DIRECT MODE
@@ -3036,7 +3036,7 @@ F3      MAC      6-SEP-64 03:11         ERROR HANDLER, READY, COMPACTIFICATION, 
   2145                                  31620   ;          GREATER THAN ONE SEARCHED FOR.
   2146                                  31640   ;          [H,L] POINTS TO THE LINK FIELD IN THE NEXT LINE.
   2147                                  31660   ;
-  2148  002371' 001000  000052          31680   FNDLIN: LMLD    TXTTAB          ;GET POINTER TO START OF TEXT
+  2148  002371' 001000  000052          31680   FNDLIN: LHLD    TXTTAB          ;GET POINTER TO START OF TEXT
   2149  002372' 000000  001617'
   2150  002373' 000000  002363'
   2151  002374' 001000  000104          31700   LOOP:   MOV     B,H             ;IF EXITING BECAUSE OF END OF PROGRAM,
@@ -3057,7 +3057,7 @@ F3      MAC      6-SEP-64 03:11         ERROR HANDLER, READY, COMPACTIFICATION, 
   2166  002412' 001000  000077          32000           CMC                     ;TURN CARRY ON
   2167  002413' 001000  000310          32020           RZ                      ;EQUAL RETURN
   2168  002414' 001000  000077          32040           CMC                     ;MAKE CARRY ZERO
-  2169  002415' 001000  000320          32060           RNC                     ;NO MATCH RETURN (GREATER?)
+  2169  002415' 001000  000320          32060           RNC                     ;NO MATCH RETURN (GREATER)
   2170  002416' 001000  000303          32080           JMP     LOOP            ;KEEP LOOKING
   2171  002417' 000000  002374'
   2172  002420' 000000  002372'
@@ -3066,7 +3066,7 @@ F3      MAC      6-SEP-64 03:11         ERROR HANDLER, READY, COMPACTIFICATION, 
   2175                                  32140   ; AS VARIABLE SPACE
   2176                                  32160   ;
   2177  002421' 001000  000300          32180   SCRATH: RNZ                     ;MAKE SURE THERE IS A TERMINATOR
-  2178  002422' 001000  000052          32200   SCRTCH: LMLD    TXTTAB
+  2178  002422' 001000  000052          32200   SCRTCH: LHLD    TXTTAB
   2179  002423' 000000  001617'
   2180  002424' 000000  002417'
   2181                                  32220   IFN     LENGTH-2,<
@@ -3086,7 +3086,7 @@ F3      MAC      6-SEP-64 03:11         ERROR HANDLER, READY, COMPACTIFICATION, 
 BASIC MCS 8080  GATES/ALLEN/DAVIDOFF    MACRO 47(113) 03:12 10-SEP-75 PAGE 8-6
 F3      MAC      6-SEP-64 03:11         ERROR HANDLER, READY, COMPACTIFICATION, NEW, CLEAR, MAIN
 
-  2184  002425' 001000  000315          32280           CALL    TOFF>           ;TURN OFF THACE. SET [A]=0
+  2184  002425' 001000  000315          32280           CALL    TOFF>           ;TURN OFF TRACE. SET [A]=0
   2185  002426' 000000  003605'
   2186  002427' 000000  002423'
   2187  002430' 001000  000167          32300           MOV     M,A             ;SAVE AT END OFF TEXT
@@ -3098,7 +3098,7 @@ F3      MAC      6-SEP-64 03:11         ERROR HANDLER, READY, COMPACTIFICATION, 
   2193  002436' 000000  002426'
   2194                                  32400   IFE     LENGTH,<
   2195                                  32420   RUN:    RNZ>                    ;CHECK FOR A TERMINATOR
-  2196  002437' 001000  000052          32440   RUNC:   LMLD    TXTTAB          ;POINT AT THE START OF TEXT
+  2196  002437' 001000  000052          32440   RUNC:   LHLD    TXTTAB          ;POINT AT THE START OF TEXT
   2197  002440' 000000  001617'
   2198  002441' 000000  002435'
   2199  002442' 001000  000053          32460           DCX     H
@@ -3113,7 +3113,7 @@ F3      MAC      6-SEP-64 03:11         ERROR HANDLER, READY, COMPACTIFICATION, 
   2208  002444' 000000  001603'
   2209  002445' 000000  002440'
   2210                                  32640   IFN     STRING,<
-  2211  002446' 001000  000052          32660           LMLD    MEMSIZ
+  2211  002446' 001000  000052          32660           LHLD    MEMSIZ
   2212  002447' 000000  001545'
   2213  002450' 000000  002444'
   2214  002451' 001000  000042          32680           SHLD    FRETOP>         ;FREE UP STRING SPACE
@@ -3153,7 +3153,7 @@ F3      MAC      6-SEP-64 03:11         ERROR HANDLER, READY, COMPACTIFICATION, 
 BASIC MCS 8080  GATES/ALLEN/DAVIDOFF    MACRO 47(113) 03:12 10-SEP-75 PAGE 8-7
 F3      MAC      6-SEP-64 03:11         ERROR HANDLER, READY, COMPACTIFICATION, NEW, CLEAR, MAIN
 
-  2237  002470' 001000  000301          32940   STKINI: POP     0               ;GET RETURN ADDRESS HERE
+  2237  002470' 001000  000301          32940   STKINI: POP     B               ;GET RETURN ADDRESS HERE
   2238  002471' 001000  000052          32960           LHLD    STKTOP          ;[H,L] POINTER TO END OF MEMORY
   2239  002472' 000000  001615'
   2240  002473' 000000  002466'
@@ -4321,7 +4321,7 @@ F3      MAC      6-SEP-64 03:11         RESTORE,STOP,END,LINGET,CHRCON
   3061  003542' 001000  000300          44480   CONT:   RNZ                     ;MAKE SURE THERE IS A TERMINATOR
   3062  003543' 001000  000036          44500           MVI     E,ERRCN
   3063  003544' 000000  000021
-  3064  003545' 001000  000052          44520           LMLD    OLDTXT          ;A STORED TEXT POINTER OF
+  3064  003545' 001000  000052          44520           LHLD    OLDTXT          ;A STORED TEXT POINTER OF
   3065  003546' 000000  001613'
   3066  003547' 000000  003540'
   3067                                  44540                                   ;ZERO IS SETUP BY STKINI
@@ -5447,7 +5447,7 @@ F3      MAC      6-SEP-64 03:11         PRINT CODE
   3806  004461' 001000  000315          55200           CALL    STRLIT          ;MAKE IT  A STRING
   3807  004462' 000000  007637'
   3808  004463' 000000  004457'
-  3809  004464' 001000  000052          55220           LMLD    FACLO           ;GET THE POINTER
+  3809  004464' 001000  000052          55220           LHLD    FACLO           ;GET THE POINTER
   3810  004465' 000000  001637'
   3811  004466' 000000  004462'
   3812                                  55240   IFN     LPTSW,<
@@ -6303,7 +6303,7 @@ BASIC MCS 8080  GATES/ALLEN/DAVIDOFF    MACRO 47(113) 03:12 10-SEP-75 PAGE 19-2
 F3      MAC      6-SEP-64 03:11         NEXT CODE
 
   4447                                  63620                                   ;THE WAY DOWN THE ENTRY
-  4448  005321' 001000  000052          63640           LMLD    TEMP            ;RESTORE THE TEXT POINTER
+  4448  005321' 001000  000052          63640           LHLD    TEMP            ;RESTORE THE TEXT POINTER
   4449  005322' 000000  001603'
   4450  005323' 000000  005316'
   4451                                  63660   IFE     LENGTH,<JMP     NEWSTT>
@@ -6886,7 +6886,7 @@ F3      MAC      6-SEP-64 03:11         FORMULA EVALUATION CODE
   4833  005655' 001000  000072          04940           LDA     VALTYP          ;SEE IF THE FAC IS DOUBLE PRECISION
   4834  005656' 000000  001543'
   4835  005657' 000000  005653'
-  4836  005660' 001000  000376          04960           CPI     BP2             ;AND IF SO, CONVERT THE STACK OPERAND
+  4836  005660' 001000  000376          04960           CPI     B               ;AND IF SO, CONVERT THE STACK OPERAND
   4837  005661' 000000  000010
   4838  005662' 001000  000312          04980           JZ      FACDBL          ;TO DOUBLE PRECISION
   4839  005663' 000000  005775'
@@ -8261,7 +8261,7 @@ F3      MAC      6-SEP-64 03:11         MULTIPLE DIMENSION CODE
   5873                                  20320   ; THE VALUES
   5874                                  20340   ;
   5875  006745' 001000  000345          20360   ISARY:  PUSH    H               ;SAVE DIMFLG AND VALTYP FOR RECURSION
-  5876  006746' 001000  000052          20380           LMLD    DIMFLG
+  5876  006746' 001000  000052          20380           LHLD    DIMFLG
   5877  006747' 000000  001542'
   5878  006750' 000000  006730'
   5879  006751' 001000  000343          20400           XTHL                    ;TEXT POINTER BACK INTO [H,L]
@@ -8462,7 +8462,7 @@ F3      MAC      6-SEP-64 03:11         MULTIPLE DIMENSION CODE
   6032  007121' 001000  000315          22700           CALL    GETSTK          ;GET SPACE FOR DIMENSION ENTRIES
   6033  007122' 000000  002024'
   6034  007123' 000000  007117'
-  6035  007124' 001000  000351          22720   TEMP6:  PCHL                    ;PLACE TO STORE NUMBER OF SIMENSIONS
+  6035  007124' 001000  000351          22720   TEMP6:  PCHL                    ;PLACE TO STORE NUMBER OF DIMENSIONS
   6036                                  22740                                   ;FOR GETSTK AND LATER RECALL
   6037                                  22760                                   ;!!IMPURE!! PCHL TO CONFUSE DISASSEMBLY
   6038  007125' 001000  000042          22780           SHLD    TEMP3           ;SAVE THE LOCATION TO PUT THE SIZE
@@ -8658,7 +8658,7 @@ F3      MAC      6-SEP-64 03:11         MULTIPLE DIMENSION CODE
   6186  007322' 001000  000342          24860   SMLVAL: JPO     DONMUL          ;FOR STRINGS
   6187  007323' 000000  007236'
   6188  007324' 000000  007317'
-  6189  007325' 001000  000011          24880           DAD     BP2             ;ADD IN THE ORIGINAL
+  6189  007325' 001000  000011          24880           DAD     B               ;ADD IN THE ORIGINAL
   6190                                  24900   DONMUL:>
   6191                                  24920   IFN     LENGTH-2,<
   6192                                  24940           DAD     H               ;MULTIPLY CURTOL BY FOUR
@@ -9403,7 +9403,7 @@ F3      MAC      6-SEP-64 03:11         STRING FUNCTIONS
   6680  010017' 001000  000042          31720           SHLD    FRETOP          ;SAVE NEW BOTTOM OF MEMORY
   6681  010020' 000000  001573'
   6682  010021' 000000  010015'
-  6683  010022' 001000  000043          31740           INX     HP2             ;MOVE BACK TO POINT TO STRING
+  6683  010022' 001000  000043          31740           INX     H               ;MOVE BACK TO POINT TO STRING
   6684  010023' 001000  000353          31760           XCHG                    ;RETURN WITH POINTER IN [D,E]
   6685  010024' 001000  000361          31780   PPSWRT: POP     PSW             ;GET CHARACTER COUNT
   6686  010025' 001000  000311          31800           RET                     ;RETURN FROM GETSPA
@@ -13951,7 +13951,7 @@ F4      MAC     23-AUG-64 06:08         FLOATING POINT ADDITION AND SUBTRACTION
    503  000326' 001000  000232          07160           SBB     D               ;NEGATE NEXT HIGHEST ORDER
    504  000327' 001000  000127          07180           MOV     D,A             ;SAVE IT
    505  000330' 001000  000175          07200           MOV     A,L             ;GET ZERO BACK
-   506  000331' 001000  000231          07220           SBB     CP2             ;NEGATE HIGHEST ORDER
+   506  000331' 001000  000231          07220           SBB     C               ;NEGATE HIGHEST ORDER
    507  000332' 001000  000117          07240           MOV     C,A             ;SAVE IT
    508  000333' 001000  000311          07260           RET                     ;ALL DONE
    509
@@ -16219,7 +16219,7 @@ MATHPK FOR BASIC MCS 8080  GATES/ALLEN/DAVIDOFF MACRO 47(113) 06:09 27-AUG-75 PA
 F4      MAC     23-AUG-64 06:08         DOUBLE PRECISION ARITHMETIC ROUTINES
 
   1991                                  32440           DCX     D               ;POINT TO THE NEXT LO BYTE OF FAC
-  1992                                  32460           DCX     HP2             ;POINT TO THE NEXT LO BYTE OF ARG
+  1992                                  32460           DCX     H               ;POINT TO THE NEXT LO BYTE OF ARG
   1993                                  32480           DCR     C               ;ARE WE DONE?
   1994                                  32500           JNZ     DADD1           ;NO, DO THE NEXT LO BYTE
   1995                                  32520           POP     B               ;GET THE HO BACK
@@ -19392,7 +19392,7 @@ F4      MAC     23-AUG-64 06:08         SYSTEM INITIALIZATION CODE
   4239  003305' 000000  000001
   4240  003306' 001000  000333          70000           IN      ^D255           ;SEE WHAT KIND OF I/O HE IS
   4241  003307' 000000  000377
-  4242  003310' 001000  000346          70020           ANI     ^D100           ;IS HE FUNNY TTY?
+  4242  003310' 001000  000346          70020           ANI     ^O100           ;IS HE FUNNY TTY?
   4243  003311' 000000  000100
   4244  003312' 001000  000312          70040           JZ      NOTSIO
   4245  003313' 000000  003343'
@@ -19809,7 +19809,7 @@ F4      MAC     23-AUG-64 06:08         SYSTEM INITIALIZATION CODE
   4572  003737' 001000  000315          73480           CALL    REASON
   4573  003740' 000000  000000*
   4574  003741' 000000  003734'
-  4575  003742' 001000  000173          73500           MOV     A,E             ;SUBTRACT VARTAB FROM ATKTOP
+  4575  003742' 001000  000173          73500           MOV     A,E             ;SUBTRACT VARTAB FROM STKTOP
   4576  003743' 001000  000225          73520           SUB     L               ;LOW PART
   4577  003744' 001000  000157          73540           MOV     L,A             ;
   4578  003745' 001000  000172          73560           MOV     A,D             ;HIGH PART
@@ -20914,7 +20914,7 @@ RZ         214     405     540     677    1031    1344    1535    1697    2376  
           3903
 SBB        303     307     311     500     503     506    1068    2871    2875    4579
 SBI        880     884     889
-SMLD       689    1196    1201    3668    3672    4250    4255    4261    4268    4282    4287    4293    4300    4307
+SHLD       689    1196    1201    3668    3672    4250    4255    4261    4268    4282    4287    4293    4300    4307
           4314    4329    4449    4452    4530    4538    4541    4544    4555    4568    4600    4617
 SPHL      4313    4567
 STA        373     685     828     833     838     870     895     932    4319    4419    4423    4427    4440
