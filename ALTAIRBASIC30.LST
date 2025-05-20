@@ -117,8 +117,8 @@ C        6-SEP-64 03:11         COMMON FILE
     44                                  04400   DEFINE  CHRGET,<RST     2>
     45                                  04500   DEFINE  OUTCHR,<RST     3
     46                                  04600   DEFINE  COMPAR,<RST     4
-    47                                  04700   DEFINE  FSIGN,<RST     5
-    48                                  04800   DEFINE  PUSHM,<RST     6
+    47                                  04700   DEFINE  FSIGN,<RST      5
+    48                                  04800   DEFINE  PUSHM,<RST      6
     49                                  04900   DEFINE  PUSHFM,<PUSHM
     50                                  05000                   PUSHM>
     51                                  05100   DEFINE  ACLRF,<
@@ -144,8 +144,8 @@ F3       6-SEP-64 03:11         COMMON FILE
     57                                  05700   DEFINE  POPR,<
     58                                  05800           POP     B
     59                                  05900           POP     D>
-    60                                  06000   DEFINE  MOVRI(S,C,D,E),<
-    61                                  06100           XWD     ^O1000,^O001    ;; "LXI 0"
+    60                                  06000   DEFINE  MOVRI(B,C,D,E),<
+    61                                  06100           XWD     ^O1000,^O001    ;; "LXI B"
     62                                  06200           EXP     C
     63                                  06300           EXP     B
     64                                  06400           XWD     ^O1000,^O021    ;; "LXI D
@@ -2761,7 +2761,7 @@ F3      MAC      6-SEP-64 03:11         ERROR HANDLER, READY, COMPACTIFICATION, 
   1926  002141' 000000  000000*
   1927  002142' 000000  002133'
   1928                                  28580   IFE     LENGTH,<
-  1929                                  28600           XWD     ^O1000,1        ;"LXI 0," OVER THE NEXT 2
+  1929                                  28600           XWD     ^O1000,1        ;"LXI B," OVER THE NEXT 2
   1930                                  28620   END:
   1931                                  28640   STOP:   RNZ                     ;MAKE SURE HE TERMINATED IT
   1932                                  28660   STPEND: POP     B               ;GET RID OF "NEWSTT" RETURN ADDRESS
