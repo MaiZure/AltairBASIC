@@ -13270,7 +13270,7 @@ XTHL       765     770     869    1793    1821    1825    2020    2126    2743  
 MATHPK FOR BASIC MCS 8080  GATES/ALLEN/DAVIDOFF MACRO 47(113) 06:09 27-AUG-75 PAGE 1
 C       23-AUG-64 06:08         COMMON FILE
 
-     1                                  00100   SEARCH                          ;THE UNIVERSAL FILE
+     1                                  00100   SEARCH  MCS808                  ;THE UNIVERSAL FILE
      2                                  00200   SUBTTL  COMMON FILE
      3                                  00300   SALL
      4                  000001          00400   LENGTH==1                       ; 0 MEANS 4K, 1 MEANS 8K, 2 MEANS 12K
