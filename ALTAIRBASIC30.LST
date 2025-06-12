@@ -222,7 +222,7 @@ F3      MAC      6-SEP-64 03:11         VERSION 3.0 -- MORE FEATURES TO GO
     94
     95                                  00320   BILL GATES WROTE THE RUNTIME STUFF.
     96                                  00340   PAUL ALLEN WROTE THE NON-RUNTIME STUFF.
-    97                                  00360   MONTE DAVIDOFF WROTE THE MATCH PACKAGE.
+    97                                  00360   MONTE DAVIDOFF WROTE THE MATH PACKAGE.
     98
     99                                  00400   THINGS TO DO:
    100                                  00420   GOSUB / INPUT BUG  (BUF SMASH)
@@ -1150,15 +1150,15 @@ F3      MAC      6-SEP-64 03:11         RST ROUTINES
    787                                  14020   ;
    788  000020'                         14040   RELOC 16
    789                                  14060   IFE     LENGTH,<CHRGTR:>
-   790  000020' 000000  000043          14080           INX     H               ;UPDATE THE TEXT POINTER
-   791  000021' 000000  000176          14100           MOV     A,M             ;GET NEW CHARACTER
-   792  000022' 000000  000376          14120           CPI     ":"             ;MAKE ":" HAVE ZERO ON AND
+   790  000020' 001000  000043          14080           INX     H               ;UPDATE THE TEXT POINTER
+   791  000021' 001000  000176          14100           MOV     A,M             ;GET NEW CHARACTER
+   792  000022' 001000  000376          14120           CPI     ":"             ;MAKE ":" HAVE ZERO ON AND
    793  000023' 000000  000072
    794                                  14140                                   ;CARRY OFF
    795                                  14160                                   ;ALL ALPHABETICS & RESERVED
    796                                  14180                                   ;WORDS GET ZERO & CARRY OFF
-   797  000024' 000000  000320          14200   RNC                             ;.GT.":" GO BACK
-   798  000025' 000000  000303          14220   JMP     CHRCON                  ;NO ROOM FOR WHOLE ROUTINE
+   797  000024' 001000  000320          14200   RNC                             ;.GT.":" GO BACK
+   798  000025' 001000  000303          14220   JMP     CHRCON                  ;NO ROOM FOR WHOLE ROUTINE
    799  000026' 000000  003433'
    800  000027' 000000  000016'
    801                                  14240   ;
@@ -1167,15 +1167,15 @@ F3      MAC      6-SEP-64 03:11         RST ROUTINES
    804                                  14300   ; TIMING ETC.. NO REGISTERS OR CONDITION CODES ARE CHANGED.
    805                                  14320   ;
    806                                  14340   RELOC 24
-   807  000030' 000000  000365          14360   OUTDO:  PUSH    PSAW
+   807  000030' 001000  000365          14360   OUTDO:  PUSH    PSAW
    808                                  14380   IFN     CONTRW,<
-   809  000031' 000000  000072          14400           LDA     CNTWFL          ;GET SUPPRESS FLAG
+   809  000031' 001000  000072          14400           LDA     CNTWFL          ;GET SUPPRESS FLAG
    810  000032' 000000  001541'
    811  000033' 000000  000026'
-   812  000034' 000000  000267          14420           ORA     A>              ;SEE IF IT IS SET
+   812  000034' 001000  000267          14420           ORA     A>              ;SEE IF IT IS SET
    813                                  14440   IFE     LENGTH!CONTRW!LPTSW,<
    814                                  14460           LDA     TTYPOS>         ;USE RST BYTES, [A]=TTYPOS
-   815  000035' 000000  000303          14480           JMP     OUTCON
+   815  000035' 001000  000303          14480           JMP     OUTCON
    816  000036' 000000  003065'
    817  000037' 000000  000032'
    818                                  14500   ;
@@ -1187,12 +1187,12 @@ F3      MAC      6-SEP-64 03:11         RST ROUTINES
    824                                  14620   ; [A] IS THE ONLY REGISTER USED
    825                                  14640   ;
    826  000040'                         14660   RELOC 32
-   827  000040' 000000  000174          14680           MOV     A,H
-   828  000041' 000000  000222          14700           SUB     D
-   829  000042' 000000  000300          14720           RNZ
-   830  000043' 000000  000175          14740           MOV     A,L
-   831  000044' 000000  000223          14760           SUB     E
-   832  000045' 000000  000311          14780           RET
+   827  000040' 001000  000174          14680           MOV     A,H
+   828  000041' 001000  000222          14700           SUB     D
+   829  000042' 001000  000300          14720           RNZ
+   830  000043' 001000  000175          14740           MOV     A,L
+   831  000044' 001000  000223          14760           SUB     E
+   832  000045' 001000  000311          14780           RET
    833
    834  000046' 000000  000001          14800   NULCNT: 1                       ;STORE HERE THE NUMBER OF NULLS
    835                                  14820                                   ;TO PRINT AFTER CRLF
@@ -2699,7 +2699,7 @@ F3      MAC      6-SEP-64 03:11         ERROR HANDLER, READY, COMPACTIFICATION, 
   1878  002076' 000000  000013
   1879                                  28000   IFN     LENGTH,<
   1880  002077' 001000  000001          28020           XWD     ^O1000,1        ;SKIP NEXT TWO
-  1881  002100' 001000  000036          28040   NFERR:  MVI     E,ERRNF>        ;"NET WITHOUT FOR"
+  1881  002100' 001000  000036          28040   NFERR:  MVI     E,ERRNF>        ;"NET WITHOUT FOR" ERROR
   1882  002101' 000000  000001
   1883  002102' 001000  000315          28060   ERROR:  CALL    STKINI          ;RESET THE STACK AND FLAGS
   1884  002103' 000000  002470'
@@ -19014,7 +19014,7 @@ F4      MAC     23-AUG-64 06:08         SINE, COSINE AND TANGENT FUNCTIONS
   4000  003022' 000000  000017'
   4001  003023' 000000  003015'
   4002                                  66400   IFE     EXTFNC,<
-  4003                                  66420           LXI     B,177*400_$CODE ;GET 1/4
+  4003                                  66420           LXI     B,177*400+$CODE ;GET 1/4
   4004                                  66440           MOV     D,C
   4005                                  66460           MOV     E,C
   4006                                  66480           CALL    FSUB>
@@ -19414,7 +19414,7 @@ F4      MAC     23-AUG-64 06:08         SYSTEM INITIALIZATION CODE
   4261  003332' 001000  000042          70180           SHLD    CNLCA4##+2>
   4262  003333' 000000  000002*
   4263  003334' 000000  003326'
-  4264                  145002          70200   FUNIO==$CODE+<^O256*^O312>+2
+  4264                  145002          70200   FUNIO==$CODE+<^D256*^O312>+2
   4265  003335' 001000  000041          70220           LXI     H,FUNIO
   4266  003336' 000000  145002*
   4267  003337' 000000  003333'
