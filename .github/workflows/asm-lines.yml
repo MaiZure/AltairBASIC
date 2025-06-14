@@ -13,16 +13,17 @@ on:
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  filter-data:
+  filter-and-commit:
     runs-on: windows-latest
 
     steps:
       - name: Check out repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: true
 
-      - name: Filter file data with PowerShell
+      - name: Generate filtered file from ALTAIRBASIC30.LST
         shell: pwsh
         run: |
           Get-Content .\ALTAIRBASIC30.LST | 
@@ -65,17 +66,20 @@ jobs:
                   $pageNumber++
                   $counter = 0
               }
-          } | Out-File -FilePath ATLAIRBASIC30_asm_only_lines.ASM
+          } | Out-File -FilePath ALTAIRBASIC30_ASM_LINES.LST
 
-      - name: Upload filtered output as artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: filtered-output
-          path: ATLAIRBASIC30_asm_only_lines.ASM
-
-
-      # Runs a set of commands using the runners shell
-      - name: Run a multi-line script
+      - name: Commit filtered file if updated
+        shell: pwsh
         run: |
-          echo Add other actions to build,
-          echo test, and deploy your project.
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add ALTAIRBASIC30_ASM_LINES.LST
+          # Only commit if there are changes
+          $status = git status --porcelain
+          if ($status) {
+              git commit -m "Propogating changes from ALTAIRBASIC30.LST"
+              git push
+          }
+          else {
+              Write-Output "No changes to commit."
+          }
