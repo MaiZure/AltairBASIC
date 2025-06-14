@@ -2,7 +2,7 @@
 
 The source for the 3.0 release of ALTAIR BASIC transcribed from the printouts [released](https://www.gatesnotes.com/microsoft-original-source-code) by Bill Gates in April 2025 for the 50th anniversary of Microsoft
 
-This source is used by the accompanying project to describe this source at:
+This source is used by an accompanying project to explore and educate others about its inner workings:
 [Decoded: ALTAIR BASIC](https://maizure.org/projects/decoded-altair-basic/index.html)
 
 ---
