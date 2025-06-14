@@ -1,0 +1,81 @@
+# This is a basic workflow to help you get started with Actions
+
+name: Assembly-only-with-lines
+
+# Controls when the workflow will run
+on:
+  # Triggers the workflow on push or pull request events but only for the "main" branch
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+  # A workflow run is made up of one or more jobs that can run sequentially or in parallel
+  jobs:
+    filter-data:
+      runs-on: windows-latest
+  
+      steps:
+        - name: Check out repository
+          uses: actions/checkout@v3
+  
+        - name: Filter file data with PowerShell
+          shell: pwsh
+          run: |
+            Get-Content .\ALTAIRBASIC30.LST | 
+            ForEach-Object -Begin { $counter = 0; $pageNumber = 1 } -Process {
+                $counter++
+                $pagePosition = ($counter - 1) % 67 + 1
+                
+                # Skip first page
+                if ($pageNumber -eq 1) {
+                    if ($counter % 67 -eq 0) {
+                        $pageNumber++
+                        $counter = 0
+                    }
+                    return
+                }
+                
+                # Skip pages 165-198
+                $lineStart = ($pageNumber - 1) * 67 + 1
+                if ($lineStart -ge (165 * 67) -and $lineStart -le (198 * 67)) {
+                    if ($counter % 67 -eq 0) {
+                        $pageNumber++
+                        $counter = 0
+                    }
+                    return
+                }
+                
+                # Stop after page 301
+                if ($pageNumber -gt 301) {
+                    return
+                }
+                
+                # Output only lines 7-59 of each valid page, trimming first 40 characters
+                if ($pagePosition -gt 6 -and $pagePosition -lt 60) {
+                    if ($_.Length -gt 40) {
+                        Write-Output $_.Substring(40)
+                    }
+                }
+                
+                if ($counter % 67 -eq 0) {
+                    $pageNumber++
+                    $counter = 0
+                }
+            } | Out-File -FilePath ATLAIRBASIC30_asm_only_lines.ASM
+  
+        - name: Upload filtered output as artifact
+          uses: actions/upload-artifact@v3
+          with:
+            name: filtered-output
+            path: ATLAIRBASIC30_asm_only_lines.ASM
+  
+  
+        # Runs a set of commands using the runners shell
+        - name: Run a multi-line script
+          run: |
+            echo Add other actions to build,
+            echo test, and deploy your project.
