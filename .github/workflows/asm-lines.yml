@@ -78,7 +78,7 @@ jobs:
           # Only commit if there are changes
           $status = git status --porcelain
           if ($status) {
-              git commit -m "Propogating changes from ALTAIRBASIC30.LST"
+              git commit -m "Propagating changes from ALTAIRBASIC30.LST"
               git push
           }
           else {
