@@ -68,7 +68,7 @@ jobs:
           } | Out-File -FilePath ATLAIRBASIC30_asm_only_lines.ASM
 
       - name: Upload filtered output as artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: filtered-output
           path: ATLAIRBASIC30_asm_only_lines.ASM
