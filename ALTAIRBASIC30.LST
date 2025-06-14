@@ -71,7 +71,7 @@ FILE WILL BE DELETED AFTER PRINTING
 BASIC MCS 8080  GATES/ALLEN/DAVIDOFF    MACRO 47(113) 03:12 10-SEP-75 PAGE 1
 C        6-SEP-64 03:11         COMMON FILE
 
-     1                                  00100   SEARCH  MCS808                  ;THE UNIVERSAL FILE-TEST
+     1                                  00100   SEARCH  MCS808                  ;THE UNIVERSAL FILE
      2                                  00200   SUBTTL  COMMON FILE
      3                                  00300   SALL
      4                  000002          00400   LENGTH==2                       ; 0 MEANS 4K, 1 MEANS 8K, 2 MEANS 12K
