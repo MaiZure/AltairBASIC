@@ -247,7 +247,7 @@ F3      MAC      6-SEP-64 03:11         VERSION 3.0 -- MORE FEATURES TO GO
    119                  000005          00800   IFE     LENGTH-2,<NUMTMP=5>
    120                  000015          00820   CR==13
    121                  000017          00840   CONTW==15                       ;CHARACTER TO SUPRESS OUTPUT
-   122                  000200          00860   DDONE==128                      ;BIT FOR OUTPUT DONE
+   122                  000200          00860   ODONE==128                      ;BIT FOR OUTPUT DONE
    123                  000001          00880   IDONE==1                        ;BIT FOR INPUT DONE
    124                  000001          00900   TTOCHN==1                       ;TELETYPE OUTPUT CHANNEL
    125                  000001          00920   TTICHN==1                       ;TELETYPE INPUT CHANNEL
@@ -380,12 +380,12 @@ F3      MAC      6-SEP-64 03:11         SOME EXPLANATION
    210                                  02600                           LEAVE THE ZERO FLAG SET.
    211                                  02620                           THE NUMERICS "0" THROUGH "9" LEAVE THE CARRY
    212                                  02640                           FLAG SET. THE CURRENT CHARACTER CAN BE
-   213                                  02660                           REFETCHED INTO [a] BY DOING A MOV A,M.
+   213                                  02660                           REFETCHED INTO [A] BY DOING A MOV A,M.
    214                                  02680                           IF THE CONDITION CODES MUST BE SET UP AGAIN
-   215                                  02700                           ONE SINCE SPACES MAY BE IN-BETWEEN.
-   216                                  02720                           OCX H,DCX M,CHRGET WILL NOT ALWAYS WORK.
-   217                                  02740
-   218                                  02760
+   215                                  02700                           DCX H,CHRGET WILL WORK. IT IS VERY DIFFICULT
+   216                                  02720                           TO REEXAMINE THE CHARACTER BEFORE THE CURRENT
+   217                                  02740                           ONE SINCE SPACES MAY BE IN-BETWEEN.
+   218                                  02760                           DCX H,DCX M,CHRGET WILL NOT ALWAYS WORK.
    219
    220                                  02800                   3       OUTCHR
    221                                  02820                           THE CHARACTER IN [A] IS PRINTED ON
@@ -428,7 +428,7 @@ F3      MAC      6-SEP-64 03:11         SOME EXPLANATION
    244                                  03280                           VALUE PUSHED, [H,L] IS INCREMENTED BY TWO
    245
    246                                  03320                   7       IN THE 4K VERSION RST 7 IS UNUSED AND THE LOCATIONS
-   247                                  03340                           ASSOCIATD WITH IT ARE USED TO CONTINUE
+   247                                  03340                           ASSOCIATED WITH IT ARE USED TO CONTINUE
    248                                  03360                           THE CODE FOR RST 6. IN THE 8K A JMP IS MADE
    249                                  03380                           AROUND THE FIRST THREE RST 7 LOCATIONS
    250                                  03400                           DURING RST 6 EXECUTION, RST 7 INITIALLY
@@ -503,7 +503,7 @@ F3      MAC      6-SEP-64 03:11         SOME EXPLANATION
    305
    306                                  04520           ERROR MESSAGES
    307                                  04540                   WHEN AN ERROR CONDITION IS DETECTED
-   308                                  04560                   (E) MUST BE SET UP TO INDICATE WHICH ERROR
+   308                                  04560                   [E] MUST BE SET UP TO INDICATE WHICH ERROR
    309                                  04580                   MESSAGE IS APPROPRIATE AND A BRANCH MUST BE MADE
    310                                  04600                   TO ERROR. THE STACK WILL BE RESET AND ALL
    311                                  04620                   PROGRAM CONTEXT WILL BE LOST. VARIABLES
@@ -511,7 +511,7 @@ F3      MAC      6-SEP-64 03:11         SOME EXPLANATION
    313                                  04660                   ONLY THE VALUE OF [E] IS IMPORTANT WHEN
    314                                  04680                   THE BRANCH IS MADE TO ERROR, [E] IS USED AS AN
    315                                  04700                   INDEX INTO ERRTAB WHICH GIVES THE TWO
-   316                                  04720                   CHARACTER ERROR MESSAGE THAT WILL BE PRINTER ON THE
+   316                                  04720                   CHARACTER ERROR MESSAGE THAT WILL BE PRINTED ON THE
    317                                  04740                   USER'S TERMINAL.
    318
    319                                  04780           IMPURE STORAGE
@@ -623,7 +623,7 @@ F3      MAC      6-SEP-64 03:11         SOME EXPLANATION
    397                                  06340                   A STATEMENT TERMINATOR NEWSTT WILL
    398                                  06360                   DO THE JMP TO THE "SYNTAX ERROR"
    399                                  06380                   ROUTINE. IF A STATEMENT SHOULD BE STARTED
-   400                                  06400                   OVER IT CAN DO LHLD TEMP,RET SINCE THE (H,L)
+   400                                  06400                   OVER IT CAN DO LHLD TEMP,RET SINCE THE [H,L]
    401                                  06420                   AT NEWSTT IS ALWAYS STORED IN TEMP. OF COURSE
    402                                  06440                   CARE MUST TAKEN THAT NO ROUTINE
    403                                  06460                   THAT SMASHES TEMP HAS BEEN CALLED.
@@ -675,7 +675,7 @@ BASIC MCS 8080  GATES/ALLEN/DAVIDOFF    MACRO 47(113) 03:12 10-SEP-75 PAGE 2-5
 F3      MAC      6-SEP-64 03:11         SOME EXPLANATION
    437                                  07140                           3. IF IT IS, SEE WHAT PRECEDENCE IT HAS
    438                                  07160                                   AND COMPARE IT TO THE PRECEDENCE
-   439                                  07180                                   OF THE LAT OPERATOR ON THE STACK
+   439                                  07180                                   OF THE LAST OPERATOR ON THE STACK
    440                                  07200                           4. IF = OR LESS REMEMBER THE TEXT
    441                                  07220                                   POINTER AT THE START OF THIS OPERATOR
    442                                  07240                                   AND DO A RETURN TO CAUSE
@@ -691,7 +691,7 @@ F3      MAC      6-SEP-64 03:11         SOME EXPLANATION
    452                                  07440                   A COMMON ROUTINE. SPECIAL
    453                                  07460                   CARE IS TAKEN TO DETECT TYPE MISMATCHES SUCH AS 3+"F"
    454
-   455                                  07500           EVAL -- THE ROUTINE TO HEAD A LEXEME
+   455                                  07500           EVAL -- THE ROUTINE TO READ A LEXEME
    456                                  07520                   EVAL CHECKS FOR THE DIFFERENT TYPES OF
    457                                  07540                   ENTITIES IT IS SUPPOSED TO DETECT.
    458                                  07560                   LEADING PLUSES ARE IGNORED,
@@ -1385,7 +1385,7 @@ F3      MAC      6-SEP-64 03:11         DISPATCH TABLES,RESERVED WORDS, ERROR TE
    933                                  16280   IFN     LENGTH,<
    934  000141' 000000  011314'         16300           ADR(PEEK)>
    935  000142' 000000  000137'
-   936                                  16320   IFN     DSKFUN,<ADR(DSKIS)>
+   936                                  16320   IFN     DSKFUN,<ADR(DSKI$)>
    937                                  16340   IFN     STRING,<
    938  000143' 000000  010501'         16360           ADR(LEN)
    939  000144' 000000  000141'
@@ -1529,7 +1529,7 @@ F3      MAC      6-SEP-64 03:11         DISPATCH TABLES,RESERVED WORDS, ERROR TE
   1049                                  19460   IFN     EXTFNC,<
   1050                  000300          19600           ATNTK==Q>
   1051                                  19620   IFN     LENGTH,<
-  1052                                  19660   IFN     DSKFUN,<DCI"DSKIS">
+  1052                                  19660   IFN     DSKFUN,<DCI"DSKI$">
   1053                                  19680   IFN     STRING,<
 
 
@@ -1612,7 +1612,7 @@ F3      MAC      6-SEP-64 03:11         DISPATCH TABLES,RESERVED WORDS, ERROR TE
 BASIC MCS 8080  GATES/ALLEN/DAVIDOFF    MACRO 47(113) 03:12 10-SEP-75 PAGE 4-4
 F3      MAC      6-SEP-64 03:11         DISPATCH TABLES,RESERVED WORDS, ERROR TEXT... ALL CONSTANT
 
-  1107                                  20440   IFN     DSKFUN,<ADR(DSKOS)>
+  1107                                  20440   IFN     DSKFUN,<ADR(DSKO$)>
   1108                                  20460   IFN     LPTSW,<ADR(LPRINT)>
   1109                                  20480   IFN     LENGTH,<
   1110  000644' 000000  011323'         20500           ADR(POKE)
@@ -3439,7 +3439,7 @@ F3      MAC      6-SEP-64 03:11         ERROR HANDLER, READY, COMPACTIFICATION, 
   2464                                  35900   ; CONTROL-G WILL BE TYPED FOR EACH EXCTRA CHARACTER.
   2465                                  35920   ; THE ROUTINE IS ENTERED AT INLIN
   2466                                  35940   ;
-  2467  002764' 001000  000005          35960   LINLIN: DCR     B               ;BACK ARROR SO DECREMENT COUNT
+  2467  002764' 001000  000005          35960   LINLIN: DCR     B               ;BACK ARROW SO DECREMENT COUNT
   2468  002765' 001000  000054          35980           DCX     H               ;BACK UP POINTER
   2469                                  36000   IFN     REALIO,<
   2470  002766' 001000  000337          36020           OUTCHR>
@@ -4173,7 +4173,7 @@ F3      MAC      6-SEP-64 03:11         NEW STATEMENT FETCHER
   2964  003431' 000000  000072
   2965  003432' 001000  000320          43200           RNC>
   2966                                  43220   ;
-  2967                                  43240   ; CHRCON IS HTE CONTINUATION OF THE CHRGET RST
+  2967                                  43240   ; CHRCON IS THE CONTINUATION OF THE CHRGET RST
   2968                                  43260   ;
   2969  003433' 001000  000376          43280   CHRCON: CPI     " "             ;MUST SKIP SPACES
   2970  003434' 000000  000040
@@ -4241,7 +4241,7 @@ F3      MAC      6-SEP-64 03:11         RESTORE,STOP,END,LINGET,CHRCON
   2995                                  43640   IFN     LISTEN,<
   2996  003460' 001000  000333          43660   ISCNTC: IN      0
   2997  003461' 000000  000000
-  2998                  003461'         43680   CNLCA3==.-1                     ;CONSOLE COMMAND HANGE LOC
+  2998                  003461'         43680   CNLCA3==.-1                     ;CONSOLE COMMAND CHANGE LOC
   2999  003462' 001000  000346          43700           ANI     IDONE
   3000  003463' 000000  000001
   3001  003464' 001000  000300          43720           RNZ                     ;IF NO CHARACTERS THAN NO ^C
@@ -6455,7 +6455,7 @@ F3      MAC      6-SEP-64 03:11         FORMULA EVALUATION CODE
   4486                                  00340           JMP     ERROR>>
   4487                                  00360   ;
   4488                                  00380   ; THE FORMULA EVALUATOR STARTS WITH
-  4489                                  00400   ; [H,L] POUNTING TO THE FIRST CHARACTER OF THE FORMULA.
+  4489                                  00400   ; [H,L] POINTING TO THE FIRST CHARACTER OF THE FORMULA.
   4490                                  00420   ; AT THE END [H,L] POINTS TO THE TERMINATOR.
   4491                                  00440   ; THE RESULT IS LEFT IN THE FAC.
   4492                                  00460   ;
@@ -10593,10 +10593,10 @@ F3      MAC      6-SEP-64 03:11         DISK CODE
   7558                                  43880   SUBTTL  DISK CODE
   7559                                  43900   IFN     DSKFUN,<
   7560                                  43920   ;
-  7561                                  43940   ; THE STATEMENT DSKOS STRING,SECTOR WRITES
+  7561                                  43940   ; THE STATEMENT DSKO$ STRING,SECTOR WRITES
   7562                                  43960   ; THE STRING (UP TO 132 DECIMAL CHARS
   7563                                  43980   ; ON THE SECTOR SPECIFIED.
-  7564                                  44000   ; DSKIS (SECTOR) IS A STRING FUNCTION THAT
+  7564                                  44000   ; DSKI$ (SECTOR) IS A STRING FUNCTION THAT
   7565                                  44020   ; RETURNS THE 133 BYTE STRING STORED ON SECTOR.
   7566                                  44040   ;
   7567                                  44060   DSKOS:  CALL    FRMEVL          ;EVALUATE FORMULA
@@ -10671,7 +10671,7 @@ F3      MAC      6-SEP-64 03:11         DISK CODE
   7622                                  45160           POP     H
   7623                                  45180           RET                     ;DONE
   7624                                  45200
-  7625                                  45220   DSKIS:  MVI     A,137           ;A LOT OF CHARACTERS ARE COMING
+  7625                                  45220   DSKI$:  MVI     A,137           ;A LOT OF CHARACTERS ARE COMING
   7626                                  45240           CALL    STRINI          ;MAKE ROOM!
   7627                                  45260           CALL    CONINT          ;WHERE ARE THEY?
   7628                                  45280                                   ;SECTOR NOW IN [E]
