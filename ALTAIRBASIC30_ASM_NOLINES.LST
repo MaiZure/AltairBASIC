@@ -3978,7 +3978,7 @@ IFN     LENGTH,<
         PUSH    H               ;SAVE THE TEXT POINTER
 IFE     LENGTH-2,<
         MOV     A,D             ;VALUE TYPE INTO [A]
-        LHLD    VARTAB          ;[H,L]=PLAEC TO START THE SEARCH
+        LHLD    VARTAB          ;[H,L]=PLACE TO START THE SEARCH
 LOPFND: PUSH    PSW             ;SAVE THE VALUE TYPE
         XCHG                    ;[D,E]=POINTER INTO SIMPLE VARIABLES
         LHLD    ARYTAB          ;[H,L]=END OF SIMPLE VARIABLES
