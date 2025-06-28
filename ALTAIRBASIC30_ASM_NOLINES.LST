@@ -678,7 +678,7 @@ PAGE
 SUBTTL  RST ROUTINES
 RELOC 0
 START:  DI                      ;DISENABLE INTERRUPTS
-        JMP     INIT            ;INIT IS THE INITIALIZATOIN ROUTINE
+        JMP     INIT            ;INIT IS THE INITIALIZE ROUTINE 
                                 ;IT SETS UP CERTAIN
                                 ;LOCATIONS DELETES FUNCTIONS IF
                                 ;DESIRED AND
@@ -688,11 +688,11 @@ IFN     LENGTH-2,<
                                 ;TO TURN THE FAC INTO
                                 ;A TWO-BYTE SIGNED INTEGER
         ADR(GIVABF)             ;STORE HERE THE ADDRESS
-                                ;OF THE ROUTINE TO CONVERT (A,B)
+                                ;OF THE ROUTINE TO CONVERT [A,B]
                                 ;TO A FLOATING POINT NUMBER IN THE FAC
 IFE     LENGTH-2,<
-        ADR(FECINT)             ;TURN FAC INTO AN INTEGER IN (H,L)
-        ADR(MAKINT)>            ;TURN (H,L) INTO A VALUE IN THE FAC
+        ADR(FECINT)             ;TURN FAC INTO AN INTEGER IN [H,L]
+        ADR(MAKINT)>            ;TURN [H,L] INTO A VALUE IN THE FAC
                                 ;SET VALTYP FOR INTEGER
 RELOC 8
 ;
@@ -706,7 +706,7 @@ RELOC 8
 ; WHICH WAS CHECKED.
 ;
         MOV     A,M             ;GET THE CURRENT CHARACTER
-        XTHL                    ;GET CALL ADDRESS IN TO (H,L)
+        XTHL                    ;GET CALL ADDRESS IN TO [H,L]
                                 ;PUT TEXT POINTER ON STACK
         CMP     M               ;SEE IF [A] =CURRENT CHARACTER
                                 ;IS THE RIGHT THING.

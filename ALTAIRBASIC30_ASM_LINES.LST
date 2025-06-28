@@ -678,7 +678,7 @@
 13000   SUBTTL  RST ROUTINES
 13020   RELOC 0
 13040   START:  DI                      ;DISENABLE INTERRUPTS
-13060           JMP     INIT            ;INIT IS THE INITIALIZATOIN ROUTINE
+13060           JMP     INIT            ;INIT IS THE INITIALIZE ROUTINE 
 13080                                   ;IT SETS UP CERTAIN
 13100                                   ;LOCATIONS DELETES FUNCTIONS IF
 13120                                   ;DESIRED AND
@@ -688,11 +688,11 @@
 13200                                   ;TO TURN THE FAC INTO
 13220                                   ;A TWO-BYTE SIGNED INTEGER
 13240           ADR(GIVABF)             ;STORE HERE THE ADDRESS
-13260                                   ;OF THE ROUTINE TO CONVERT (A,B)
+13260                                   ;OF THE ROUTINE TO CONVERT [A,B]
 13280                                   ;TO A FLOATING POINT NUMBER IN THE FAC
 13300   IFE     LENGTH-2,<
-13320           ADR(FECINT)             ;TURN FAC INTO AN INTEGER IN (H,L)
-13340           ADR(MAKINT)>            ;TURN (H,L) INTO A VALUE IN THE FAC
+13320           ADR(FECINT)             ;TURN FAC INTO AN INTEGER IN [H,L]
+13340           ADR(MAKINT)>            ;TURN [H,L] INTO A VALUE IN THE FAC
 13360                                   ;SET VALTYP FOR INTEGER
 13380   RELOC 8
 13400   ;
@@ -706,7 +706,7 @@
 13560   ; WHICH WAS CHECKED.
 13580   ;
 13600           MOV     A,M             ;GET THE CURRENT CHARACTER
-13620           XTHL                    ;GET CALL ADDRESS IN TO (H,L)
+13620           XTHL                    ;GET CALL ADDRESS IN TO [H,L]
 13640                                   ;PUT TEXT POINTER ON STACK
 13660           CMP     M               ;SEE IF [A] =CURRENT CHARACTER
 13680                                   ;IS THE RIGHT THING.
