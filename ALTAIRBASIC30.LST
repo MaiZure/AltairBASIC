@@ -1079,7 +1079,7 @@ F3      MAC      6-SEP-64 03:11         RST ROUTINES
    730                                  13000   SUBTTL  RST ROUTINES
    731  000000'                         13020   RELOC 0
    732  000000' 001000  000363          13040   START:  DI                      ;DISENABLE INTERRUPTS
-   733  000001' 001000  000363          13060           JMP     INIT            ;INIT IS THE INITIALIZATOIN ROUTINE
+   733  000001' 001000  000363          13060           JMP     INIT            ;INIT IS THE INITIALIZE ROUTINE 
    734  000002' 000000  000000*
    735  000003' 000000  000000
    736                                  13080                                   ;IT SETS UP CERTAIN
@@ -1091,12 +1091,12 @@ F3      MAC      6-SEP-64 03:11         RST ROUTINES
    742                                  13200                                   ;TO TURN THE FAC INTO
    743                                  13220                                   ;A TWO-BYTE SIGNED INTEGER
    744                                  13240           ADR(GIVABF)             ;STORE HERE THE ADDRESS
-   745                                  13260                                   ;OF THE ROUTINE TO CONVERT (A,B)
+   745                                  13260                                   ;OF THE ROUTINE TO CONVERT [A,B]
    746                                  13280                                   ;TO A FLOATING POINT NUMBER IN THE FAC
    747                                  13300   IFE     LENGTH-2,<
-   748  000004' 000000  000000*         13320           ADR(FECINT)             ;TURN FAC INTO AN INTEGER IN (H,L)
+   748  000004' 000000  000000*         13320           ADR(FECINT)             ;TURN FAC INTO AN INTEGER IN [H,L]
    749  000005' 000000  000000'
-   750  000006' 000000  000000*         13340           ADR(MAKINT)>            ;TURN (H,L) INTO A VALUE IN THE FAC
+   750  000006' 000000  000000*         13340           ADR(MAKINT)>            ;TURN [H,L] INTO A VALUE IN THE FAC
    751  000007' 000000  000000'
    752                                  13360                                   ;SET VALTYP FOR INTEGER
    753  000010'                         13380   RELOC 8
@@ -1111,7 +1111,7 @@ F3      MAC      6-SEP-64 03:11         RST ROUTINES
    762                                  13560   ; WHICH WAS CHECKED.
    763                                  13580   ;
    764  000010' 001000  000176          13600           MOV     A,M             ;GET THE CURRENT CHARACTER
-   765  000011' 001000  000343          13620           XTHL                    ;GET CALL ADDRESS IN TO (H,L)
+   765  000011' 001000  000343          13620           XTHL                    ;GET CALL ADDRESS IN TO [H,L]
    766                                  13640                                   ;PUT TEXT POINTER ON STACK
    767  000012' 001000  000276          13660           CMP     M               ;SEE IF [A] =CURRENT CHARACTER
    768                                  13680                                   ;IS THE RIGHT THING.
