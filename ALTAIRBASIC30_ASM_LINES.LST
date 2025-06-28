@@ -707,13 +707,13 @@
 13580   ;
 13600           MOV     A,M             ;GET THE CURRENT CHARACTER
 13620           XTHL                    ;GET CALL ADDRESS IN TO (H,L)
-13640           CMP     M               ;PUT TEXT POINTER ON STACK
-13660           INX     H               ;SEE IF [A] =CURRENT CHARACTER
-13680           XTHL                    ;IS THE RIGHT THING.
-13700           JNZ     SNERR           ;FIX RETURN ADDRESS.
-13720                                   ;PUT RETURN ADDRESS BACK AND RESTORE
+13640                                   ;PUT TEXT POINTER ON STACK
+13660           CMP     M               ;SEE IF [A] =CURRENT CHARACTER
+13680                                   ;IS THE RIGHT THING.
+13700           INX     H               ;FIX RETURN ADDRESS.
+13720           XTHL                    ;PUT RETURN ADDRESS BACK AND RESTORE
 13740                                   ;THE TEXT POINTER.
-13760                                   ;IF THE CHARACTER WASN'T RIGHT CALL
+13760           JNZ     SNERR           ;IF THE CHARACTER WASN'T RIGHT CALL
 13780                                   ;THE 'SYNTAX ERROR' ROUTINE
 13800                                   ;OTHERWISE FALL THROUGH
 13820                                   ;AND GET ANOTHER CHARACTER.

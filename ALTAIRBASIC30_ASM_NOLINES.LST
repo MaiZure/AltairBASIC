@@ -707,13 +707,13 @@ RELOC 8
 ;
         MOV     A,M             ;GET THE CURRENT CHARACTER
         XTHL                    ;GET CALL ADDRESS IN TO (H,L)
-        CMP     M               ;PUT TEXT POINTER ON STACK
-        INX     H               ;SEE IF [A] =CURRENT CHARACTER
-        XTHL                    ;IS THE RIGHT THING.
-        JNZ     SNERR           ;FIX RETURN ADDRESS.
-                                ;PUT RETURN ADDRESS BACK AND RESTORE
+                                ;PUT TEXT POINTER ON STACK
+        CMP     M               ;SEE IF [A] =CURRENT CHARACTER
+                                ;IS THE RIGHT THING.
+        INX     H               ;FIX RETURN ADDRESS.
+        XTHL                    ;PUT RETURN ADDRESS BACK AND RESTORE
                                 ;THE TEXT POINTER.
-                                ;IF THE CHARACTER WASN'T RIGHT CALL
+        JNZ     SNERR           ;IF THE CHARACTER WASN'T RIGHT CALL
                                 ;THE 'SYNTAX ERROR' ROUTINE
                                 ;OTHERWISE FALL THROUGH
                                 ;AND GET ANOTHER CHARACTER.
