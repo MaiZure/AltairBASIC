@@ -1112,13 +1112,13 @@ F3      MAC      6-SEP-64 03:11         RST ROUTINES
    763                                  13580   ;
    764  000010' 001000  000176          13600           MOV     A,M             ;GET THE CURRENT CHARACTER
    765  000011' 001000  000343          13620           XTHL                    ;GET CALL ADDRESS IN TO (H,L)
-   766                                  13640           CMP     M               ;PUT TEXT POINTER ON STACK
-   767  000012' 001000  000276          13660           INX     H               ;SEE IF [A] =CURRENT CHARACTER
-   768                                  13680           XTHL                    ;IS THE RIGHT THING.
-   769  000013' 001000  000043          13700           JNZ     SNERR           ;FIX RETURN ADDRESS.
-   770  000014' 001000  000343          13720                                   ;PUT RETURN ADDRESS BACK AND RESTORE
+   766                                  13640                                   ;PUT TEXT POINTER ON STACK
+   767  000012' 001000  000276          13660           CMP     M               ;SEE IF [A] =CURRENT CHARACTER
+   768                                  13680                                   ;IS THE RIGHT THING.
+   769  000013' 001000  000043          13700           INX     H               ;FIX RETURN ADDRESS.
+   770  000014' 001000  000343          13720           XTHL                    ;PUT RETURN ADDRESS BACK AND RESTORE
    771                                  13740                                   ;THE TEXT POINTER.
-   772  000015' 001000  000302          13760                                   ;IF THE CHARACTER WASN'T RIGHT CALL
+   772  000015' 001000  000302          13760           JNZ     SNERR           ;IF THE CHARACTER WASN'T RIGHT CALL
    773  000016' 000000  002072'
    774  000017' 000000  000006'
    775                                  13780                                   ;THE 'SYNTAX ERROR' ROUTINE
