@@ -687,7 +687,7 @@
 13180           ADR(DEINT)              ;STORE HERE THE ROUTINE
 13200                                   ;TO TURN THE FAC INTO
 13220                                   ;A TWO-BYTE SIGNED INTEGER
-13240           ADR(GIVABF)             ;STORE HERE THE ADDRESS
+13240           ADR(GIVABF)>            ;STORE HERE THE ADDRESS
 13260                                   ;OF THE ROUTINE TO CONVERT [A,B]
 13280                                   ;TO A FLOATING POINT NUMBER IN THE FAC
 13300   IFE     LENGTH-2,<

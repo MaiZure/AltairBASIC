@@ -687,7 +687,7 @@ IFN     LENGTH-2,<
         ADR(DEINT)              ;STORE HERE THE ROUTINE
                                 ;TO TURN THE FAC INTO
                                 ;A TWO-BYTE SIGNED INTEGER
-        ADR(GIVABF)             ;STORE HERE THE ADDRESS
+        ADR(GIVABF)>            ;STORE HERE THE ADDRESS
                                 ;OF THE ROUTINE TO CONVERT [A,B]
                                 ;TO A FLOATING POINT NUMBER IN THE FAC
 IFE     LENGTH-2,<
