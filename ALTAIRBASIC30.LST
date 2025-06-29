@@ -1090,7 +1090,7 @@ F3      MAC      6-SEP-64 03:11         RST ROUTINES
    741                                  13180           ADR(DEINT)              ;STORE HERE THE ROUTINE
    742                                  13200                                   ;TO TURN THE FAC INTO
    743                                  13220                                   ;A TWO-BYTE SIGNED INTEGER
-   744                                  13240           ADR(GIVABF)             ;STORE HERE THE ADDRESS
+   744                                  13240           ADR(GIVABF)>            ;STORE HERE THE ADDRESS
    745                                  13260                                   ;OF THE ROUTINE TO CONVERT [A,B]
    746                                  13280                                   ;TO A FLOATING POINT NUMBER IN THE FAC
    747                                  13300   IFE     LENGTH-2,<
