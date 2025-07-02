@@ -481,7 +481,7 @@ F3      MAC      6-SEP-64 03:11         SOME EXPLANATION
    283                                  04060                   WHEN A MATCH IS FOUND BETWEEN A STRING
    284                                  04080                   OF CHARACTERS AND A WORD IN THE CRUNCH LIST
    285                                  04100                   THE ENTIRE TEXT OF THE MATCHED WORD IS TAKEN OUT OF
-   286                                  04120                   THE INPUT LINE AND RESERVED WORD TAKEN IN PUT
+   286                                  04120                   THE INPUT LINE AND RESERVED WORD TAKEN IS PUT
    287                                  04140                   IN ITS PLACE. A RESERVED WORD TOKEN IS ALWAYS EQUAL
    288                                  04160                   TO OCTAL 200 PLUS THE POSITION OF THE MATCHED WORD
    289                                  04180                   IN THE CRUNCH LIST.
@@ -832,7 +832,7 @@ F3      MAC      6-SEP-64 03:11         SOME EXPLANATION
    564                                  09680                   IS ALWAYS CHANGING. "STRCPY" IS USED TO COPY
    565                                  09700                   STRINGS.
    566
-   567                                  09740                   STRING FUNCTIONSA ND THE ONE STRINS OPERATOR "+"
+   567                                  09740                   STRING FUNCTIONS AND THE ONE STRING OPERATOR "+"
    568                                  09760                   ALWAYS RETURN THEIR VALUES IN STRING SPACE.
    569                                  09780                   ASSIGNING A STRING A CONSTANT VALUE IN A PROGRAM
    570                                  09800                   THROUGH A "READ" OR ASSIGNMENT STATEMENT
@@ -1167,7 +1167,7 @@ F3      MAC      6-SEP-64 03:11         RST ROUTINES
    804                                  14300   ; TIMING ETC.. NO REGISTERS OR CONDITION CODES ARE CHANGED.
    805                                  14320   ;
    806                                  14340   RELOC 24
-   807  000030' 001000  000365          14360   OUTDO:  PUSH    PSAW
+   807  000030' 001000  000365          14360   OUTDO:  PUSH    PSW
    808                                  14380   IFN     CONTRW,<
    809  000031' 001000  000072          14400           LDA     CNTWFL          ;GET SUPPRESS FLAG
    810  000032' 000000  001541'
@@ -1359,7 +1359,7 @@ F3      MAC      6-SEP-64 03:11         DISPATCH TABLES,RESERVED WORDS, ERROR TE
    907  000112' 000000  000107'
    908  000113' 000000  007337'         16000   IFN     LENGTH,<ADR(FRE)
    909  000114' 000000  000111'
-   910  000115' 000000  010712'         16020           ADR(FNIMP)
+   910  000115' 000000  010712'         16020           ADR(FNINP)
    911  000116' 000000  000113'
    912                                  16040   IFN     LPTSW,<ADR(LPOS)>
    913  000117' 000000  007406'         16060           ADR(POS)>
@@ -1389,7 +1389,7 @@ F3      MAC      6-SEP-64 03:11         DISPATCH TABLES,RESERVED WORDS, ERROR TE
    937                                  16340   IFN     STRING,<
    938  000143' 000000  010501'         16360           ADR(LEN)
    939  000144' 000000  000141'
-   940  000145' 000000  007564'         16380           ADR(STRS)
+   940  000145' 000000  007564'         16380           ADR(STR$)
    941  000146' 000000  000143'
    942  000147' 000000  011042'         16400           ADR(VAL)
    943  000150' 000000  000145'
@@ -1411,16 +1411,16 @@ F3      MAC      6-SEP-64 03:11         DISPATCH TABLES,RESERVED WORDS, ERROR TE
 BASIC MCS 8080  GATES/ALLEN/DAVIDOFF    MACRO 47(113) 03:12 10-SEP-75 PAGE 4-1
 F3      MAC      6-SEP-64 03:11         DISPATCH TABLES,RESERVED WORDS, ERROR TEXT... ALL CONSTANT
 
-   948  000155' 000000  010552'         16460           ADR(LEFTS)
+   948  000155' 000000  010552'         16460           ADR(LEFT$)
    949  000156' 000000  000153'
-   950  000157' 000000  010631'         16480           ADR(RIGHTS)
+   950  000157' 000000  010631'         16480           ADR(RIGHT$)
    951  000160' 000000  000155'
-   952  000161' 000000  010643'         16500           ADR(MIDS)>
+   952  000161' 000000  010643'         16500           ADR(MIDS$)>
    953  000162' 000000  000157'
    954
    955                                  16540   DEFINE ADRP(X),<ADR(X)>
    956                                  16560   IFE     LENGTH-2,<
-   957                                  16580   DEFINE ADRP-2<
+   957                                  16580   DEFINE ADRP(X),<>>
    958  000163' 000000  000171          16600   OPTAB: 121                      ;OPERATOR TABLE CONTAINS
    959                                  16620                                   ;PRECEDENCE FOLLOWED BY
    960                                  16640                                   ;THE ROUTINE ADDRESS
@@ -1458,7 +1458,7 @@ F3      MAC      6-SEP-64 03:11         DISPATCH TABLES,RESERVED WORDS, ERROR TE
    992                  000216          17540           REMTK==Q
    993                                  17660   IFE     LENGTH-1,<
    994                  000220          17700           ELSETK==Q
-   995                                  17780   IFN     DSKFUN,<DCI"DSKUS">
+   995                                  17780   IFN     DSKFUN,<DCI"DSKO$">
    996                                  17800   IFN     LPTSW,<DCI"LPRINT">
    997                                  17820   IFN     LENGTH,<
    998                  000231          17880           PRINTK==Q
@@ -1632,8 +1632,8 @@ F3      MAC      6-SEP-64 03:11         DISPATCH TABLES,RESERVED WORDS, ERROR TE
   1124  000657' 000000  000654'
   1125  000660' 000000  003703'         20680           ADR(CLEAR)
   1126  000661' 000000  000656'
-  1127                                  20700   IFN     CASSW,<ADR(CLOAD)>
-  1128                                  20720           ADR(CSAVE)
+  1127                                  20700   IFN     CASSW,<ADR(CLOAD)
+  1128                                  20720           ADR(CSAVE)>
   1129                                  20740   IFN     CONSSW,<ADR(CONSOLE)>
   1130  000662' 000000  002421'         20760           ADR(SCRATH)
   1131  000663' 000000  000660'
@@ -2528,7 +2528,7 @@ F3      MAC      6-SEP-64 03:11         GENERAL STORAGE MANAGEMENT ROUTINES
   1772  002004' 000000  001775'
   1773                                  26280   ;
   1774                                  26300   ; THIS IS THE BLOCK TRANSFER ROUTINE
-  1775                                  26320   ; IT MAKES SPAC BY SHOVING EVERYTHING FORWARD
+  1775                                  26320   ; IT MAKES SPACE BY SHOVING EVERYTHING FORWARD
   1776                                  26340   ;
   1777                                  26360   ; [H,L] = DESTINATION OF HIGH ADDRESS
   1778                                  26380   ; [D,E] = LOW ADDRESS TO BE TRANSFERRED
@@ -2699,7 +2699,7 @@ F3      MAC      6-SEP-64 03:11         ERROR HANDLER, READY, COMPACTIFICATION, 
   1878  002076' 000000  000013
   1879                                  28000   IFN     LENGTH,<
   1880  002077' 001000  000001          28020           XWD     ^O1000,1        ;SKIP NEXT TWO
-  1881  002100' 001000  000036          28040   NFERR:  MVI     E,ERRNF>        ;"NET WITHOUT FOR" ERROR
+  1881  002100' 001000  000036          28040   NFERR:  MVI     E,ERRNF>        ;"NEXT WITHOUT FOR" ERROR
   1882  002101' 000000  000001
   1883  002102' 001000  000315          28060   ERROR:  CALL    STKINI          ;RESET THE STACK AND FLAGS
   1884  002103' 000000  002470'
@@ -4110,7 +4110,7 @@ F3      MAC      6-SEP-64 03:11         NEW STATEMENT FETCHER
   2915  003360' 001000  000315          42500           CALL    LINPRT          ;PRINT THE LINE # IN [H,L]
   2916  003361' 000000  000000*
   2917  003362' 000000  003352'
-  2918  003363' 001000  000076          42520           HVI     A,"]"           ;SOME MORE FORMATING
+  2918  003363' 001000  000076          42520           MVI     A,"]"           ;SOME MORE FORMATING
   2919  003364' 000000  000135
   2920  003365' 001000  000337          42540           OUTCHR
   2921  003366' 001000  000321          42560           POP     D               ;[D,E]=TEXT POINTER
@@ -10599,7 +10599,7 @@ F3      MAC      6-SEP-64 03:11         DISK CODE
   7564                                  44000   ; DSKI$ (SECTOR) IS A STRING FUNCTION THAT
   7565                                  44020   ; RETURNS THE 133 BYTE STRING STORED ON SECTOR.
   7566                                  44040   ;
-  7567                                  44060   DSKOS:  CALL    FRMEVL          ;EVALUATE FORMULA
+  7567                                  44060   DSKO$:  CALL    FRMEVL          ;EVALUATE FORMULA
   7568                                  44080           SYNCHK  44              ;FOLLOWED BY COMMA
   7569                                  44100           PUSH    H               ;SAVE TEXT POINTER
   7570                                  44120           CALL    FRESTR          ;FREE UP THE FACLO
@@ -13455,7 +13455,7 @@ F4      MAC     23-AUG-64 06:08         FLOATING POINT MATH PACKAGE CONFIGURATIO
    124                                  01060   ARGLO:  BLOCK   7               ;[LOCATION OF SECOND ARGUMENT FOR DOUBLE
    125                                  01080   ARG:    BLOCK   1>              ; PRECISION]
    126                                  01100   FBUFFR: BLOCK   ^D13            ;BUFFER FOR FOUT
-   127                                  01120   IFE     LENGTH-2,<BLOCK ^D<30-13>>
+   127                                  01120   IFE     LENGTH-2,<BLOCK ^D<35-13>>
    128
 
 
@@ -16854,7 +16854,7 @@ F4      MAC     23-AUG-64 06:08         FLOATING POINT INPUT ROUTINE
   2448                                  40800           MOV     L,C
   2449                                  40820           CALL    CONISS          ;ZERO FAC, SET VALTYP TO "INTEGER"
   2450                                  40840           XCHG                    ;GET THE TEXT POINTER BACK IN (HL)
-  2451                                  40860           ;HERE TO CHECK FOR A SIGIT, A DECIMAL POINT, "E" OR "D"
+  2451                                  40860           ;HERE TO CHECK FOR A DIGIT, A DECIMAL POINT, "E" OR "D"
   2452                                  40880   FINC:   CHRGET                  ;GET THE NEXT CHARACTER OF THE NUMBER
   2453                                  40900           JC      FINDIG          ;WE HAVE A DIGIT
   2454                                  40920           CPI     "."             ;CHECK FOR A DECIMAL POINT
@@ -16912,8 +16912,8 @@ F4      MAC     23-AUG-64 06:08         FLOATING POINT INPUT ROUTINE
   2492                                  41680           ;HERE TO FINISH UP AN INTEGER
   2493                                  41700           POP     PSW             ;IT IS AN INTEGER, GET ITS SIGN
   2494                                  41720           XCHG                    ;SAVE THE TEXT POINTER IN (DE)
-  2495                                  41740           CZ      INET            ;NEGATE IT IF NECESSARY
-  2496                                  41760           XCHG                    ;GET THE TEXT POINTER BACK IN (HL_
+  2495                                  41740           CZ      INEG            ;NEGATE IT IF NECESSARY
+  2496                                  41760           XCHG                    ;GET THE TEXT POINTER BACK IN (HL)
   2497                                  41780           RET                     ;ALL DONE
   2498                                  41800           ;HERE TO FINISH UP A FLOATING POINT NUMBER
   2499                                  41820   FINEF:  PUSH    H               ;SAVE THE TEXT POINTER
@@ -19400,7 +19400,7 @@ F4      MAC     23-AUG-64 06:08         SYSTEM INITIALIZATION CODE
   4247  003315' 001000  000041          70060           LXI     H,FUNIO
   4248  003316' 000000  145040*
   4249  003317' 000000  003313'
-  4250  003320' 001000  000042          70080           SHLD    CNCLCA2##+2
+  4250  003320' 001000  000042          70080           SHLD    CNLCA2##+2
   4251  003321' 000000  000002*
   4252  003322' 000000  003316'
   4253  003323' 001000  000046          70100           MVI     H,^O310
@@ -19439,7 +19439,7 @@ F4      MAC     23-AUG-64 06:08         SYSTEM INITIALIZATION CODE
   4272  003344' 000000  000377
   4273  003345' 001000  000346          70280           ANI     ^O40
   4274  003346' 000000  000040
-  4275  003347' 001000  000312          70300           OJZ     NOTPIO
+  4275  003347' 001000  000312          70300           JZ     NOTPIO
   4276  003350' 000000  003400'
   4277  003351' 000000  003341'
   4278                  145002          70320   FUNIO==$CODE+<^D256*^O312>+2
@@ -19511,7 +19511,7 @@ F4      MAC     23-AUG-64 06:08         SYSTEM INITIALIZATION CODE
   4330  003430' 000000  000000*
   4331  003431' 000000  003425'
   4332                                  70800   IFN     REALIO,<
-  4333  003432' 001000  000041          70820           LXI     H,MEMORY        ;ASK HOW MUCHH MEMORY AVAILABLE
+  4333  003432' 001000  000041          70820           LXI     H,MEMORY        ;ASK HOW MUCH MEMORY AVAILABLE
   4334  003433' 000000  004243'
   4335  003434' 000000  003430'
   4336  003435' 001000  000315          70840           CALL    STROUT          ;CALL THE STRING PRINTER
@@ -19784,7 +19784,7 @@ F4      MAC     23-AUG-64 06:08         SYSTEM INITIALIZATION CODE
   4547  003707' 001000  000021          73200           LXI     D,COS>
   4548  003710' 000000  002762'
   4549  003711' 000000  003705'
-  4550  003712'                         73220   MAVFNS:                         ;TEXT ALWAYS PRECEDED BY ZERO
+  4550  003712'                         73220   HAVFNS:                         ;TEXT ALWAYS PRECEDED BY ZERO
   4551  003712' 001000  000353          73240           XCHG                    ;PUT BOTTOM OF MEMORY IN [H,L]
   4552  003713' 001000  000066          73260           MVI     M,0             ;STORE IT
   4553  003714' 000000  000000
