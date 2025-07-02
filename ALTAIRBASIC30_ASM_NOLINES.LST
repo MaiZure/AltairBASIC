@@ -255,7 +255,7 @@ LOW LOCATIONS
                 WHEN A MATCH IS FOUND BETWEEN A STRING
                 OF CHARACTERS AND A WORD IN THE CRUNCH LIST
                 THE ENTIRE TEXT OF THE MATCHED WORD IS TAKEN OUT OF
-                THE INPUT LINE AND RESERVED WORD TAKEN IN PUT
+                THE INPUT LINE AND RESERVED WORD TAKEN IS PUT
                 IN ITS PLACE. A RESERVED WORD TOKEN IS ALWAYS EQUAL
                 TO OCTAL 200 PLUS THE POSITION OF THE MATCHED WORD
                 IN THE CRUNCH LIST.
@@ -521,7 +521,7 @@ LOW LOCATIONS
                 THE VALUE IS COPIED INTO STRING SPACE SINCE BUF
                 IS ALWAYS CHANGING. "STRCPY" IS USED TO COPY
                 STRINGS.
-                STRING FUNCTIONSA ND THE ONE STRINS OPERATOR "+"
+                STRING FUNCTIONS AND THE ONE STRING OPERATOR "+"
                 ALWAYS RETURN THEIR VALUES IN STRING SPACE.
                 ASSIGNING A STRING A CONSTANT VALUE IN A PROGRAM
                 THROUGH A "READ" OR ASSIGNMENT STATEMENT
@@ -743,7 +743,7 @@ JMP     CHRCON                  ;NO ROOM FOR WHOLE ROUTINE
 ; TIMING ETC.. NO REGISTERS OR CONDITION CODES ARE CHANGED.
 ;
 RELOC 24
-OUTDO:  PUSH    PSAW
+OUTDO:  PUSH    PSW
 IFN     CONTRW,<
         LDA     CNTWFL          ;GET SUPPRESS FLAG
         ORA     A>              ;SEE IF IT IS SET
@@ -824,7 +824,7 @@ IFE     LENGTH-2,<
         ADR(ABS)
 USRLOC: ADR(ILLFUN)             ;INITIALLY NO USER ROUTINE
 IFN     LENGTH,<ADR(FRE)
-        ADR(FNIMP)
+        ADR(FNINP)
 IFN     LPTSW,<ADR(LPOS)>
         ADR(POS)>
 SQRFIX: ADR(SQR)
@@ -842,16 +842,16 @@ IFN     LENGTH,<
 IFN     DSKFUN,<ADR(DSKI$)>
 IFN     STRING,<
         ADR(LEN)
-        ADR(STRS)
+        ADR(STR$)
         ADR(VAL)
         ADR(ASC)
         ADR(CHR$)
-        ADR(LEFTS)
-        ADR(RIGHTS)
-        ADR(MIDS)>
+        ADR(LEFT$)
+        ADR(RIGHT$)
+        ADR(MIDS$)>
 DEFINE ADRP(X),<ADR(X)>
 IFE     LENGTH-2,<
-DEFINE ADRP-2<
+DEFINE ADRP(X),<>>
 OPTAB: 121                      ;OPERATOR TABLE CONTAINS
                                 ;PRECEDENCE FOLLOWED BY
                                 ;THE ROUTINE ADDRESS
@@ -888,7 +888,7 @@ DEFINE  DCI(A),<Q=Q+1
         REMTK==Q
 IFE     LENGTH-1,<
         ELSETK==Q
-IFN     DSKFUN,<DCI"DSKUS">
+IFN     DSKFUN,<DCI"DSKO$">
 IFN     LPTSW,<DCI"LPRINT">
 IFN     LENGTH,<
         PRINTK==Q
@@ -987,8 +987,8 @@ IFE     REALIO, <ADR(OUT)>
 IFN     LPTSW,<ADR(LLIST)>
 IFE     LENGTH-2,<ADR(DELETE)>
         ADR(CLEAR)
-IFN     CASSW,<ADR(CLOAD)>
-        ADR(CSAVE)
+IFN     CASSW,<ADR(CLOAD)
+        ADR(CSAVE)>
 IFN     CONSSW,<ADR(CONSOLE)>
         ADR(SCRATH)
 IFE     LENGTH-2,<
@@ -1266,7 +1266,7 @@ POPGOF: LXI     B,$CODE+13      ;TO WIPE OUT A FOR ENTRY
         JMP     LOOPER          ;TRY THE NEXT ONE
 ;
 ; THIS IS THE BLOCK TRANSFER ROUTINE
-; IT MAKES SPAC BY SHOVING EVERYTHING FORWARD
+; IT MAKES SPACE BY SHOVING EVERYTHING FORWARD
 ;
 ; [H,L] = DESTINATION OF HIGH ADDRESS
 ; [D,E] = LOW ADDRESS TO BE TRANSFERRED
@@ -1348,7 +1348,7 @@ SNERR:  MVI     E,ERRSN         ;"SYNTAX ERROR"
 DV0ERR: MVI     E,ERRDV0        ;DIVISION BY ZERO
 IFN     LENGTH,<
         XWD     ^O1000,1        ;SKIP NEXT TWO
-NFERR:  MVI     E,ERRNF>        ;"NET WITHOUT FOR" ERROR
+NFERR:  MVI     E,ERRNF>        ;"NEXT WITHOUT FOR" ERROR
 ERROR:  CALL    STKINI          ;RESET THE STACK AND FLAGS
 IFN     CONTRW,<
         XRA     A
@@ -2068,7 +2068,7 @@ IFE     LENGTH-2,<              ;TRACE FEATURE
         MVI     A,"["           ;FORMAT THE LINE NUMBER
         OUTCHR                  ;OUTPUT IT
         CALL    LINPRT          ;PRINT THE LINE # IN [H,L]
-        HVI     A,"]"           ;SOME MORE FORMATING
+        MVI     A,"]"           ;SOME MORE FORMATING
         OUTCHR
         POP     D               ;[D,E]=TEXT POINTER
 NOTTRC:>
@@ -5392,7 +5392,7 @@ IFN     DSKFUN,<
 ; DSKI$ (SECTOR) IS A STRING FUNCTION THAT
 ; RETURNS THE 133 BYTE STRING STORED ON SECTOR.
 ;
-DSKOS:  CALL    FRMEVL          ;EVALUATE FORMULA
+DSKO$:  CALL    FRMEVL          ;EVALUATE FORMULA
         SYNCHK  44              ;FOLLOWED BY COMMA
         PUSH    H               ;SAVE TEXT POINTER
         CALL    FRESTR          ;FREE UP THE FACLO
@@ -5778,7 +5778,7 @@ IFE     LENGTH-2,<
 ARGLO:  BLOCK   7               ;[LOCATION OF SECOND ARGUMENT FOR DOUBLE
 ARG:    BLOCK   1>              ; PRECISION]
 FBUFFR: BLOCK   ^D13            ;BUFFER FOR FOUT
-IFE     LENGTH-2,<BLOCK ^D<30-13>>
+IFE     LENGTH-2,<BLOCK ^D<35-13>>
 THE FLOATING POINT FORMAT IS AS FOLLOWS:
 THE SIGN IS THE FIRST BIT OF THE MANTISSA
 THE MANTISSA IS 24 BITS LONG    ;;
@@ -7678,7 +7678,7 @@ IFE     LENGTH-2,<
         MOV     L,C
         CALL    CONISS          ;ZERO FAC, SET VALTYP TO "INTEGER"
         XCHG                    ;GET THE TEXT POINTER BACK IN (HL)
-        ;HERE TO CHECK FOR A SIGIT, A DECIMAL POINT, "E" OR "D"
+        ;HERE TO CHECK FOR A DIGIT, A DECIMAL POINT, "E" OR "D"
 FINC:   CHRGET                  ;GET THE NEXT CHARACTER OF THE NUMBER
         JC      FINDIG          ;WE HAVE A DIGIT
         CPI     "."             ;CHECK FOR A DECIMAL POINT
@@ -7722,8 +7722,8 @@ FINE:   LDA     VALTYP          ;FINISH UP -- WHAT KIND OF NUMBER IS IT?
         ;HERE TO FINISH UP AN INTEGER
         POP     PSW             ;IT IS AN INTEGER, GET ITS SIGN
         XCHG                    ;SAVE THE TEXT POINTER IN (DE)
-        CZ      INET            ;NEGATE IT IF NECESSARY
-        XCHG                    ;GET THE TEXT POINTER BACK IN (HL_
+        CZ      INEG            ;NEGATE IT IF NECESSARY
+        XCHG                    ;GET THE TEXT POINTER BACK IN (HL)
         RET                     ;ALL DONE
         ;HERE TO FINISH UP A FLOATING POINT NUMBER
 FINEF:  PUSH    H               ;SAVE THE TEXT POINTER
@@ -9107,7 +9107,7 @@ IFN     REALIO,<
         ANI     ^O100           ;IS HE FUNNY TTY?
         JZ      NOTSIO
         LXI     H,FUNIO
-        SHLD    CNCLCA2##+2
+        SHLD    CNLCA2##+2
         MVI     H,^O310
         SHLD    CNLCA3##+2
 IFN     LENGTH,<
@@ -9118,7 +9118,7 @@ FUNIO==$CODE+<^D256*^O312>+2
         SHLD    CNLCA1##+2
 NOTSIO: IN      ^D255
         ANI     ^O40
-        OJZ     NOTPIO
+        JZ     NOTPIO
 FUNIO==$CODE+<^D256*^O312>+2
         LXI     H,FUNIO
         SHLD    CNLCA2+2
@@ -9144,7 +9144,7 @@ IFN     STRING,<
         LXI     H,TEMPST##
         SHLD    TEMPPT##>
 IFN     REALIO,<
-        LXI     H,MEMORY        ;ASK HOW MUCHH MEMORY AVAILABLE
+        LXI     H,MEMORY        ;ASK HOW MUCH MEMORY AVAILABLE
         CALL    STROUT          ;CALL THE STRING PRINTER
         CALL    QINLIN          ;GET A LINE OF INPUT
         CHRGET                  ;GET A CHAR
@@ -9264,7 +9264,7 @@ OKCHAR: LXI     H,ILLFUN        ;MAKE SURE BOMBS IF TRIES TO CALL THEM
         SHLD    TANFIX##
         SHLD    SINFIX##
         LXI     D,COS>
-MAVFNS:                         ;TEXT ALWAYS PRECEDED BY ZERO
+HAVFNS:                         ;TEXT ALWAYS PRECEDED BY ZERO
         XCHG                    ;PUT BOTTOM OF MEMORY IN [H,L]
         MVI     M,0             ;STORE IT
         INX     H               ;INCREMENT POINTER
