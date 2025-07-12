@@ -83,7 +83,7 @@ C        6-SEP-64 03:11         COMMON FILE
     10                  000000          01000   CONSSW==0
     11
     12                  000016          01200   CLMWID==^D14                    ;MAKE COMMA COLUMNS FOURTEEN CHARACTERS
-    13                  000000          01300   RAMBOT=^O20000                  ;BOTTOM LOCATION OF RAM FOR PURE SWITCH
+    13                  020000          01300   RAMBOT=^O20000                  ;BOTTOM LOCATION OF RAM FOR PURE SWITCH
     14                  000001          01400   CONTRW==1                       ;ALLOW ^O
     15                                  01500   IFE     REALIO,<
     16                                  01600           LPTSW==0                ;SIMULATOR DEFAULTS
@@ -748,17 +748,17 @@ F3      MAC      6-SEP-64 03:11         SOME EXPLANATION
    494                                  08280                   USER DEFINED FUNCTION VALUES ALSO CONTAIN
    495                                  08300                   POINTERS INTO SIMPLE VARIABLE SPACE SO NO USER-DEFINED
    496                                  08320                   FUNCTION VALUES CAN BE RETAINED IF SIMPLE VARIABLES
-   497                                  08340                   AREMOVED. ADDING A SIMPLE VARIABLE
+   497                                  08340                   ARE MOVED. ADDING A SIMPLE VARIABLE
    498                                  08360                   ADDING SIX TO ARYTAB AND STREND, BLOCK TRANSFERING
    499                                  08380                   THE ARRAY VALUES UP BY SIX AND MAKING SURE THE
    500                                  08400                   NEW (STREND) IS NOT TO CLOSE TO THE STACK.
    501                                  08420                   THIS MOVEMENT OF ARRAY VARIABLES MEANS
-   502                                  08440                   THATNO POINTER TO AN ARRAY WILL STAY VALID WHEN
+   502                                  08440                   THAT NO POINTER TO AN ARRAY WILL STAY VALID WHEN
    503                                  08460                   NEW SIMPLE VARIABLES CAN BE ENCOUNTERED. THIS IS
    504                                  08480                   WHY ARRAY VARIABLES ARE NOT ALLOWED "FOR"
    505                                  08500                   LOOP VARIABLES. SETING UP ANEW ARRAY VARIABLE
    506                                  08520                   MERELY INVOLVES BUILDING THE DESCRIPTOR,
-   507                                  08540                   UPDATING STRENDM AND MAKING SURE THERE IS
+   507                                  08540                   UPDATING STREND, AND MAKING SURE THERE IS
    508                                  08560                   STILL ENOUGH ROOM BETWEEN STREND AND THE
    509                                  08580                   STACK. WITHOUT MULTIPLE DIMENSIONS THE FORMAT
    510                                  08600                   OF AN ARRAY VARIABLE IS SIMPLY:
@@ -824,10 +824,10 @@ F3      MAC      6-SEP-64 03:11         SOME EXPLANATION
    556                                  09520                   IT FROM THE ACTUAL STRING DATA. WHENEVER A
    557                                  09540                   STRING CONSTANT IS ENCOUNTERED IN A FORMULA OR AS
    558                                  09560                   PART OF AN INPUT STRING, OR AS PART OF DATA, STRLIT
-   559                                  09580                   IS CALLED, CAUSING A DESCRIPTOR TO BE BUILD FOR
+   559                                  09580                   IS CALLED, CAUSING A DESCRIPTOR TO BE BUILT FOR
    560                                  09600                   THE STRING. IF THE STRING CONSTANT IS IN BUF (WHICH
    561                                  09620                   IT WILL BE IF THE STRING IS BEING "INPUT", OR THE
-   562                                  09640                   STRING IS PART OF SOME FORMULA IN A DIRECT STATEMENT
+   562                                  09640                   STRING IS PART OF SOME FORMULA IN A DIRECT STATEMENT)
    563                                  09660                   THE VALUE IS COPIED INTO STRING SPACE SINCE BUF
    564                                  09680                   IS ALWAYS CHANGING. "STRCPY" IS USED TO COPY
    565                                  09700                   STRINGS.
@@ -849,7 +849,7 @@ F3      MAC      6-SEP-64 03:11         SOME EXPLANATION
    581                                  10020                   THE ONLY POINTER AT THE NEW STRING IS A
    582                                  10040                   TEMPORARY DESCRIPTOR CREATED BY FRMEVL WHICH WILL
    583                                  10060                   GO AWAY AS SOON AS THE ASSIGNMENT IS DONE.
-   584                                  10080                   IT IS THE ANTURE OF GARBAGE COLLECTION THAT
+   584                                  10080                   IT IS THE NATURE OF GARBAGE COLLECTION THAT
    585                                  10100                   DISALLOWS HAVING TWO STRING DESCRIPTORS POINT TO THE SAME
    586                                  10120                   AREA IN STRING SPACE. STRING FUNCTIONS AND OPERATORS
    587                                  10140                   MUST PROCEED AS FOLLOWS:
@@ -910,7 +910,7 @@ F3      MAC      6-SEP-64 03:11         SOME EXPLANATION
    628                                  10960                   TOO SOON BY THE NEW RESULT.
    629
    630                                  11000                   STRING SPACE IS ALLOCATED AT THE VERY TOP
-   631                                  11020                   OF MEMORY. MEMSIZE POINTS BEYOND THE LAST LOCATION OF
+   631                                  11020                   OF MEMORY. MEMSIZ POINTS BEYOND THE LAST LOCATION OF
    632                                  11040                    STRING SPACE. STRING ARE STORED IN HIGH LOCATIONS
    633                                  11060                   FIRST. WHENEVER STRING SPACE IS ALLOCATED (GETSPA)
    634                                  11080                   FRETOP, WHICH IS INITIALIZED TO [MEMSIZ], IS UPDATED
@@ -994,7 +994,7 @@ F3      MAC      6-SEP-64 03:11         SOME EXPLANATION
    698                                  12360                                   LINE # OF THIS LINE (2 BYTES)
    699                                  12380                                   CHARACTERS ON THIS LINE
    700                                  12400                                   ZERO
-   701                                  12420                                   POINTER AT THE NEXT LINE'S POINT
+   701                                  12420                                   POINTER AT NEXT LINE'S POINTER
 
 
 
@@ -2226,8 +2226,8 @@ F3      MAC      6-SEP-64 03:11         LOW SEGMENT -- RAM -- IE THIS STUFF IS N
   1579  001430' 000000  000054          22940   BUFMIN: 44                      ;A COMMA (PRELOAD OR ROM)
   1580                                  22960                                   ;USED BY INPUT STATEMENT SINCE THE
   1581                                  22980                                   ;DATA POINTER ALWAYS STARTS ON A
-  1582                                  23000                                   ;COMMA OR TERMINATIOR
-  1583  001431'                         23020                                   ;TYPE IN STORED HERE
+  1582                                  23000                                   ;COMMA OR TERMINATOR
+  1583  001431'                         23020   BUF:    BLOCK   BUFLEN          ;TYPE IN STORED HERE
   1584                                  23040                                   ;DIRECT STATEMENTS EXECUTE OUT OF
   1585                                  23060                                   ;HERE, REMEMBER INPUT SMASHES BUF.
   1586                                  23080                                   ;MUST BE AT A LOWER ADDRESS
@@ -2238,7 +2238,7 @@ F3      MAC      6-SEP-64 03:11         LOW SEGMENT -- RAM -- IE THIS STUFF IS N
   1591                                  23180   LPTPOS: BLOCK   1               ;POSITION OF LPT PRINT HEAD
   1592                                  23200   PRTFLG: BLOCK   1>              ;WHETHER OUTPUT GOES TO LPT
   1593                                  23220                                   ;NON-ZERO MEANS SEND OUTPUT TO LPT
-  1594                                  23240   IFN     CONTR,<
+  1594                                  23240   IFN     CONTRW,<
   1595  001541'                         23260   CNTWFL: BLOCK   1>              ;SUPRESS OUTPUT FLAG
   1596  001542'                         23280   DIMFLG: BLOCK   1               ;IN GETTING A POINTER TO A VARIABLE
   1597                                  23300                                   ;IT IS IMPORTANT TO REMEMBER WHETHER IT
@@ -2261,7 +2261,7 @@ F3      MAC      6-SEP-64 03:11         LOW SEGMENT -- RAM -- IE THIS STUFF IS N
   1614  001551'                         23580   TEMPST: BLOCK   STRSIZ*NUMTMP   ;STORAGE FOR NUMTMP DESCRIPTORS
   1615  001570'                         23600   DSCTMP: BLOCK   STRSIZ          ;STRING FUNCTIONS BUILD ANSWER DESCRIPTOR HERE
   1616  001573'                         23620   FRETOP: BLOCK   2>              ;TOP OF STRING FREE SPACE
-  1617                                  23640   IFN     LENGTHISTRING,<
+  1617                                  23640   IFN     LENGTH!STRING,<
   1618  001575'                         23660   TEMP3:  BLOCK   2>              ;USED TO HOLD VARB # OF HIGH LOC FOUND
   1619                                  23680                                   ;IN GARBAGE COLLECTION
   1620                                  23700                                   ;AND USED MOMENTARILY BY FRMEVL
@@ -2305,7 +2305,7 @@ F3      MAC      6-SEP-64 03:11         LOW SEGMENT -- RAM -- IE THIS STUFF IS N
   1644                                  24180                                   ;SET TO 65535 WHEN DIRECT STATEMENTS EXECUTE
   1645                                  24200   IFN     LENGTH,<
   1646  001611'                         24220   OLDLIN: BLOCK   2               ;OLD LINE NUMBER
-  1647  001613'                         24240   OLDTXT: BLOCK   2               ;OLD TEXT POINTER
+  1647  001613'                         24240   OLDTXT: BLOCK   2>              ;OLD TEXT POINTER
   1648                                  24260                                   ;POINTS AT STATEMENT TO BE EXECUTED NEXT
   1649  001615'                         24280   STKTOP: BLOCK   2               ;TOP LOCATION TO USE FOR THE STACK
   1650                                  24300                                   ;INITIALLY SET UP BY INIT
@@ -2634,7 +2634,7 @@ F3      MAC      6-SEP-64 03:11         GENERAL STORAGE MANAGEMENT ROUTINES
   1850  002051' 000000  002041'
   1851                                  27620                                   ;LOCATIONS
   1852  002052' 001000  000071          27640           DAD     SP              ;[H,L]=STACK POINTER + OFFSET
-  1853  002053' 001000  000347          27660           COMPAR                  ;SEE IF THIS IS .GT. ETNERING [H,L]
+  1853  002053' 001000  000347          27660           COMPAR                  ;SEE IF THIS IS .GT. ENTERING [H,L]
   1854  002054' 001000  000353          27680           XCHG                    ;RESTORE [H,L] FROM [D,E]
   1855  002055' 001000  000321          27700           POP     D               ;GET [D,E] BACK
   1856  002056' 001000  000320          27720           RNC                     ;WAS OK?
@@ -5816,7 +5816,7 @@ F3      MAC      6-SEP-64 03:11         INPUT AND READ CODE
   4089  004756' 000000  004765'
   4090  004757' 000000  004752'
   4091  004760' 001000  000345          58720   READ:   PUSH    H               ;SAVE THE TEXT POINTER
-  4092  004761' 001000  000052          58740           LHLD    DATPTH          ;GET LAST DATA LOCATION
+  4092  004761' 001000  000052          58740           LHLD    DATPTR          ;GET LAST DATA LOCATION
   4093  004762' 000000  001627'
   4094  004763' 000000  004756'
 
@@ -5846,7 +5846,7 @@ F3      MAC      6-SEP-64 03:11         INPUT AND READ CODE
   4105                                  58920   ; THE POINTER INTO THE DATA ALWAYS STARTS POINTING TO A
   4106                                  58940   ; TERMINATOR -- A, :, OR END-OF-LINE
   4107                                  58960   ;
-  4108  004771' 001000  000343          58980           XTHL                    ;[H,L]=VARIALBE LIST POINTER
+  4108  004771' 001000  000343          58980           XTHL                    ;[H,L]=VARIABLE LIST POINTER
   4109                                  58982                                   ;DATA POINTER GOES ON THE STACK
   4110  004772' 001000  000001          59000           XWD     ^O1000,1        ;"LXI B," OVER THIS CHECK
   4111  004773' 001000  000317          59020   LOPDT2: SYNCHK  44              ;MAKE SURE THERE IS A ","
@@ -9455,7 +9455,7 @@ F3      MAC      6-SEP-64 03:11         STRING FUNCTIONS
   6718  010060' 001000  000041          32180           LXI     H,TEMPST        ;GET START OF STRING TEMPS
   6719  010061' 000000  001551'
   6720  010062' 000000  010055'
-  6721  010063' 001000  000353          32200   TVAR:   XCHG                    ;ASVE IN [D,E]
+  6721  010063' 001000  000353          32200   TVAR:   XCHG                    ;SAVE IN [D,E]
   6722  010064' 001000  000052          32220           LHLD    TEMPPT          ;SEE IF DONE
   6723  010065' 000000  001547'
   6724  010066' 000000  010061'
@@ -9468,7 +9468,7 @@ F3      MAC      6-SEP-64 03:11         STRING FUNCTIONS
   6731  010075' 000000  010213'
   6732  010076' 000000  010072'
   6733
-  6734  010077' 001000  000052          32340   SVARS:  LHLD    VARTAB          LGET START OF SIMPLE VARIABLES
+  6734  010077' 001000  000052          32340   SVARS:  LHLD    VARTAB          ;GET START OF SIMPLE VARIABLES
   6735  010100' 000000  001621'
   6736  010101' 000000  010075'
   6737  010102' 001000  000353          32360   SVAR:   XCHG                    ;GET IN [D,E]
