@@ -1467,7 +1467,7 @@ MLOOPR: LDAX    D               ;NOW TRANSFERING LINE
         INX     D
         ORA     A               ;ZERO MARKS THE END
         JNZ     MLOOPR
-FINI:   CALL    RUNC            ;DD CLEAR & SET UP STACK
+FINI:   CALL    RUNC            ;DO CLEAR & SET UP STACK
                                 ;ALSO SETS [H,L] TO [TXTTAB]-1
         INX     H
 ;
@@ -1643,7 +1643,7 @@ KLOOP:  MOV     A,M             ;GET CHARACTER FROM BUF
         MOV     B,A             ;GET A CHARACTER FROM THE LINE
                                 ;SETUP B WITH A QUOTE IF IT IS A STRING
         CPI     34              ;QUOTE SIGN?
-        JZ      STRNG           YES, GO TO SPECIAL STRING HANDLING
+        JZ      STRNG           ;YES, GO TO SPECIAL STRING HANDLING
         ORA     A               ;END OF LINE?
         JZ      CRDONE          ;YES, DONE CRUNCHING
 IFN     STRING,<
@@ -1697,7 +1697,7 @@ IFE     LENGTH-2,<
 STUFFH: INX     H               ;ENTRY TO BUMP [H,L]
         STAX    D               ;SAVE CHARACTER IN CRUNCHED LINE
         INX     D               ;BUMP SAVE POINTER
-        INT     C               ;BUMP CRUNCHED CHARACTER COUNT
+        INR     C               ;BUMP CRUNCHED CHARACTER COUNT
 IFN     STRING,<
         SUI     ":"             ;SEE IF IT IS A COLON
         JZ      COLIS           ;IF SO ALLOW CRUNCHING AGAIN
@@ -1727,7 +1727,7 @@ NTHIS1: ORA     H               ;TEST BITS IN THE RESERVED WORD LIST
         JP      NTHIS1          ;SKIP MORE
         XCHG                    ;RESLST POINTER INTO [H,L]
                                 ;TEXT POINTER INTO [H,L]
-        JMP     RESER
+        JMP     RESER           ;DONE, MOVE TO NEXT RESERVED WORD
 CRDONE: LXI     H,BUFMIN        ;LEAVE WITH [H,L] POINTER TO START OF LINE
         STAX    D               ;NEED THREE 0'S ON THE END
         INX     D               ;ONE FOR END-OF-LINE
@@ -1741,7 +1741,7 @@ CRDONE: LXI     H,BUFMIN        ;LEAVE WITH [H,L] POINTER TO START OF LINE
 ; CHARACTER DELETE CHARACTER AND # AS THE LINE DELETE CHARACTER
 ; IF MORE THAN BUFLEN CHARACTER ARE TYPED, NO ECHOING
 ; IS DONE UNTIL A  _ # OR CARRIAGE-RETURN IS TYPED.
-; CONTROL-G WILL BE TYPED FOR EACH EXCTRA CHARACTER.
+; CONTROL-G WILL BE TYPED FOR EACH EXTRA CHARACTER.
 ; THE ROUTINE IS ENTERED AT INLIN
 ;
 LINLIN: DCR     B               ;BACK ARROW SO DECREMENT COUNT
@@ -1759,7 +1759,7 @@ INLINC: CALL    INCHR           ;GET A CHARACTER
 IFN     LENGTH,<
         CPI     7               ;IS IT BOB ALBRECHT RINGING THE BELL
         JZ      GOODCH>         ;FOR SCHOOL KIDS?
-        CPI     13              ;IS IT A CARRAGE RETURN?
+        CPI     13              ;IS IT A CARRIAGE RETURN?
         JZ      FININL          ;IF SO FINISH UP
         CPI     32              ;CHECK FOR FUNNY CHARACTERS
         JC      INLINC
@@ -1819,7 +1819,7 @@ PRINTW: IN      2               ;MAKE SURE LAST PRINT
         LDA     LPTPOS
         ORA     A               ;CHARACTERS IN THE BUFFER?
         JNZ     PRINTR          ;IF SO DON'T CLEAR THE BUFFER
-        MVI     A,4             ;OTHERWISE BUFFER MUST BE EMPIT
+        MVI     A,4             ;OTHERWISE BUFFER MUST BE EMPTIED
         OUT     2               ;CLEAR THE BUFFER
                                 ;TO PRINT A BLANK LINE
 PRINTR: MVI     A,1             ;TELL LPT TO PRINT
@@ -2159,7 +2159,7 @@ IFN     CONTRW,<
         JMP     READY>          ;TYPE "READY"
 IFE     REALIO,<
 DDT:    POP     B
-        HRRZ    14,JOBOOT##
+        HRRZ    14,JOBDDT##
         JRST    0(14)>
 IFN     LENFTH,<
 CONT:   RNZ                     ;MAKE SURE THERE IS A TERMINATOR
@@ -5352,7 +5352,7 @@ PRIT3:  MOV     A,M             ;GET A CHARACTER FROM RESERVED WORD
         JM      PRIT4
         INX     B
         INX     H               ;BUMP RESLST POINTER
-        JMP     PRT3            ;PRINT THE REST
+        JMP     PRIT3           ;PRINT THE REST
 ;
 ; THE FOLLOWING CODE IS FOR THE DELETE RANGE
 ; COMMAND. BEFORE THE LINES ARE DELETED, 'OK'
@@ -9129,7 +9129,7 @@ IFN     LENGTH,<
         SHLD    CNLCA4+2>
 FUNIO==$CODE+<^D256*^O312>+1
         LXI     H,FUNIO
-        SHLD    CNLCA+2
+        SHLD    CNLCA1+2
 NOTPIO:>
         LXI     H,$CODE+^D65535
         SHLD    CURLIN##        ;IN CASE OF ERROR

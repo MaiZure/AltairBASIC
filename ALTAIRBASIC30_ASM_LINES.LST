@@ -1467,7 +1467,7 @@
 30240           INX     D
 30260           ORA     A               ;ZERO MARKS THE END
 30280           JNZ     MLOOPR
-30300   FINI:   CALL    RUNC            ;DD CLEAR & SET UP STACK
+30300   FINI:   CALL    RUNC            ;DO CLEAR & SET UP STACK
 30320                                   ;ALSO SETS [H,L] TO [TXTTAB]-1
 30340           INX     H
 30360   ;
@@ -1489,7 +1489,7 @@
 30680   CZLOOP: CMP     M               ;TO MARK THE END OF THIS LINK
 30700           INX     H               ;BUMP POINTER
 30720           JNZ     CZLOOP          ;END OF LINE
-30770           XCHG                    ;SWITCH TEMP
+30740           XCHG                    ;SWITCH TEMP
 30760           MOV     M,E             ;DO FIRST BYTE OF FIXUP
 30780           INX     H               ;ADVANCE POINTER
 30800           MOV     M,D             ;2ND BYTE OF FIXUP
@@ -1643,7 +1643,7 @@
 33860           MOV     B,A             ;GET A CHARACTER FROM THE LINE
 33880                                   ;SETUP B WITH A QUOTE IF IT IS A STRING
 33900           CPI     34              ;QUOTE SIGN?
-33920           JZ      STRNG           YES, GO TO SPECIAL STRING HANDLING
+33920           JZ      STRNG           ;YES, GO TO SPECIAL STRING HANDLING
 33940           ORA     A               ;END OF LINE?
 33960           JZ      CRDONE          ;YES, DONE CRUNCHING
 33980   IFN     STRING,<
@@ -1697,7 +1697,7 @@
 34940   STUFFH: INX     H               ;ENTRY TO BUMP [H,L]
 34960           STAX    D               ;SAVE CHARACTER IN CRUNCHED LINE
 34980           INX     D               ;BUMP SAVE POINTER
-35000           INT     C               ;BUMP CRUNCHED CHARACTER COUNT
+35000           INR     C               ;BUMP CRUNCHED CHARACTER COUNT
 35020   IFN     STRING,<
 35040           SUI     ":"             ;SEE IF IT IS A COLON
 35060           JZ      COLIS           ;IF SO ALLOW CRUNCHING AGAIN
@@ -1727,7 +1727,7 @@
 35560           JP      NTHIS1          ;SKIP MORE
 35580           XCHG                    ;RESLST POINTER INTO [H,L]
 35600                                   ;TEXT POINTER INTO [H,L]
-35620           JMP     RESER
+35620           JMP     RESER           ;DONE, MOVE TO NEXT RESERVED WORD
 35640   CRDONE: LXI     H,BUFMIN        ;LEAVE WITH [H,L] POINTER TO START OF LINE
 35660           STAX    D               ;NEED THREE 0'S ON THE END
 35680           INX     D               ;ONE FOR END-OF-LINE
@@ -1741,7 +1741,7 @@
 35840   ; CHARACTER DELETE CHARACTER AND # AS THE LINE DELETE CHARACTER
 35860   ; IF MORE THAN BUFLEN CHARACTER ARE TYPED, NO ECHOING
 35880   ; IS DONE UNTIL A  _ # OR CARRIAGE-RETURN IS TYPED.
-35900   ; CONTROL-G WILL BE TYPED FOR EACH EXCTRA CHARACTER.
+35900   ; CONTROL-G WILL BE TYPED FOR EACH EXTRA CHARACTER.
 35920   ; THE ROUTINE IS ENTERED AT INLIN
 35940   ;
 35960   LINLIN: DCR     B               ;BACK ARROW SO DECREMENT COUNT
@@ -1759,7 +1759,7 @@
 36182   IFN     LENGTH,<
 36184           CPI     7               ;IS IT BOB ALBRECHT RINGING THE BELL
 36186           JZ      GOODCH>         ;FOR SCHOOL KIDS?
-36200           CPI     13              ;IS IT A CARRAGE RETURN?
+36200           CPI     13              ;IS IT A CARRIAGE RETURN?
 36220           JZ      FININL          ;IF SO FINISH UP
 36240           CPI     32              ;CHECK FOR FUNNY CHARACTERS
 36260           JC      INLINC
@@ -1819,7 +1819,7 @@
 37340           LDA     LPTPOS
 37360           ORA     A               ;CHARACTERS IN THE BUFFER?
 37380           JNZ     PRINTR          ;IF SO DON'T CLEAR THE BUFFER
-37400           MVI     A,4             ;OTHERWISE BUFFER MUST BE EMPIT
+37400           MVI     A,4             ;OTHERWISE BUFFER MUST BE EMPTIED
 37420           OUT     2               ;CLEAR THE BUFFER
 37440                                   ;TO PRINT A BLANK LINE
 37460   PRINTR: MVI     A,1             ;TELL LPT TO PRINT
@@ -2159,7 +2159,7 @@
 44340           JMP     READY>          ;TYPE "READY"
 44360   IFE     REALIO,<
 44380   DDT:    POP     B
-44400           HRRZ    14,JOBOOT##
+44400           HRRZ    14,JOBDDT##
 44420           JRST    0(14)>
 44460   IFN     LENFTH,<
 44480   CONT:   RNZ                     ;MAKE SURE THERE IS A TERMINATOR
@@ -5352,7 +5352,7 @@
 43200           JM      PRIT4
 43220           INX     B
 43240           INX     H               ;BUMP RESLST POINTER
-43260           JMP     PRT3            ;PRINT THE REST
+43260           JMP     PRIT3           ;PRINT THE REST
 43280   ;
 43300   ; THE FOLLOWING CODE IS FOR THE DELETE RANGE
 43320   ; COMMAND. BEFORE THE LINES ARE DELETED, 'OK'
@@ -9129,7 +9129,7 @@
 70460           SHLD    CNLCA4+2>
 70480   FUNIO==$CODE+<^D256*^O312>+1
 70500           LXI     H,FUNIO
-70520           SHLD    CNLCA+2
+70520           SHLD    CNLCA1+2
 70540   NOTPIO:>
 70560           LXI     H,$CODE+^D65535
 70580           SHLD    CURLIN##        ;IN CASE OF ERROR
