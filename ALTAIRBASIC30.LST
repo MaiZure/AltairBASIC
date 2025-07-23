@@ -2916,7 +2916,7 @@ F3      MAC      6-SEP-64 03:11         ERROR HANDLER, READY, COMPACTIFICATION, 
   2053  002273' 001000  000302          30280           JNZ     MLOOPR
   2054  002274' 000000  002266'
   2055  002275' 000000  002264'
-  2056  002276' 001000  000315          30300   FINI:   CALL    RUNC            ;DD CLEAR & SET UP STACK
+  2056  002276' 001000  000315          30300   FINI:   CALL    RUNC            ;DO CLEAR & SET UP STACK
   2057  002277' 000000  002437'
   2058  002300' 000000  002274'
   2059                                  30320                                   ;ALSO SETS [H,L] TO [TXTTAB]-1
@@ -2958,7 +2958,7 @@ F3      MAC      6-SEP-64 03:11         ERROR HANDLER, READY, COMPACTIFICATION, 
   2081  002320' 001000  000000          30720           JNZ     CZLOOP          ;END OF LINE
   2082  002321' 000000  000000'
   2083  002322' 000000  000000'
-  2084  002323' 001000  000000          30770           XCHG                    ;SWITCH TEMP
+  2084  002323' 001000  000000          30740           XCHG                    ;SWITCH TEMP
   2085  002324' 001000  000000          30760           MOV     M,E             ;DO FIRST BYTE OF FIXUP
   2086  002325' 001000  000000          30780           INX     H               ;ADVANCE POINTER
   2087  002326' 001000  000000          30800           MOV     M,D             ;2ND BYTE OF FIXUP
@@ -3239,7 +3239,7 @@ F3      MAC      6-SEP-64 03:11         ERROR HANDLER, READY, COMPACTIFICATION, 
   2306                                  33880                                   ;SETUP B WITH A QUOTE IF IT IS A STRING
   2307  002553' 001000  000376          33900           CPI     34              ;QUOTE SIGN?
   2308  002554' 000000  000042
-  2309  002555' 001000  000312          33920           JZ      STRNG           YES, GO TO SPECIAL STRING HANDLING
+  2309  002555' 001000  000312          33920           JZ      STRNG           ;YES, GO TO SPECIAL STRING HANDLING
   2310  002556' 000000  002727'
   2311  002557' 000000  002550'
   2312  002560' 001000  000267          33940           ORA     A               ;END OF LINE?
@@ -3354,7 +3354,7 @@ F3      MAC      6-SEP-64 03:11         ERROR HANDLER, READY, COMPACTIFICATION, 
 BASIC MCS 8080  GATES/ALLEN/DAVIDOFF    MACRO 47(113) 03:12 10-SEP-75 PAGE 8-10
 F3      MAC      6-SEP-64 03:11         ERROR HANDLER, READY, COMPACTIFICATION, NEW, CLEAR, MAIN
 
-  2396  002672' 001000  000014          35000           INT     C               ;BUMP CRUNCHED CHARACTER COUNT
+  2396  002672' 001000  000014          35000           INR     C               ;BUMP CRUNCHED CHARACTER COUNT
   2397                                  35020   IFN     STRING,<
   2398  002673' 001000  000326          35040           SUI     ":"             ;SEE IF IT IS A COLON
   2399  002674' 000000  000072
@@ -3404,7 +3404,7 @@ F3      MAC      6-SEP-64 03:11         ERROR HANDLER, READY, COMPACTIFICATION, 
   2443  002746' 000000  002734'
   2444  002747' 001000  000353          35580           XCHG                    ;RESLST POINTER INTO [H,L]
   2445                                  35600                                   ;TEXT POINTER INTO [H,L]
-  2446  002750' 001000  000303          35620           JMP     RESER
+  2446  002750' 001000  000303          35620           JMP     RESER           ;DONE, MOVE TO NEXT RESERVED WORD
   2447  002751' 000000  002627'
   2448  002752' 000000  002745'
 
@@ -3436,7 +3436,7 @@ F3      MAC      6-SEP-64 03:11         ERROR HANDLER, READY, COMPACTIFICATION, 
   2461                                  35840   ; CHARACTER DELETE CHARACTER AND # AS THE LINE DELETE CHARACTER
   2462                                  35860   ; IF MORE THAN BUFLEN CHARACTER ARE TYPED, NO ECHOING
   2463                                  35880   ; IS DONE UNTIL A  _ # OR CARRIAGE-RETURN IS TYPED.
-  2464                                  35900   ; CONTROL-G WILL BE TYPED FOR EACH EXCTRA CHARACTER.
+  2464                                  35900   ; CONTROL-G WILL BE TYPED FOR EACH EXTRA CHARACTER.
   2465                                  35920   ; THE ROUTINE IS ENTERED AT INLIN
   2466                                  35940   ;
   2467  002764' 001000  000005          35960   LINLIN: DCR     B               ;BACK ARROW SO DECREMENT COUNT
@@ -3466,7 +3466,7 @@ F3      MAC      6-SEP-64 03:11         ERROR HANDLER, READY, COMPACTIFICATION, 
   2491  003010' 001000  000312          36186           JZ      GOODCH>         ;FOR SCHOOL KIDS?
   2492  003011' 000000  003044'
   2493  003012' 000000  003004'
-  2494  003013' 001000  000376          36200           CPI     13              ;IS IT A CARRAGE RETURN?
+  2494  003013' 001000  000376          36200           CPI     13              ;IS IT A CARRIAGE RETURN?
   2495  003014' 000000  000015
   2496  003015' 001000  000312          36220           JZ      FININL          ;IF SO FINISH UP
   2497  003016' 000000  004516'
@@ -3577,7 +3577,7 @@ F3      MAC      6-SEP-64 03:11         ERROR HANDLER, READY, COMPACTIFICATION, 
   2574                                  37340           LDA     LPTPOS
   2575                                  37360           ORA     A               ;CHARACTERS IN THE BUFFER?
   2576                                  37380           JNZ     PRINTR          ;IF SO DON'T CLEAR THE BUFFER
-  2577                                  37400           MVI     A,4             ;OTHERWISE BUFFER MUST BE EMPIT
+  2577                                  37400           MVI     A,4             ;OTHERWISE BUFFER MUST BE EMPTIED
   2578                                  37420           OUT     2               ;CLEAR THE BUFFER
   2579                                  37440                                   ;TO PRINT A BLANK LINE
   2580                                  37460   PRINTR: MVI     A,1             ;TELL LPT TO PRINT
@@ -4314,7 +4314,7 @@ F3      MAC      6-SEP-64 03:11         RESTORE,STOP,END,LINGET,CHRCON
   3054  003541' 000000  003535'
   3055                                  44360   IFE     REALIO,<
   3056                                  44380   DDT:    POP     B
-  3057                                  44400           HRRZ    14,JOBOOT##
+  3057                                  44400           HRRZ    14,JOBDDT##
   3058                                  44420           JRST    0(14)>
   3059
   3060                                  44460   IFN     LENFTH,<
@@ -10463,7 +10463,7 @@ F3      MAC      6-SEP-64 03:11         FANCY LIST,DELETE,EDIT,LLIST
   7506  011237' 000000  011230'
   7507  011240' 001000  000003          43220           INX     B
   7508  011241' 001000  000043          43240           INX     H               ;BUMP RESLST POINTER
-  7509  011242' 001000  000303          43260           JMP     PRT3            ;PRINT THE REST
+  7509  011242' 001000  000303          43260           JMP     PRIT3           ;PRINT THE REST
   7510  011243' 000000  011232'
   7511  011244' 000000  011236'
   7512                                  43280   ;
@@ -19464,7 +19464,7 @@ F4      MAC     23-AUG-64 06:08         SYSTEM INITIALIZATION CODE
   4297  003372' 001000  000041          70500           LXI     H,FUNIO
   4298  003373' 000000  145001*
   4299  003374' 000000  003370'
-  4300  003375' 001000  000042          70520           SHLD    CNLCA+2
+  4300  003375' 001000  000042          70520           SHLD    CNLCA1+2
   4301  003376' 000000  000002*
   4302  003377' 000000  003373'
   4303                                  70540   NOTPIO:>
