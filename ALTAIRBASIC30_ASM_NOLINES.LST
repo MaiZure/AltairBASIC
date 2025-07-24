@@ -119,7 +119,7 @@ IFN     REALIO,<
 LISTEN==1>
 IFE     LENGTH,<
 FUNCTS==0>
-INTERNAL        .C1,BUF,READY,REASON,SNERR,EMERR,REPINI
+INTERNAL        .C1,BUF,READY,REASON,SNERR,OMERR,REPINI
 INTERNAL        STREND,CURLIN,DV0ERR,ERROV
 IFN     REALIO,<
 INTERNAL        CNLCA1,CNLCA2,CNLCA3>
@@ -128,7 +128,7 @@ EXTERNAL        FPWR,EXP>
 EXTERNAL        QINT,ZERO,MOVE,FOUT,FIN,FCOMP,FADD,PUSHF,INT,INIT
 EXTERNAL        MOVFR,MOVRF,MOVRM,INPRT,LINPRT
 EXTERNAL        MOVFM,MOVMF,TSTACK,FLOATRI,FADDS
-INTERNAL        ILLFUN,FAC,FACLD,TXTTAB,STROUT,SCRTCH
+INTERNAL        ILLFUN,FAC,FACLO,TXTTAB,STROUT,SCRTCH
 EXTERNAL        INRART,NEG,FLOAT
 INTERNAL        OUTDO,STROUI
 INTERNAL        STKTOP,ERROR,FCERR
@@ -137,7 +137,7 @@ INTERNAL         VALTYP,TEMPPT
 INTERNAL        TEMPST,STRLIT
 IFN     LENGTH-2,<
 INTERNAL        TMERR>
-INTERNAL        MEMZIS,FRETOP
+INTERNAL        MEMSIZ,FRETOP
 EXTERNAL        SIGNS>
 INTERNAL        FBUFFR,MINUTK,PLUSTK,CRDO,LINGET,INTXT,QINLIN
 IFN     MULDIM,<INTERNAL        BSERR>
@@ -691,7 +691,7 @@ IFN     LENGTH-2,<
                                 ;OF THE ROUTINE TO CONVERT [A,B]
                                 ;TO A FLOATING POINT NUMBER IN THE FAC
 IFE     LENGTH-2,<
-        ADR(FECINT)             ;TURN FAC INTO AN INTEGER IN [H,L]
+        ADR(FRCINT)             ;TURN FAC INTO AN INTEGER IN [H,L]
         ADR(MAKINT)>            ;TURN [H,L] INTO A VALUE IN THE FAC
                                 ;SET VALTYP FOR INTEGER
 RELOC 8
@@ -796,7 +796,7 @@ SIGN:   LDA     FAC
 ; RETURN ADDRESS.
 ;
 RELOC   48
-        XHTL                    ;SWITCH [H,L] AND RETURN ADDRESS
+        XTHL                    ;SWITCH [H,L] AND RETURN ADDRESS
         SHLD    PUSHMA+1        ;FIXUP JUMP PLACE TO GO
         POP     H               ;REGAIN [H,L]
 IFN     LENGTH,<
@@ -897,7 +897,7 @@ IFE     REALIO,<
 IFN     LPTSW,<DCI"LLIST>
 IFN     CASSW,<DCI"CLOAD"
         DCI"CSAVE">
-IFN     CONSW,<DCI"CONSOLE">
+IFN     CONSSW,<DCI"CONSOLE">
         SCRATK=Q
 ; END OF COMMAND LIST
         "T"
@@ -926,7 +926,7 @@ IFN     LENGTH,<
         190                     ;A GREATER THAN SIGN
         Q=Q+1
         GREATK=Q
-        EQUALK=Q
+        EQULTK=Q
         188
         Q=Q+1
         LESSTK=Q                ;A LESS THAN SIGN
@@ -1342,7 +1342,7 @@ PAGE
 SUBTTL ERROR HANDLER, READY, COMPACTIFICATION, NEW, CLEAR, MAIN
 IFN      LENGTH,<
 DATSNE: LHLD    DATLIN          ;GET DATA LINE
-        SMLD    CURLIN>         ;MAKE IT CURRENT LINE
+        SHLD    CURLIN>         ;MAKE IT CURRENT LINE
 SNERR:  MVI     E,ERRSN         ;"SYNTAX ERROR"
         XWD     ^O1000,1        ;"LXI B," OVER THE NEXT 2
 DV0ERR: MVI     E,ERRDV0        ;DIVISION BY ZERO
@@ -1564,7 +1564,7 @@ LOOP:   MOV     B,H             ;IF EXITING BECAUSE OF END OF PROGRAM,
 SCRATH: RNZ                     ;MAKE SURE THERE IS A TERMINATOR
 SCRTCH: LHLD    TXTTAB
 IFN     LENGTH-2,<
-        XHA     A>
+        XRA     A>
 IFE     LENGTH-2,<
         CALL    TOFF>           ;TURN OFF TRACE. SET [A]=0
         MOV     M,A             ;SAVE AT END OFF TEXT
@@ -1705,7 +1705,7 @@ IFN     STRING,<
         JNZ     NODATT          ;SEE IF IT IS A DATA TOKEN
 COLIS:  STA     DORES           ;SETUP FLAG
 NODATT: SUI     REMTK-":">
-IFE     STRING,<SUI     REMRK>  ;WAS IT A REM STATEMENT
+IFE     STRING,<SUI     REMTK>  ;WAS IT A REM STATEMENT
         JNZ     KLOOP           ;KEEP LOOPING
         MOV     B,A             ;REM DOESN'T STOP ON ":", ONLY ON A ZERO
 STR1:   MOV     A,M             ;GET A CHAR
@@ -1872,10 +1872,10 @@ SUBTTL  THE "LIST" COMMAND
 IFN     LENGTH-2,<
 IFN     LPTSW,<
 LLIST:  MVI     A,1             ;GET NON ZERO VALUE
-        STA     PRTFLG>         ;ASVE IN I/O FLAG
+        STA     PRTFLG>         ;SAVE IN I/O FLAG
 LIST:   CALL    LINGET          ;GET LINE NUMBER INTO [D,E]
         RNZ                     ;MUST BE A TERMINATOR OR ERROR
-        POP     B               ;GET RID OF NEWSTT RETURN ADDT
+        POP     B               ;GET RID OF NEWSTT RETURN ADDR
         CALL    FNDLIN          ;FIND LINE GREATER THAN OR EQUAL TO [D,E]
         PUSH    B               ;SAVE START POINTER
 LIST4:  POP     H               ;GET POINTER TO LINE
@@ -1943,7 +1943,7 @@ SUBTTL  "FOR" STATEMENT
 FOR:    IFN     LENGTH,<
         MVI     A,100
         STA     SUBFLG>         ;DONT RECOGNIZE SUBSCRIPTED VARIABLES
-        CALL    LET             ;EAD THE VARIABLE AND ASSIGN IT
+        CALL    LET             ;READ THE VARIABLE AND ASSIGN IT
                                 ;THE CORRECT INTIAL VALUE
                                 ;AND STORE A POINTER
                                 ;TO THE VARIABLE IN [TEMP]
@@ -2146,7 +2146,7 @@ ENDCON: PUSH    PSW             ;SAVE THE MESSAGE FLAG
         ANA     H               ;SEE IF IT WAS DIRECT
         INR     A
         JZ      DIRIS           ;IF NOT SET UP FOR CONTINUE
-        SHLD    DLDLIN          ;SAVE OLD LINE #
+        SHLD    OLDLIN          ;SAVE OLD LINE #
         LHLD    TEMP            ;GET POINTER TO START OF STATEMENT
         OLDTXT                  ;SAVE IT
 DIRIS:
@@ -2324,7 +2324,7 @@ GOSUB:  CALL    GETSTK          ;MAKE SURE THERE IS ROOM
         PUSH    H               ;REALLY PUSH THE TEXT POINTER
         PUSH    H               ;SAVE TEXT POINTER
         LHLD    CURLIN          ;GET THE CURRENT LINE #
-        XTHL                    ;PUT CUTLIN ON THE STACK AND [H,L]=TEXT PTR
+        XTHL                    ;PUT CURLIN ON THE STACK AND [H,L]=TEXT PTR
         MVI     D,GOSUTK        ;LEAVE A GOSUB TOKEN
                                 ;ON THE STACK
         PUSH    D
@@ -2412,7 +2412,7 @@ REMER:  MOV     A,M             ;GET THE CHARACTER
         RZ
         CMP     B               ;TEST FOR THE OTHER TERMINATOR
         RZ
-        INZ     H
+        INX     H
         CPI     34              ;IS IT A QUOTE?
         JZ      EXCHQT          ;IF SO TIME TO TRADE
 IFE     LENGTH-2,<
@@ -2502,7 +2502,7 @@ INPCOM: PUSH    H>              ;SAVE POINTER AT VARIABLE
 DNTCPY: LDAX    D               ;GET THE LENGTH AND SAVE IT
         PUSH    PSW             ;SINCE WE ARE GOING TO SET IT TO
                                 ;0 SO FRETMP DOESN'T UPDATE FRETOP
-        XRA     A               ;SET IT TO 0 -- ELIMINATING NNULL
+        XRA     A               ;SET IT TO 0 -- ELIMINATING NULL
                                 ;STRING IN FRETMP IS HARMLESS
         STAX    D               ;PUT 0 IN THE LENGTH FIELD
         CALL    FRETMP          ;FREE IT UP
@@ -2610,7 +2610,7 @@ IFN     STRING,<
 IFE     STRING,<PUSH    H>      ;SAVE THE TEXT POINTER
         PUSH    PSW             ;RESAVE RELATIONAL MEMORIES
 IFN     STRING,<
-        LDA     VALTYP          ;GET VALUE TPYE
+        LDA     VALTYP          ;GET VALUE TYPE
         CMP     H               ;[H] HAS OLD VALTYP ARE THEY =?
         JNZ     TMERR           ;IF NOT ITS A TYPE ERROR
         ORA     A               ;SEE WHAT TYPE IT WAS
@@ -2657,7 +2657,7 @@ SKPMRF: CALL    DATA            ;SKIP A STATEMENT
                                 ;MUST BE SEEN
         JNZ     SKPMRF          ;SKIP MORE IF HAVEN'T SEEN
                                 ;ENOUGH
-        JMP     DOCONO>         ;FOUND THE RIGHT "ELSE" -- GO EXECUTE
+        JMP     DOCOND>         ;FOUND THE RIGHT "ELSE" -- GO EXECUTE
 PAGE
 SUBTTL PRINT CODE
 IFN     LPTSW,<
@@ -2957,12 +2957,12 @@ IFN     LENGTH-2,<
         MVI     D,":"           ;UNQUOTED STRING TERINATORS
         MVI     B,44            ;ARE COLON AND COMMA
         DCX     H               ;BACKUP SINCE START CHARACTER MUST BE INCLUDED
-                                ;IN THE QUOTES STRING CASE WE SON'T WANT TO
+                                ;IN THE QUOTES STRING CASE WE DON'T WANT TO
                                 ;INCLUDE THE STARTING OR ENDING QUOTE
 NOWGET: CALL    STRLT2          ;MAKE A STRING DESCRIPTOR FOR THE VALUE
                                 ;AND COPY IF NECESSARY
 IFE     LENGTH-2,<
-DDASIG: POP     PSW>            ;POP OFF THE TYPE INFORMATION
+DOASIG: POP     PSW>            ;POP OFF THE TYPE INFORMATION
         XCHG                    ;[D,E]=TEXT POINTER
         LXI     H,STRDN2        ;RETURN LOC
         XTHL                    ;[H,L]=PLACE TO STORE VARIABLE VALUE
@@ -2971,10 +2971,10 @@ DDASIG: POP     PSW>            ;POP OFF THE TYPE INFORMATION
 NUMINS: CHRGET
         CALL    FIN
 IFE     LENGTH-2,<
-        JMP     DDASIG>         ;ASSIGNMENT IS COMPLCATD
+        JMP     DOASIG>         ;ASSIGNMENT IS COMPLICATED
                                 ;EVEN FOR NUMERICS SO USE THE "LET" CODE
 IFN     LENGTH-2,<
-        XTHL                    ;[H,L] GET POINTER AT BARIABLE
+        XTHL                    ;[H,L] GET POINTER AT VARIABLE
         CALL    MOVMF           ;DO THE ASSIGNMENT
         POP     H>>             ;GET BACK THE TEXT POINTER
 STRDN2:
@@ -3206,7 +3206,7 @@ NMREL==LESSTK-GREATK+
         MOV     D,A             ;SAVE THE MASK
         JC      SNERR           ;DON'T ALLOW TWO OF THE SAME
         SHLD    TEMP3           ;SAVE CHARACTER POINTER
-        CHRGET                  LGET THE NEXT CANDIDATE
+        CHRGET                  ;GET THE NEXT CANDIDATE
         JMP     LOPREL
 ENDREL: MOV     A,D             ;GET THE MASK
         ORA     A               ;WERE THERE ANY?
@@ -3288,8 +3288,8 @@ IFE     LENGTH-2,<
         LXI     B,RETAOP        ;PUT ON THE ADDRESS OF THE
         PUSH    B               ;PLACE TO RETURN TO AFTER OPERATOR APPLICATION
         MOV     A,D             ;SEE IF THE OPERATOR IS EXPONENTIATION
-        CPI     127             ;WHICH AHS PRECEDENCE 127
-        JZ      EXPSTK          ;IF SO, "FRCSNG" AND MAKE A SECPIAL STACK ENTRY
+        CPI     127             ;WHICH HAS PRECEDENCE 127
+        JZ      EXPSTK          ;IF SO, "FRCSNG" AND MAKE A SPECIAL STACK ENTRY
         CPI     81              ;SEE IF THE OPERATOR IS "AND" OR "OR"
         JC      ANDORD          ;AND IF SO "FRCINT" AND
                                 ;MAKE A SPECIAL STACK ENTRY
@@ -3409,8 +3409,8 @@ APPLOP: POP     B               ;[B]=STACK OPERAND VALUE TYPE
         JNC     FACSNG          ;PRECISION
                                 ;NOTE: THE STACK MUST BE INTEGER AT THIS POINT
         JZ      TMERR           ;BLUE UP ON RIGHT HAND STRING OPERAND
-        LXI     H,INTOSP        ;INTEGER INTEGER CASE
-        MVI     B,0             ;SPECIAL DISPAYCH FOR SPEED
+        LXI     H,INTDSP        ;INTEGER INTEGER CASE
+        MVI     B,0             ;SPECIAL DISPATCH FOR SPEED
         DAD     B               ;[H,L] POINTS TO THE ADDRESS TO GO TO
         DAD     B
         MOV     C,M             ;[B,C]=ROUINE ADDRESS
@@ -3482,14 +3482,14 @@ SNG00:  LXI     H,SNGDSP        ;SETUP THE DISPATCH ADDRESS
 ;
 FACSNG: POP     H               ;POP OFF THE INTEGER ON THE STACK
         CALL    PUSHF           ;SAVE THE FAC ON THE STACK
-        CALL    CONSIM          ;CONVERT [H,L] TO A SINGLE PRECISION
+        CALL    CONSIH          ;CONVERT [H,L] TO A SINGLE PRECISION
                                 ;NUMBER IN THE FAC
         CALL MOVRF              ;PUT THE LEFT HAND OPERAND IN THE REGISTERS
         POP     H               ;RESTORE THE FAC
         SHLD    FAC-1           ;FROM THE STACK
         POP     H
         SHLD    FACLO
-        JMP     SNGDO>          ;ERFORM THE OPERATION
+        JMP     SNGDO>          ;PERFORM THE OPERATION
 EVAL:
 IFN     LENGTH-2,<
 IFN     STRING,<
@@ -3522,7 +3522,7 @@ IFN     FUNCTS,<
                                 ;NUMBERED CHARACTERS ALLOWED
                                 ;SO THERE IS NO NEED TO CHECK
                                 ;THE UPPER BOUND
-PATCHK: SYNCHK  "("             ;ONLY POSSIBILITY LEFT
+PARCHK: SYNCHK  "("             ;ONLY POSSIBILITY LEFT
                                 ;IS A FORMULA IN PARENTHESES
         CALL    FRMEVL          ;RECURSIVELY EVALUATE THE FORMULA
         SYNCHK  ")"
@@ -3640,7 +3640,7 @@ NOTFRF: >
         PUSH    D               ;MAKE THEM REALLY COME BACK
 FINGO:  LXI     B,FUNDSP        ;FUNCTION DISPATCH TABLE
         DAD     B               ;ADD ON THE OFFSET
-CIFE    LENGTH,<
+IFE     LENGTH,<
         PUSHM
         RET>                    ;GO TO THE ADDRESS POINTED TO BY [H,L]
 IFN     LENGTH,<
@@ -4539,7 +4539,7 @@ IFN     STRING,<CALL    CHKNUM>>;STRINGS ILLEGAL
 FNDOER: CALL    GETFNM          ;GET A POINTER TO
                                 ;THE FUNCTON DEFINITION IN [D,E]
         PUSH    D               ;SAVE THE POINTER
-        CALL    PARKCHK         ;EVALUATE THE VALUE TO BE PASSED
+        CALL    PARCHK          ;EVALUATE THE VALUE TO BE PASSED
 IFN     LENGTH-2,<
 IFN     STRING,<CALL    CHKNUM>> ;ARG CANNOT BE STRING
         XTHL                    ;[H,L]=POINTER TO FUNCTION DEF
@@ -5060,7 +5060,7 @@ IFN     LENGTH-2,<
 ; WHICH IS THE DECIMAL ASCII EQUIVALENT
 ;
 ASC:    CALL    LEN1            ;SET UP ORIGINAL STR
-        JNZ     FCERR           ;NULL STR, BAD ARD.
+        JNZ     FCERR           ;NULL STR, BAD ARG.
         INX     H               ;BUMP POINTER
 IFN     LENGTH-2,<
         INX     H>              ;BUMP POINTER
@@ -5196,7 +5196,7 @@ STAINP: IN      0               ;THE INPUT INSTR
         ANA     B               ;AND WITH MASK
         JZ      STAINP          ;LOOP UNTIL RESULT IS NON-ZERO
                                 ;NOTE: THIS LOOP CANNOT BE CONTROL-C'ED
-                                ;UNLESS THE AIT IS BEING DONE ON CHANNEL
+                                ;UNLESS THE WAIT IS BEING DONE ON CHANNEL
                                 ;ZERO. HOWEVER A RESTART AT 0 IS OK.
         RET>
 IFN     STRING,<
@@ -8372,7 +8372,7 @@ FOUBE5: LDA     TEMP2           ;GET THE LOCATION OF THE DECIMAL POINT
         ;PR ELSE FOUTZS WOULD HAVE SUPPRESSED IT, SO WE CAN JUST "INX   H"
         ;OVER THE CHARACTER FOLLOWING THE ZERO, AND NOT CHECK FOR THE
         ;DECIMAL POINT EXPLICITLY.
-FOUBE2: PUSH    PSE             ;PUT THE LAST CHARACTER ON THE STACK.  THE
+FOUBE2: PUSH    PSW             ;PUT THE LAST CHARACTER ON THE STACK.  THE
                                 ; ZERO FLAG IS SET.  THE FIRST TIME THE ZERO
                                 ; ZERO FLAG IS NOT SET.
         LXI     B,FOUBE2        ;GET THE ADDRESS WE GO TO IF WE SEE A CHARACTER
@@ -8566,7 +8566,7 @@ FFXSFL: MVI     E,6             ;WE HAVE A DBL, GET HOW MANY DIGITS WE PRINT
                                 ; BE PRINTED ARE IN THE INTEGER PART
         POP     H               ;GET THE BUFFER POINTER BACK
         POP     B               ;GET THE FIELD LENGTH SPECS
-        PUSH    PSW             ;SAAVE THE EXPONENT
+        PUSH    PSW             ;SAVE THE EXPONENT
         MOV     A,C             ;CALCULATE HOW MANY SIGNIFICANT DIGITS WE MUST
         ORA     A               ; PRINT
         PUSH    PSW             ;SAVE THE "C" FIELD SPEC FOR LATER
@@ -8621,7 +8621,7 @@ FOUTNV: PUSH    D               ;SAVE (DE)
         ;NORMALIZE A SNG
         XRA     A               ;ZERO THE EXPONENT
         PUSH    PSW             ;SAVE IT
-        CALL    FOUNDSC         ;IS THE FAC TOO BIG OR TOO SMALL?
+        CALL    FOUNSC         ;IS THE FAC TOO BIG OR TOO SMALL?
 FOUNS1: MOVRI   221,103,117,370 ;GET 99999.9499 TO SEE IF THE FAC IS BIG
         CALL    FCOMP           ; ENOUGH YET
         JPO     FOUNS3          ;IT IS, WE ARE DONE
