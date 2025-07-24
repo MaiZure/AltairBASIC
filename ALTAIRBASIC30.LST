@@ -274,7 +274,7 @@ F3      MAC      6-SEP-64 03:11         VERSION 3.0 -- MORE FEATURES TO GO
 
    133
    134
-   135                                  01200   INTERNAL        .C1,BUF,READY,REASON,SNERR,EMERR,REPINI
+   135                                  01200   INTERNAL        .C1,BUF,READY,REASON,SNERR,OMERR,REPINI
    136                                  01220   INTERNAL        STREND,CURLIN,DV0ERR,ERROV
    137                                  01240   IFN     REALIO,<
    138                                  01260   INTERNAL        CNLCA1,CNLCA2,CNLCA3>
@@ -283,7 +283,7 @@ F3      MAC      6-SEP-64 03:11         VERSION 3.0 -- MORE FEATURES TO GO
    141                                  01320   EXTERNAL        QINT,ZERO,MOVE,FOUT,FIN,FCOMP,FADD,PUSHF,INT,INIT
    142                                  01340   EXTERNAL        MOVFR,MOVRF,MOVRM,INPRT,LINPRT
    143                                  01360   EXTERNAL        MOVFM,MOVMF,TSTACK,FLOATRI,FADDS
-   144                                  01380   INTERNAL        ILLFUN,FAC,FACLD,TXTTAB,STROUT,SCRTCH
+   144                                  01380   INTERNAL        ILLFUN,FAC,FACLO,TXTTAB,STROUT,SCRTCH
    145                                  01400   EXTERNAL        INRART,NEG,FLOAT
    146                                  01420   INTERNAL        OUTDO,STROUI
    147                                  01440   INTERNAL        STKTOP,ERROR,FCERR
@@ -292,7 +292,7 @@ F3      MAC      6-SEP-64 03:11         VERSION 3.0 -- MORE FEATURES TO GO
    150                                  01464   INTERNAL        TEMPST,STRLIT
    151                                  01466   IFN     LENGTH-2,<
    152                                  01468   INTERNAL        TMERR>
-   153                                  01480   INTERNAL        MEMZIS,FRETOP
+   153                                  01480   INTERNAL        MEMSIZ,FRETOP
    154                                  01500   EXTERNAL        SIGNS>
    155                                  01520   INTERNAL        FBUFFR,MINUTK,PLUSTK,CRDO,LINGET,INTXT,QINLIN
    156                                  01540   IFN     MULDIM,<INTERNAL        BSERR>
@@ -1094,7 +1094,7 @@ F3      MAC      6-SEP-64 03:11         RST ROUTINES
    745                                  13260                                   ;OF THE ROUTINE TO CONVERT [A,B]
    746                                  13280                                   ;TO A FLOATING POINT NUMBER IN THE FAC
    747                                  13300   IFE     LENGTH-2,<
-   748  000004' 000000  000000*         13320           ADR(FECINT)             ;TURN FAC INTO AN INTEGER IN [H,L]
+   748  000004' 000000  000000*         13320           ADR(FRCINT)             ;TURN FAC INTO AN INTEGER IN [H,L]
    749  000005' 000000  000000'
    750  000006' 000000  000000*         13340           ADR(MAKINT)>            ;TURN [H,L] INTO A VALUE IN THE FAC
    751  000007' 000000  000000'
@@ -1243,7 +1243,7 @@ F3      MAC      6-SEP-64 03:11         RST ROUTINES
    866                                  15360   ; RETURN ADDRESS.
    867                                  15380   ;
    868  000060'                         15400   RELOC   48
-   869  000060' 001000  000343          15420           XHTL                    ;SWITCH [H,L] AND RETURN ADDRESS
+   869  000060' 001000  000343          15420           XTHL                    ;SWITCH [H,L] AND RETURN ADDRESS
    870  000061' 001000  000042          15440           SHLD    PUSHMA+1        ;FIXUP JUMP PLACE TO GO
    871  000062' 000000  000101'
    872  000063' 000000  000055'
@@ -1481,7 +1481,7 @@ F3      MAC      6-SEP-64 03:11         DISPATCH TABLES,RESERVED WORDS, ERROR TE
   1001                                  18000   IFN     LPTSW,<DCI"LLIST>
   1002                                  18060   IFN     CASSW,<DCI"CLOAD"
   1003                                  18080           DCI"CSAVE">
-  1004                                  18100   IFN     CONSW,<DCI"CONSOLE">
+  1004                                  18100   IFN     CONSSW,<DCI"CONSOLE">
   1005                  000237          18140           SCRATK=Q
   1006                                  18160   ; END OF COMMAND LIST
   1007  000371' 000000  000124          18180           "T"
@@ -1510,7 +1510,7 @@ F3      MAC      6-SEP-64 03:11         DISPATCH TABLES,RESERVED WORDS, ERROR TE
   1030  000437' 000000  000276          18900           190                     ;A GREATER THAN SIGN
   1031                  000257          18920           Q=Q+1
   1032                  000257          18940           GREATK=Q
-  1033                  000260          18980           EQUALK=Q
+  1033                  000260          18980           EQULTK=Q
   1034  000441' 000000  000274          19000           188
   1035                  000261          19020           Q=Q+1
   1036                  000261          19040           LESSTK=Q                ;A LESS THAN SIGN
@@ -2689,7 +2689,7 @@ F3      MAC      6-SEP-64 03:11         ERROR HANDLER, READY, COMPACTIFICATION, 
   1868  002064' 001000  000052          27900   DATSNE: LHLD    DATLIN          ;GET DATA LINE
   1869  002065' 000000  001577'
   1870  002066' 000000  002062'
-  1871  002067' 001000  000042          27920           SMLD    CURLIN>         ;MAKE IT CURRENT LINE
+  1871  002067' 001000  000042          27920           SHLD    CURLIN>         ;MAKE IT CURRENT LINE
   1872  002070' 000000  001607'
   1873  002071' 000000  002065'
   1874  002072' 001000  000036          27940   SNERR:  MVI     E,ERRSN         ;"SYNTAX ERROR"
@@ -3070,7 +3070,7 @@ F3      MAC      6-SEP-64 03:11         ERROR HANDLER, READY, COMPACTIFICATION, 
   2179  002423' 000000  001617'
   2180  002424' 000000  002417'
   2181                                  32220   IFN     LENGTH-2,<
-  2182                                  32240           XHA     A>
+  2182                                  32240           XRA     A>
   2183                                  32260   IFE     LENGTH-2,<
 
 
@@ -3371,7 +3371,7 @@ F3      MAC      6-SEP-64 03:11         ERROR HANDLER, READY, COMPACTIFICATION, 
   2410  002707' 000000  002703'
   2411  002710' 001000  000326          35140   NODATT: SUI     REMTK-":">
   2412  002711' 000000  000124
-  2413                                  35160   IFE     STRING,<SUI     REMRK>  ;WAS IT A REM STATEMENT
+  2413                                  35160   IFE     STRING,<SUI     REMTK>  ;WAS IT A REM STATEMENT
   2414  002712' 001000  000302          35180           JNZ     KLOOP           ;KEEP LOOPING
   2415  002713' 000000  002544'
   2416  002714' 000000  002706'
@@ -3694,10 +3694,10 @@ F3      MAC      6-SEP-64 03:11         THE "LIST" COMMAND
   2657                                  38460   IFN     LENGTH-2,<
   2658                                  38480   IFN     LPTSW,<
   2659                                  38500   LLIST:  MVI     A,1             ;GET NON ZERO VALUE
-  2660                                  38520           STA     PRTFLG>         ;ASVE IN I/O FLAG
+  2660                                  38520           STA     PRTFLG>         ;SAVE IN I/O FLAG
   2661                                  38540   LIST:   CALL    LINGET          ;GET LINE NUMBER INTO [D,E]
   2662                                  38560           RNZ                     ;MUST BE A TERMINATOR OR ERROR
-  2663                                  38580           POP     B               ;GET RID OF NEWSTT RETURN ADDT
+  2663                                  38580           POP     B               ;GET RID OF NEWSTT RETURN ADDR
   2664                                  38600           CALL    FNDLIN          ;FIND LINE GREATER THAN OR EQUAL TO [D,E]
   2665                                  38620           PUSH    B               ;SAVE START POINTER
   2666                                  38640   LIST4:  POP     H               ;GET POINTER TO LINE
@@ -3849,7 +3849,7 @@ F3      MAC      6-SEP-64 03:11         "FOR" STATEMENT
   2734  003156' 001000  000062          40000           STA     SUBFLG>         ;DONT RECOGNIZE SUBSCRIPTED VARIABLES
   2735  003157' 000000  001601'
   2736  003160' 000000  003151'
-  2737  003161' 001000  000315          40020           CALL    LET             ;EAD THE VARIABLE AND ASSIGN IT
+  2737  003161' 001000  000315          40020           CALL    LET             ;READ THE VARIABLE AND ASSIGN IT
   2738  003162' 000000  004131'
   2739  003163' 000000  003157'
   2740                                  40040                                   ;THE CORRECT INTIAL VALUE
@@ -4273,7 +4273,7 @@ F3      MAC      6-SEP-64 03:11         RESTORE,STOP,END,LINGET,CHRCON
   3027  003510' 001000  000213          44100           JZ      DIRIS           ;IF NOT SET UP FOR CONTINUE
   3028  003511' 000000  003524'
   3029  003512' 000000  003503'
-  3030  003513' 001000  000042          44120           SHLD    DLDLIN          ;SAVE OLD LINE #
+  3030  003513' 001000  000042          44120           SHLD    OLDLIN          ;SAVE OLD LINE #
   3031  003514' 000000  001611'
   3032  003515' 000000  003511'
   3033  003516' 001000  000052          44140           LHLD    TEMP            ;GET POINTER TO START OF STATEMENT
@@ -4668,7 +4668,7 @@ F3      MAC      6-SEP-64 03:11         RUN,GOTO,GOSUB,RETURN
   3287  003777' 001000  000052          47720           LHLD    CURLIN          ;GET THE CURRENT LINE #
   3288  004000' 000000  001607'
   3289  004001' 000000  003771'
-  3290  004002' 001000  000343          47740           XTHL                    ;PUT CUTLIN ON THE STACK AND [H,L]=TEXT PTR
+  3290  004002' 001000  000343          47740           XTHL                    ;PUT CURLIN ON THE STACK AND [H,L]=TEXT PTR
   3291  004003' 001000  000026          48760           MVI     D,GOSUTK        ;LEAVE A GOSUB TOKEN
   3292  004004' 000000  000214
   3293                                  47780                                   ;ON THE STACK
@@ -4811,7 +4811,7 @@ F3      MAC      6-SEP-64 03:11         RUN,GOTO,GOSUB,RETURN
   3402  004105' 001000  000310          49460           RZ
   3403  004106' 001000  000270          49480           CMP     B               ;TEST FOR THE OTHER TERMINATOR
   3404  004107' 001000  000310          49500           RZ
-  3405  004110' 001000  000043          49520           INZ     H
+  3405  004110' 001000  000043          49520           INX     H
   3406  004111' 001000  000376          49540           CPI     34              ;IS IT A QUOTE?
   3407  004112' 000000  000042
 
@@ -4986,7 +4986,7 @@ F3      MAC      6-SEP-64 03:11         "LET"
   3524  004217' 001000  000032          51200   DNTCPY: LDAX    D               ;GET THE LENGTH AND SAVE IT
   3525  004220' 001000  000365          51220           PUSH    PSW             ;SINCE WE ARE GOING TO SET IT TO
   3526                                  51240                                   ;0 SO FRETMP DOESN'T UPDATE FRETOP
-  3527  004221' 001000  000257          51260           XRA     A               ;SET IT TO 0 -- ELIMINATING NNULL
+  3527  004221' 001000  000257          51260           XRA     A               ;SET IT TO 0 -- ELIMINATING NULL
   3528                                  51280                                   ;STRING IN FRETMP IS HARMLESS
   3529  004222' 001000  000022          51300           STAX    D               ;PUT 0 IN THE LENGTH FIELD
   3530  004223' 001000  000315          51320           CALL    FRETMP          ;FREE IT UP
@@ -5233,7 +5233,7 @@ F3      MAC      6-SEP-64 03:11         IF ... THEN CODE
   3668                                  53400   IFE     STRING,<PUSH    H>      ;SAVE THE TEXT POINTER
   3669                                  53420           PUSH    PSW             ;RESAVE RELATIONAL MEMORIES
   3670                                  53440   IFN     STRING,<
-  3671                                  53460           LDA     VALTYP          ;GET VALUE TPYE
+  3671                                  53460           LDA     VALTYP          ;GET VALUE TYPE
   3672                                  53480           CMP     H               ;[H] HAS OLD VALTYP ARE THEY =?
   3673                                  53500           JNZ     TMERR           ;IF NOT ITS A TYPE ERROR
   3674                                  53520           ORA     A               ;SEE WHAT TYPE IT WAS
@@ -5311,7 +5311,7 @@ F3      MAC      6-SEP-64 03:11         IF ... THEN CODE
   3732  004402' 000000  004365'
   3733  004403' 000000  004376'
   3734                                  54320                                   ;ENOUGH
-  3735  004404' 001000  000303          54340           JMP     DOCONO>         ;FOUND THE RIGHT "ELSE" -- GO EXECUTE
+  3735  004404' 001000  000303          54340           JMP     DOCOND>         ;FOUND THE RIGHT "ELSE" -- GO EXECUTE
   3736  004405' 000000  004354'
   3737  004406' 000000  004402'
   3738
@@ -5946,7 +5946,7 @@ F3      MAC      6-SEP-64 03:11         INPUT AND READ CODE
   4191  005051' 000000  000054
   4192                                  60180           DCX     H               ;BACKUP SINCE START CHARACTER MUST BE INCLUDED
   4193  005052' 001000  000053
-  4194                                  60200                                   ;IN THE QUOTES STRING CASE WE SON'T WANT TO
+  4194                                  60200                                   ;IN THE QUOTES STRING CASE WE DON'T WANT TO
   4195                                  60220                                   ;INCLUDE THE STARTING OR ENDING QUOTE
   4196  005053' 001000  000315          60240   NOWGET: CALL    STRLT2          ;MAKE A STRING DESCRIPTOR FOR THE VALUE
   4197  005054' 000000  007643'
@@ -5967,7 +5967,7 @@ F3      MAC      6-SEP-64 03:11         INPUT AND READ CODE
 BASIC MCS 8080  GATES/ALLEN/DAVIDOFF    MACRO 47(113) 03:12 10-SEP-75 PAGE 18-4
 F3      MAC      6-SEP-64 03:11         INPUT AND READ CODE
 
-  4201  005056' 001000  000361          60280   DDASIG: POP     PSW>            ;POP OFF THE TYPE INFORMATION
+  4201  005056' 001000  000361          60280   DOASIG: POP     PSW>            ;POP OFF THE TYPE INFORMATION
   4202  005057' 001000  000353          60320           XCHG                    ;[D,E]=TEXT POINTER
   4203  005060' 001000  000041          60340           LXI     H,STRDN2        ;RETURN LOC
   4204  005061' 000000  005077'
@@ -5982,12 +5982,12 @@ F3      MAC      6-SEP-64 03:11         INPUT AND READ CODE
   4213  005072' 000000  000000*
   4214  005073' 000000  005066'
   4215                                  60460   IFE     LENGTH-2,<
-  4216  005074' 001000  000303          60480           JMP     DDASIG>         ;ASSIGNMENT IS COMPLCATD
+  4216  005074' 001000  000303          60480           JMP     DOASIG>         ;ASSIGNMENT IS COMPLICATED
   4217  005075' 000000  005056'
   4218  005076' 000000  005072'
   4219                                  60500                                   ;EVEN FOR NUMERICS SO USE THE "LET" CODE
   4220                                  60520   IFN     LENGTH-2,<
-  4221                                  60540           XTHL                    ;[H,L] GET POINTER AT BARIABLE
+  4221                                  60540           XTHL                    ;[H,L] GET POINTER AT VARIABLE
   4222                                  60560           CALL    MOVMF           ;DO THE ASSIGNMENT
   4223                                  60580           POP     H>>             ;GET BACK THE TEXT POINTER
   4224                                  60600   STRDN2:
@@ -6542,7 +6542,7 @@ F3      MAC      6-SEP-64 03:11         FORMULA EVALUATION CODE
   4559  005406' 001000  000042          01420           SHLD    TEMP3           ;SAVE CHARACTER POINTER
   4560  005407' 000000  001575'
   4561  005410' 000000  005404'
-  4562  005411' 001000  000327          01440           CHRGET                  LGET THE NEXT CANDIDATE
+  4562  005411' 001000  000327          01440           CHRGET                  ;GET THE NEXT CANDIDATE
   4563  005412' 001000  000303          01460           JMP     LOPREL
   4564  005413' 000000  005363'
   4565  005414' 000000  005407'
@@ -6671,9 +6671,9 @@ F3      MAC      6-SEP-64 03:11         FORMULA EVALUATION CODE
   4660                                  03060           PUSH    B               ;PLACE TO RETURN TO AFTER OPERATOR APPLICATION
   4661  005462' 001000  000305
   4662  005463' 001000  000172          03080           MOV     A,D             ;SEE IF THE OPERATOR IS EXPONENTIATION
-  4663  005464' 001000  000376          03100           CPI     127             ;WHICH AHS PRECEDENCE 127
+  4663  005464' 001000  000376          03100           CPI     127             ;WHICH HAS PRECEDENCE 127
   4664  005465' 000000  000177
-  4665                                  03120           JZ      EXPSTK          ;IF SO, "FRCSNG" AND MAKE A SECPIAL STACK ENTRY
+  4665                                  03120           JZ      EXPSTK          ;IF SO, "FRCSNG" AND MAKE A SPECIAL STACK ENTRY
   4666  005466' 001000  000312
   4667  005467' 000000  005553'
   4668  005470' 000000  005460'
@@ -6922,10 +6922,10 @@ F3      MAC      6-SEP-64 03:11         FORMULA EVALUATION CODE
   4855  005702' 001000  000312          05160           JZ      TMERR           ;BLUE UP ON RIGHT HAND STRING OPERAND
   4856  005703' 000000  005504*
   4857  005704' 000000  005700'
-  4858  005705' 001000  000041          05180           LXI     H,INTOSP        ;INTEGER INTEGER CASE
+  4858  005705' 001000  000041          05180           LXI     H,INTDSP        ;INTEGER INTEGER CASE
   4859  005706' 000000  000716'
   4860  005707' 000000  005703'
-  4861  005710' 001000  000006          05200           MVI     B,0             ;SPECIAL DISPAYCH FOR SPEED
+  4861  005710' 001000  000006          05200           MVI     B,0             ;SPECIAL DISPATCH FOR SPEED
   4862  005711' 000000  000000
   4863  005712' 001000  000011          05220           DAD     B               ;[H,L] POINTS TO THE ADDRESS TO GO TO
   4864  005713' 001000  000011          05240           DAD     B
@@ -7066,7 +7066,7 @@ F3      MAC      6-SEP-64 03:11         FORMULA EVALUATION CODE
   4971  006035' 001000  000315          06620           CALL    PUSHF           ;SAVE THE FAC ON THE STACK
   4972  006036' 000000  005557*
   4973  006037' 000000  006032'
-  4974  006040' 001000  000315          06640           CALL    CONSIM          ;CONVERT [H,L] TO A SINGLE PRECISION
+  4974  006040' 001000  000315          06640           CALL    CONSIH          ;CONVERT [H,L] TO A SINGLE PRECISION
   4975  006041' 000000  000000*
   4976  006042' 000000  006036'
   4977                                  06660                                   ;NUMBER IN THE FAC
@@ -7081,7 +7081,7 @@ F3      MAC      6-SEP-64 03:11         FORMULA EVALUATION CODE
   4986  006053' 001000  000042          06760           SHLD    FACLO
   4987  006054' 000000  001637'
   4988  006055' 000000  006050'
-  4989  006056' 001000  000303          06700           JMP     SNGDO>          ;ERFORM THE OPERATION
+  4989  006056' 001000  000303          06700           JMP     SNGDO>          ;PERFORM THE OPERATION
   4990  006057' 000000  006026'
   4991  006060' 000000  006054'
   4992
@@ -7158,7 +7158,7 @@ F3      MAC      6-SEP-64 03:11         FORMULA EVALUATION CODE
   5049                                  07400                                   ;NUMBERED CHARACTERS ALLOWED
   5050                                  07420                                   ;SO THERE IS NO NEED TO CHECK
   5051                                  07440                                   ;THE UPPER BOUND
-  5052  006136' 001000  000317          07460   PATCHK: SYNCHK  "("             ;ONLY POSSIBILITY LEFT
+  5052  006136' 001000  000317          07460   PARCHK: SYNCHK  "("             ;ONLY POSSIBILITY LEFT
 
 
 
@@ -7379,7 +7379,7 @@ F3      MAC      6-SEP-64 03:11         FORMULA EVALUATION CODE
   5214  006277' 000000  000103'
   5215  006300' 000000  006273'
   5216  006301' 001000  000011          09760           DAD     B               ;ADD ON THE OFFSET
-  5217                                  09780   CIFE    LENGTH,<
+  5217                                  09780   IFE     LENGTH,<
   5218                                  09800           PUSHM
   5219                                  09820           RET>                    ;GO TO THE ADDRESS POINTED TO BY [H,L]
   5220                                  09840   IFN     LENGTH,<
@@ -8923,7 +8923,7 @@ F3      MAC      6-SEP-64 03:11         SIMPLE-USER-DEFINED-FUNCTION CODE
   6346  007445' 000000  007441'
   6347                                  27280                                   ;THE FUNCTON DEFINITION IN [D,E]
   6348  007446' 001000  000325          27300           PUSH    D               ;SAVE THE POINTER
-  6349  007447' 001000  000315          27320           CALL    PARKCHK         ;EVALUATE THE VALUE TO BE PASSED
+  6349  007447' 001000  000315          27320           CALL    PARCHK          ;EVALUATE THE VALUE TO BE PASSED
   6350  007450' 000000  006136'
   6351  007451' 000000  007444'
   6352                                  27340   IFN     LENGTH-2,<
@@ -9902,7 +9902,7 @@ F3      MAC      6-SEP-64 03:11         STRING FUNCTIONS
   7081  010515' 001000  000315          37460   ASC:    CALL    LEN1            ;SET UP ORIGINAL STR
   7082  010516' 000000  010505'
   7083  010517' 000000  010506'
-  7084  010520' 001000  000312          37480           JNZ     FCERR           ;NULL STR, BAD ARD.
+  7084  010520' 001000  000312          37480           JNZ     FCERR           ;NULL STR, BAD ARG.
   7085  010521' 000000  010776'
   7086  010522' 000000  010516'
   7087  010523' 001000  000043          37500           INX     H               ;BUMP POINTER
@@ -10162,7 +10162,7 @@ F3      MAC      6-SEP-64 03:11         STRING FUNCTIONS
   7285  010761' 000000  010754'
   7286  010762' 000000  010751'
   7287                                  40200                                   ;NOTE: THIS LOOP CANNOT BE CONTROL-C'ED
-  7288                                  40220                                   ;UNLESS THE AIT IS BEING DONE ON CHANNEL
+  7288                                  40220                                   ;UNLESS THE WAIT IS BEING DONE ON CHANNEL
   7289                                  40240                                   ;ZERO. HOWEVER A RESTART AT 0 IS OK.
   7290  010763' 001000  000311          40260           RET>
   7291                                  40280   IFN     STRING,<
@@ -11544,7 +11544,7 @@ DIMFLG    1596#   5531    5877    5910    5963    6050    6102
 DIRIS     3028    3039#
 DMULT      168#   1149
 DNTCPY    3513    3524#
-DDASIG    4201#   4217
+DOASIG    4201#   4217
 DOCMP     4787    5396#
 DOCOND    3700#   3736
 DODSP     4905#   4964
@@ -17940,7 +17940,7 @@ F4      MAC     23-AUG-64 06:08         FLOATING POINT OUTPUT ROUTINE
   3273                                  54920           ;PR ELSE FOUTZS WOULD HAVE SUPPRESSED IT, SO WE CAN JUST "INX   H"
   3274                                  54940           ;OVER THE CHARACTER FOLLOWING THE ZERO, AND NOT CHECK FOR THE
   3275                                  54960           ;DECIMAL POINT EXPLICITLY.
-  3276                                  54980   FOUBE2: PUSH    PSE             ;PUT THE LAST CHARACTER ON THE STACK.  THE
+  3276                                  54980   FOUBE2: PUSH    PSW             ;PUT THE LAST CHARACTER ON THE STACK.  THE
   3277                                  55000                                   ; ZERO FLAG IS SET.  THE FIRST TIME THE ZERO
   3278                                  55020                                   ; ZERO FLAG IS NOT SET.
   3279                                  55040           LXI     B,FOUBE2        ;GET THE ADDRESS WE GO TO IF WE SEE A CHARACTER
@@ -18192,7 +18192,7 @@ F4      MAC     23-AUG-64 06:08         FLOATING POINT OUTPUT ROUTINE
   3469                                  58800                                   ; BE PRINTED ARE IN THE INTEGER PART
   3470                                  58820           POP     H               ;GET THE BUFFER POINTER BACK
   3471                                  58840           POP     B               ;GET THE FIELD LENGTH SPECS
-  3472                                  58860           PUSH    PSW             ;SAAVE THE EXPONENT
+  3472                                  58860           PUSH    PSW             ;SAVE THE EXPONENT
   3473                                  58880           MOV     A,C             ;CALCULATE HOW MANY SIGNIFICANT DIGITS WE MUST
   3474                                  58900           ORA     A               ; PRINT
   3475                                  58920           PUSH    PSW             ;SAVE THE "C" FIELD SPEC FOR LATER
@@ -18263,7 +18263,7 @@ F4      MAC     23-AUG-64 06:08         FLOATING POINT OUTPUT ROUTINE
   3526                                  59900           ;NORMALIZE A SNG
   3527                                  59920           XRA     A               ;ZERO THE EXPONENT
   3528                                  59940           PUSH    PSW             ;SAVE IT
-  3529                                  59960           CALL    FOUNDSC         ;IS THE FAC TOO BIG OR TOO SMALL?
+  3529                                  59960           CALL    FOUNSC         ;IS THE FAC TOO BIG OR TOO SMALL?
   3530                                  59980   FOUNS1: MOVRI   221,103,117,370 ;GET 99999.9499 TO SEE IF THE FAC IS BIG
   3531                                  60000           CALL    FCOMP           ; ENOUGH YET
   3532                                  60020           JPO     FOUNS3          ;IT IS, WE ARE DONE
@@ -20187,7 +20187,7 @@ C               000001          FACLO           002430' EXT     FOUT12          
 CASSW           000001  SPD     FADD            000025' INT     FOUT14          002252'
 CNLCA1          000000  EXT     FADD1           000057'         FOUT15          002254'
 CNLCA2          000000  EXT     FADD3           000125'         FOUT17          002271'
-CNLCS3          000000  EXT     FAADA           000274'         FOUT19          002266'
+CNLCS3          000000  EXT     FADDA           000274'         FOUT19          002266'
 CNLCS4          000000  EXT     FADDH           000000'         FOUT3           002034'
 CNTWFL          003417' EXT     FADDS           000003' INT     FOUT5           002071'
 CONSSW          000000  SPD     FADDT           000023' INT     FOUT6           002124'
@@ -20530,7 +20530,7 @@ INPRT       90    2701#
 INRART      90    1070#
 INT         89    1602#   3656    3725    3995
 INTXT     2703#   2703
-INXMRT      90    1226#   2854    2914
+INXHRT      90    1226#   2854    2914
 L          290     342     354     355     392     496     499     502     505     537     539     678     765     767
            817     875     878     971    1200    4576    4577
 LASTWR    4353    4819#
