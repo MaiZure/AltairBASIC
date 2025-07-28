@@ -1680,7 +1680,7 @@
 34600           ORA     A               ;SET CONDITION CODES
 34620           JP      NXTRES          ;IF SIGN SET, RESERVED WORD FOUND
 34640   FOUND:  POP     PSW             ;TAKE OFF GARBAGE ORIG POINTER
-34660           MOV     A,8             ;GET RESERVED WORD #
+34660           MOV     A,B             ;GET RESERVED WORD #
 34680           ORI     128             ;SET MSB TO FLAG AS RESERVED WORD
 34700           XWD     ^O1000,^O362    ;"JP" AROUND THE POP H AND MOV A,M
 34720   TABEND: POP     H               ;GET BACK ORIG POINTER
@@ -1722,10 +1722,10 @@
 35460           PUSH    H               ;AND SAVE IT BACK
 35480           INR     B               ;INCREMENT RESERVED WORD #
 35500           XCHG                    ;RESLST POINTER INTO [H,L]
-35520   NTHIS1: ORA     H               ;TEST BITS IN THE RESERVED WORD LIST
+35520   NTHIS1: ORA     M               ;TEST BITS IN THE RESERVED WORD LIST
 35540           INX     H
 35560           JP      NTHIS1          ;SKIP MORE
-35580           XCHG                    ;RESLST POINTER INTO [H,L]
+35580           XCHG                    ;RESLST POINTER INTO [D,E]
 35600                                   ;TEXT POINTER INTO [H,L]
 35620           JMP     RESER           ;DONE, MOVE TO NEXT RESERVED WORD
 35640   CRDONE: LXI     H,BUFMIN        ;LEAVE WITH [H,L] POINTER TO START OF LINE

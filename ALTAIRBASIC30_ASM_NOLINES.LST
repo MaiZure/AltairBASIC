@@ -1680,7 +1680,7 @@ RESER:  LDAX    D               ;GET A BYTE FROM RESERVED WORD LIST
         ORA     A               ;SET CONDITION CODES
         JP      NXTRES          ;IF SIGN SET, RESERVED WORD FOUND
 FOUND:  POP     PSW             ;TAKE OFF GARBAGE ORIG POINTER
-        MOV     A,8             ;GET RESERVED WORD #
+        MOV     A,B             ;GET RESERVED WORD #
         ORI     128             ;SET MSB TO FLAG AS RESERVED WORD
         XWD     ^O1000,^O362    ;"JP" AROUND THE POP H AND MOV A,M
 TABEND: POP     H               ;GET BACK ORIG POINTER
@@ -1722,10 +1722,10 @@ NTHIS:  POP     H               ;RESTORE TEXT STRING
         PUSH    H               ;AND SAVE IT BACK
         INR     B               ;INCREMENT RESERVED WORD #
         XCHG                    ;RESLST POINTER INTO [H,L]
-NTHIS1: ORA     H               ;TEST BITS IN THE RESERVED WORD LIST
+NTHIS1: ORA     M               ;TEST BITS IN THE RESERVED WORD LIST
         INX     H
         JP      NTHIS1          ;SKIP MORE
-        XCHG                    ;RESLST POINTER INTO [H,L]
+        XCHG                    ;RESLST POINTER INTO [D,E]
                                 ;TEXT POINTER INTO [H,L]
         JMP     RESER           ;DONE, MOVE TO NEXT RESERVED WORD
 CRDONE: LXI     H,BUFMIN        ;LEAVE WITH [H,L] POINTER TO START OF LINE
