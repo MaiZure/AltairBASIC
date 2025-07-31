@@ -426,7 +426,7 @@ LOW LOCATIONS
                 BE CHECKED FOR. UNARY OPERATORS (NOT AND
                 NEGATION)  PUT THEIR PRECEDENCE ON THE STACK
                 AND ENTER FORMULA EVALUATION AT STEP 1, SO
-                THAT EVERYTHING UP TO AN OPERATOR GTEATER THAN
+                THAT EVERYTHING UP TO AN OPERATOR GREATER THAN
                 THEIR PRECEDENCE OR THE END OF THE FORMULA
                 WILL BE EVALUATED. WHEN FRMEVL DOES A RETURN
                 BECAUSE IT SEES AN OPERATOR OF HIGHER PRECEDENCE
@@ -1669,7 +1669,7 @@ IFE     STRING,<
         LXI     D,RESLST-1      ;INIT TO RESERVED WORD LIST
         PUSH    H               ;SAVE IN BUF POINTER
         XWD     ^O1000,^O76     ;"MVI" AROUND CHRGET
-NEXRES: CHRGET                  ;GET CHAR FROM LINE
+NXTRES: CHRGET                  ;GET CHAR FROM LINE
         INX     D               ;BUMP DEPOSIT POINTER
 RESER:  LDAX    D               ;GET A BYTE FROM RESERVED WORD LIST
         ANI     127             ;GET RID OF SIGN BIT
@@ -2573,9 +2573,9 @@ IFN     STRING,<
 IFE     LENGTH,<
         CALL    PUSHF           ;ONTO THE STACK
         MVI     D,0             ;KEEPS RELATIONAL OPERATOR MEMORIES
-                                ;LESS THAN #4
-                                ;EQUAL     #2
-                                ;GREATER THAN #1
+                                ;LESS THAN =4
+                                ;EQUAL     =2
+                                ;GREATER THAN =1
 LOOPIF: SUI     GREATK          ;CHECK FOR A RELATIONAL OPERATOR
         JC      ENDREL          ;NOPE
 NUMREL=LESSTK-GREATK+1          ;NUMBER OF RELATIONAL OPERATORS
@@ -3284,7 +3284,7 @@ IFE     LENGTH,<
         JMP     LPOPER>         ;PUT ON PRECEDENCE AND LOOK AT A
                                 ;NEW OPERATOR
 IFE     LENGTH-2,<
-        PUSH    B               LSAVE THE OLD PRECEDENCE
+        PUSH    B               ;SAVE THE OLD PRECEDENCE
         LXI     B,RETAOP        ;PUT ON THE ADDRESS OF THE
         PUSH    B               ;PLACE TO RETURN TO AFTER OPERATOR APPLICATION
         MOV     A,D             ;SEE IF THE OPERATOR IS EXPONENTIATION
@@ -3413,7 +3413,7 @@ APPLOP: POP     B               ;[B]=STACK OPERAND VALUE TYPE
         MVI     B,0             ;SPECIAL DISPATCH FOR SPEED
         DAD     B               ;[H,L] POINTS TO THE ADDRESS TO GO TO
         DAD     B
-        MOV     C,M             ;[B,C]=ROUINE ADDRESS
+        MOV     C,M             ;[B,C]=ROUTINE ADDRESS
         INX     H
         MOV     B,M
         POP     D               ;[D,E]=LEFT HAND OPERAND
@@ -3607,14 +3607,14 @@ NUMGFN==2*LASNUM-2*ONEFUN+1
         CALL    CHKSTR          ;MAKE SURE THE FIRST ONE WAS STRING
         XCHG                    ;[D,E]=TXTPTR
         LHLD    FACLO           ;GET PTR AT STRING DESCRIPTOR
-        XTML                    ;GET FUNCTION #
+        XTHL                    ;GET FUNCTION #
                                 ;SAVE THE STRING PTR
         PUSH    H               ;PUT THE FUNCTION # ON
         XCHG                    ;[H,L]=TXTPTR
         CALL    GETBYT          ;[E]=VALUE OF FORMULA
         XCHG                    ;TEXT POINTER INTO [D,E]
                                 ;[H,L]=INT VALUE OF SECOND ARGUMENT
-        XTML                    ;SAVE INT VALUE OF SECOND ARG
+        XTHL                    ;SAVE INT VALUE OF SECOND ARG
                                 ;[H,L]=FUNCTION NUMBER
         JMP     FINGO>          ;DISPATCH TO FUNCTION
 OKNORM: CALL    PARCHK          ;MAKE SURE ITS THERE.
@@ -3848,14 +3848,14 @@ NOTER:  MVI     D,90            ;"NOT" HAS PRECEDENCE OF 90, SO
         CMA
         MOV     H,A
         SHLD    FACLO           ;UPDATE THE FAC
-        POP     0               ;FRMEVL, AFTER SEEING THE PRECEDENCE
+        POP     B               ;FRMEVL, AFTER SEEING THE PRECEDENCE
                                 ;OF 90 THINKS IT IS APPLYING AN OPERATOR
                                 ;SO IT HAS THE TEXT POINTER IN TEMP2 SO
         JMP     RETAOP          ;RETURN TO REFETCH IT
 ;
 ; DANDOR APPLIES THE "AND" AND "OR" OPERATORS
 ; AND SHOULD BE USED TO IMPLEMENT ALL LOGICAL OPERATORS.
-; WHENEVER AN OPERATOR IS APPLIED, ITS PRECEDENCE IS IN[B].
+; WHENEVER AN OPERATOR IS APPLIED, ITS PRECEDENCE IS IN [B].
 ; THIS FACT IS USED TO DISTINGUISH BETWEEN "AND" AND "OR".
 ; THE RIGHT HAND ARGUMENT IS COERCED TO INTEGER, JUST AS
 ; THE LEFT HAND ONE WAS WHEN IT WAS PUSHED ON THE STACK.
@@ -7742,9 +7742,9 @@ FINEF2: CP      FINMUL          ;MULTIPLY IF WE HAVE TO
         CPI     4               ; IT WOULD BE A SNG
         RNZ                     ;IT IS NOT SNG, SO IT IS NOT -32768
         PUSH    H               ;WE HAVE A SNG, SAVE TEXT POINTER
-        LXI     H,POPMRT        ;GET ADDRESS THAT POP'S H OFF STACK BECAUSE
-        PUSH    H               ; CONIS2 DOES FUNN THINGS WITH THE STACK
-        CALL    CONIS2          ;CHECK IF WE AHVE -32768
+        LXI     H,POPHRT        ;GET ADDRESS THAT POP'S H OFF STACK BECAUSE
+        PUSH    H               ; CONIS2 DOES FUNNY THINGS WITH THE STACK
+        CALL    CONIS2          ;CHECK IF WE HAVE -32768
         RET                     ;WE DON'T, POPHRT IS STILL ON THE STACK SO
                                 ; WE CAN JUST RETURN
 
@@ -9235,7 +9235,7 @@ FINFUN: POP     D               ;POP OFF CANDIDATE FOR START OF
         JNZ     ASKAGN          ;MAKE HIM START OVER
         PUSHM                   ;PUSH ON FUNCTION CALL
                                 ;LOCATION THAT WE FIX UP
-        XTML                    ;[H,L]=FIXUP PLACE
+        XTHL                    ;[H,L]=FIXUP PLACE
                                 ;POINTER INTO TBLDO GOES ON THE STACK
         LXI     D,ILLFUN        ;THIS IS WHAT WE STORE
         MOV     M,E
