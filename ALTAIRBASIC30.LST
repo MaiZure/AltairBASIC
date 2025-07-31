@@ -706,7 +706,7 @@ F3      MAC      6-SEP-64 03:11         SOME EXPLANATION
    467                                  07740                   BE CHECKED FOR. UNARY OPERATORS (NOT AND
    468                                  07760                   NEGATION)  PUT THEIR PRECEDENCE ON THE STACK
    469                                  07780                   AND ENTER FORMULA EVALUATION AT STEP 1, SO
-   470                                  07800                   THAT EVERYTHING UP TO AN OPERATOR GTEATER THAN
+   470                                  07800                   THAT EVERYTHING UP TO AN OPERATOR GREATER THAN
    471                                  07820                   THEIR PRECEDENCE OR THE END OF THE FORMULA
    472                                  07840                   WILL BE EVALUATED. WHEN FRMEVL DOES A RETURN
    473                                  07860                   BECAUSE IT SEES AN OPERATOR OF HIGHER PRECEDENCE
@@ -3299,7 +3299,7 @@ F3      MAC      6-SEP-64 03:11         ERROR HANDLER, READY, COMPACTIFICATION, 
   2352  002622' 000000  002615'
   2353  002623' 001000  000345          34400           PUSH    H               ;SAVE IN BUF POINTER
   2354  002624' 001000  000076          34420           XWD     ^O1000,^O76     ;"MVI" AROUND CHRGET
-  2355  002625' 001000  000327          34440   NEXRES: CHRGET                  ;GET CHAR FROM LINE
+  2355  002625' 001000  000327          34440   NXTRES: CHRGET                  ;GET CHAR FROM LINE
   2356  002626' 001000  000023          34460           INX     D               ;BUMP DEPOSIT POINTER
   2357  002627' 001000  000032          34480   RESER:  LDAX    D               ;GET A BYTE FROM RESERVED WORD LIST
   2358  002630' 001000  000346          34500           ANI     127             ;GET RID OF SIGN BIT
@@ -5175,9 +5175,9 @@ F3      MAC      6-SEP-64 03:11         IF ... THEN CODE
   3624                                  52660   IFE     LENGTH,<
   3625                                  52680           CALL    PUSHF           ;ONTO THE STACK
   3626                                  52700           MVI     D,0             ;KEEPS RELATIONAL OPERATOR MEMORIES
-  3627                                  52720                                   ;LESS THAN #4
-  3628                                  52740                                   ;EQUAL     #2
-  3629                                  52760                                   ;GREATER THAN #1
+  3627                                  52720                                   ;LESS THAN =4
+  3628                                  52740                                   ;EQUAL     =2
+  3629                                  52760                                   ;GREATER THAN =1
   3630                                  52780   LOOPIF: SUI     GREATK          ;CHECK FOR A RELATIONAL OPERATOR
   3631                                  52800           JC      ENDREL          ;NOPE
   3632                                  52820   NUMREL=LESSTK-GREATK+1          ;NUMBER OF RELATIONAL OPERATORS
@@ -6664,7 +6664,7 @@ F3      MAC      6-SEP-64 03:11         FORMULA EVALUATION CODE
   4653                                  02960                                   ;NEW OPERATOR
   4654
   4655                                  03000   IFE     LENGTH-2,<
-  4656  005456' 001000  000305          03020           PUSH    B               LSAVE THE OLD PRECEDENCE
+  4656  005456' 001000  000305          03020           PUSH    B               ;SAVE THE OLD PRECEDENCE
   4657  005457' 001000  000001          03040           LXI     B,RETAOP        ;PUT ON THE ADDRESS OF THE
   4658  005460' 000000  005354'
   4659  005461' 000000  005447'
@@ -6929,7 +6929,7 @@ F3      MAC      6-SEP-64 03:11         FORMULA EVALUATION CODE
   4862  005711' 000000  000000
   4863  005712' 001000  000011          05220           DAD     B               ;[H,L] POINTS TO THE ADDRESS TO GO TO
   4864  005713' 001000  000011          05240           DAD     B
-  4865  005714' 001000  000116          05260           MOV     C,M             ;[B,C]=ROUINE ADDRESS
+  4865  005714' 001000  000116          05260           MOV     C,M             ;[B,C]=ROUTINE ADDRESS
   4866  005715' 001000  000043          05280           INX     H
   4867  005716' 001000  000106          05300           MOV     B,M
   4868  005717' 001000  000321          05320           POP     D               ;[D,E]=LEFT HAND OPERAND
@@ -7316,7 +7316,7 @@ F3      MAC      6-SEP-64 03:11         FORMULA EVALUATION CODE
   5165  006233' 001000  000052          09140           LHLD    FACLO           ;GET PTR AT STRING DESCRIPTOR
   5166  006234' 000000  001637'
   5167  006235' 000000  006230'
-  5168  006236' 001000  000343          09160           XTML                    ;GET FUNCTION #
+  5168  006236' 001000  000343          09160           XTHL                    ;GET FUNCTION #
   5169                                  09180                                   ;SAVE THE STRING PTR
   5170  006237' 001000  000345          09200           PUSH    H               ;PUT THE FUNCTION # ON
   5171  006240' 001000  000353          09220           XCHG                    ;[H,L]=TXTPTR
@@ -7325,7 +7325,7 @@ F3      MAC      6-SEP-64 03:11         FORMULA EVALUATION CODE
   5174  006243' 000000  006234'
   5175  006244' 001000  000353          09260           XCHG                    ;TEXT POINTER INTO [D,E]
   5176                                  09280                                   ;[H,L]=INT VALUE OF SECOND ARGUMENT
-  5177  006245' 001000  000343          09300           XTML                    ;SAVE INT VALUE OF SECOND ARG
+  5177  006245' 001000  000343          09300           XTHL                    ;SAVE INT VALUE OF SECOND ARG
   5178                                  09320                                   ;[H,L]=FUNCTION NUMBER
   5179  006246' 001000  000303          09340           JMP     FINGO>          ;DISPATCH TO FUNCTION
   5180  006247' 000000  006276'
@@ -7667,7 +7667,7 @@ F3      MAC      6-SEP-64 03:11         FORMULA EVALUATION CODE
   5446  006430' 001000  000042          14880           SHLD    FACLO           ;UPDATE THE FAC
   5447  006431' 001000  001637'
   5448  006432' 000000  006420'
-  5449  006433' 001000  000301          13900           POP     0               ;FRMEVL, AFTER SEEING THE PRECEDENCE
+  5449  006433' 001000  000301          13900           POP     B               ;FRMEVL, AFTER SEEING THE PRECEDENCE
   5450                                  13910                                   ;OF 90 THINKS IT IS APPLYING AN OPERATOR
   5451                                  13915                                   ;SO IT HAS THE TEXT POINTER IN TEMP2 SO
   5452
@@ -7677,7 +7677,7 @@ F3      MAC      6-SEP-64 03:11         FORMULA EVALUATION CODE
   5456                                  14042   ;
   5457                                  14044   ; DANDOR APPLIES THE "AND" AND "OR" OPERATORS
   5458                                  14046   ; AND SHOULD BE USED TO IMPLEMENT ALL LOGICAL OPERATORS.
-  5459                                  14048   ; WHENEVER AN OPERATOR IS APPLIED, ITS PRECEDENCE IS IN[B].
+  5459                                  14048   ; WHENEVER AN OPERATOR IS APPLIED, ITS PRECEDENCE IS IN [B].
   5460                                  14050   ; THIS FACT IS USED TO DISTINGUISH BETWEEN "AND" AND "OR".
   5461                                  14052   ; THE RIGHT HAND ARGUMENT IS COERCED TO INTEGER, JUST AS
   5462                                  14054   ; THE LEFT HAND ONE WAS WHEN IT WAS PUSHED ON THE STACK.
@@ -16932,9 +16932,9 @@ F4      MAC     23-AUG-64 06:08         FLOATING POINT INPUT ROUTINE
   2512                                  42080           CPI     4               ; IT WOULD BE A SNG
   2513                                  42100           RNZ                     ;IT IS NOT SNG, SO IT IS NOT -32768
   2514                                  42120           PUSH    H               ;WE HAVE A SNG, SAVE TEXT POINTER
-  2515                                  42140           LXI     H,POPMRT        ;GET ADDRESS THAT POP'S H OFF STACK BECAUSE
-  2516                                  42160           PUSH    H               ; CONIS2 DOES FUNN THINGS WITH THE STACK
-  2517                                  42180           CALL    CONIS2          ;CHECK IF WE AHVE -32768
+  2515                                  42140           LXI     H,POPHRT        ;GET ADDRESS THAT POP'S H OFF STACK BECAUSE
+  2516                                  42160           PUSH    H               ; CONIS2 DOES FUNNY THINGS WITH THE STACK
+  2517                                  42180           CALL    CONIS2          ;CHECK IF WE HAVE -32768
   2518                                  42200           RET                     ;WE DON'T, POPHRT IS STILL ON THE STACK SO
   2519                                  42220                                   ; WE CAN JUST RETURN
   2520                                  42240
@@ -19707,7 +19707,7 @@ F4      MAC     23-AUG-64 06:08         SYSTEM INITIALIZATION CODE
   4484                                  72580           JNZ     ASKAGN          ;MAKE HIM START OVER
   4485                                  72600           PUSHM                   ;PUSH ON FUNCTION CALL
   4486                                  72620                                   ;LOCATION THAT WE FIX UP
-  4487                                  72640           XTML                    ;[H,L]=FIXUP PLACE
+  4487                                  72640           XTHL                    ;[H,L]=FIXUP PLACE
   4488                                  72660                                   ;POINTER INTO TBLDO GOES ON THE STACK
   4489                                  72680           LXI     D,ILLFUN        ;THIS IS WHAT WE STORE
   4490                                  72700           MOV     M,E
