@@ -6794,7 +6794,7 @@ F3      MAC      6-SEP-64 03:11         FORMULA EVALUATION CODE
   4755  005574' 000000  005567'
   4756  005575' 001000  000321          04080           POP     D               ;[D]=PRECEDENCE
   4757  005576' 001000  000345          04100           PUSH    H               ;PUSH THE LEFT HAND OPERAND
-  4758  005577' 001000  000001          04120           LXI     FINTMP          ;"AND" AND "OR" DOER
+  4758  005577' 001000  000001          04120           LXI     B,DANDOR        ;"AND" AND "OR" DOER
   4759  005600' 000000  006437'
   4760  005601' 000000  005573'
   4761  005602' 001000  000303          04140           JMP     FINTMP          ;PUSH ON THIS ADDRESS,PRECEDENCE
@@ -7147,7 +7147,7 @@ F3      MAC      6-SEP-64 03:11         FORMULA EVALUATION CODE
   5038                                  07300   IFN     FUNCTS,<
   5039  006124' 001000  000376          07320           CPI     FNTK            ;USER-DEFINED FUNCTION?
   5040  006125' 000000  000243
-  5041  006126' 001000  000312          07340           JZ      FNDDER>
+  5041  006126' 001000  000312          07340           JZ      FNDOER>
   5042  006127' 000000  007443'
   5043  006130' 000000  006122'
   5044  006131' 001000  000326          07360           SUI     ONEFUN          ;IS IT A FUNCTION NAME?
@@ -11643,7 +11643,7 @@ FLOATR    143#
 FMULT     1159    1159#
 FNOFOR    1735#   2745    3357    4381
 FNDLIN    1989    2148#   3333    7523
-FNDDER    5042    6344#
+FNDOER    5042    6344#
 FNDVAR    6706#   6908
 
 
@@ -15095,7 +15095,7 @@ F4      MAC     23-AUG-64 06:08         FLOATING POINT MOVEMENT ROUTINES
   1284
   1285                                  19200   IFE     LENGTH-2,<
   1286                                  19220   REPEAT  0,<                     ;VPUSHF WILL BE IN-LINE IN F3
-  1287                                  19240           ;PUT ANY TIME VALUE ON THE STACK FROM FAC
+  1287                                  19240           ;PUT ANY TYPE VALUE ON THE STACK FROM FAC
   1288                                  19260           ;STRINGS ARE TREATED AS INTEGERS
   1289                                  19280           ;ALTERS A,B,C,H,L
   1290                                  19300   VPUSHF: LDA     VALTYP          ;GET THE VALUE TYPE
@@ -17266,7 +17266,7 @@ F4      MAC     23-AUG-64 06:08         FLOATING POINT OUTPUT ROUTINE
   2739                                  46080           ;ALTERS ALL REGISTERS
   2740                                  46100           ;THE ORIGINAL CONTENTS OF THE FAC IS LOST
   2741                                  46120   IFN     LENGTH-2,<
-  2742  002001' 001000  000041          46140   FOUT1:  LXI     H,FBUFFR        ;GET BEGINING OF CHARACTER BUFFER
+  2742  002001' 001000  000041          46140   FOUT:   LXI     H,FBUFFR        ;GET BEGINING OF CHARACTER BUFFER
   2743  002002' 000000  000000*
   2744  002003' 000000  001776'
   2745  002004' 001000  000345          46160           PUSH    H               ;SAVE IT FOR WHEN WE RETURN
