@@ -3346,7 +3346,7 @@ ANDORD: PUSH    D               ;SAVE THE PRECEDENCE (70 OR 80)
         CALL    FRCINT
         POP     D               ;[D]=PRECEDENCE
         PUSH    H               ;PUSH THE LEFT HAND OPERAND
-        LXI     FINTMP          ;"AND" AND "OR" DOER
+        LXI     B,DANDOR        ;"AND" AND "OR" DOER
         JMP     FINTMP          ;PUSH ON THIS ADDRESS,PRECEDENCE
                                 ;AND CONTINUE EVALUATION
 ;
@@ -3516,7 +3516,7 @@ IFN     LENGTH,<
         JZ      NOTER>
 IFN     FUNCTS,<
         CPI     FNTK            ;USER-DEFINED FUNCTION?
-        JZ      FNDDER>
+        JZ      FNDOER>
         SUI     ONEFUN          ;IS IT A FUNCTION NAME?
         JNC     ISFUN           ;FUNCTIONS ARE THE HIGHEST
                                 ;NUMBERED CHARACTERS ALLOWED
@@ -6607,7 +6607,7 @@ UNPACK: LXI     H,FAC-1         ;POINT TO HO AND SIGN
         RET                     ;ALL DONE
 IFE     LENGTH-2,<
 REPEAT  0,<                     ;VPUSHF WILL BE IN-LINE IN F3
-        ;PUT ANY TIME VALUE ON THE STACK FROM FAC
+        ;PUT ANY TYPE VALUE ON THE STACK FROM FAC
         ;STRINGS ARE TREATED AS INTEGERS
         ;ALTERS A,B,C,H,L
 VPUSHF: LDA     VALTYP          ;GET THE VALUE TYPE
@@ -7933,7 +7933,7 @@ IFE     LENGTH-2,<
         ;ALTERS ALL REGISTERS
         ;THE ORIGINAL CONTENTS OF THE FAC IS LOST
 IFN     LENGTH-2,<
-FOUT1:  LXI     H,FBUFFR        ;GET BEGINING OF CHARACTER BUFFER
+FOUT:   LXI     H,FBUFFR        ;GET BEGINING OF CHARACTER BUFFER
         PUSH    H               ;SAVE IT FOR WHEN WE RETURN
         ;PUT THE SIGN OF THE NUMBER IN THE BUFFER AND MAKE IT POSITIVE
         FSIGN                   ;GET SIGN OF NUMBER
