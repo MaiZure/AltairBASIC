@@ -14976,7 +14976,7 @@ F4      MAC     23-AUG-64 06:08         FLOATING POINT MOVEMENT ROUTINES
   1193                                  17660           ;MOVE REGISTERS (B,C,D,E) TO FAC
   1194                                  17680           ;ALTERS D,E
   1195  001225' 001000  000353          17700   MOVFR:  XCHG                    ;GET LO'S IN (HL)
-  1196  001226' 001000  000042          17720           CHLD    FACLO           ;PUT THEM WHERE THEY BELONG
+  1196  001226' 001000  000042          17720           SHLD    FACLO           ;PUT THEM WHERE THEY BELONG
   1197  001227' 000000  001207*
   1198  001230' 000000  001223'
   1199  001231' 001000  000140          17740           MOV     H,B             ;GET HO'S IN (HL)
@@ -17005,7 +17005,7 @@ F4      MAC     23-AUG-64 06:08         FLOATING POINT INPUT ROUTINE
   2571                                  43220           INR     A               ;UPDATE IT
   2572                                  43240           RET>
   2573
-  2574                                  43280           ;HERE TO PACK THE NEXT FIGIT OF THE NUMBER INTO THE FAC
+  2574                                  43280           ;HERE TO PACK THE NEXT DIGIT OF THE NUMBER INTO THE FAC
   2575                                  43300           ;WE MULTIPLY THE FAC BY TEN AND ADD IN THE NEXT DIGIT
   2576  001702'                         43320   FINDIG:
 
@@ -17096,7 +17096,7 @@ F4      MAC     23-AUG-64 06:08         FLOATING POINT INPUT ROUTINE
   2634                                  44340           MOV     A,H             ;CHECK FOR OVERFLOW
   2635                                  44360           ORA     A               ;OVERFLOW OCCURRED IF THE MSB IS ON
   2636                                  44380           JM      FINDG1          ;WE HAVE OVERFLOW!!
-  2637                                  44400           SHLO    FACLO           ;EVERYTHING IS FINE, STORE THE NEW NUMBER
+  2637                                  44400           SHLD    FACLO           ;EVERYTHING IS FINE, STORE THE NEW NUMBER
   2638                                  44420   FINDGE: POP     H               ;ALL DONE, GET THE TEXT POINTER BACK
   2639                                  44440           POP     B               ;GET DECIMAL POINT INFORMATION BACK
   2640                                  44460           POP     D               ;GET EXPONENT INFORMATION BACK
