@@ -6543,7 +6543,7 @@ MOVFM:  CALL    MOVRM           ;GET NUMBER IN REGISTERS
         ;MOVE REGISTERS (B,C,D,E) TO FAC
         ;ALTERS D,E
 MOVFR:  XCHG                    ;GET LO'S IN (HL)
-        CHLD    FACLO           ;PUT THEM WHERE THEY BELONG
+        SHLD    FACLO           ;PUT THEM WHERE THEY BELONG
         MOV     H,B             ;GET HO'S IN (HL)
         MOV     L,C
         SHLD    FAC-1           ;PUT HO'S WHERE THEY BELONG
@@ -7796,7 +7796,7 @@ FINDIC: PUSH    PSW             ;WE HAVE TO DIVIDE -- SAVE COUNT
         POP     PSW             ;GET COUNT BACK
         INR     A               ;UPDATE IT
         RET>
-        ;HERE TO PACK THE NEXT FIGIT OF THE NUMBER INTO THE FAC
+        ;HERE TO PACK THE NEXT DIGIT OF THE NUMBER INTO THE FAC
         ;WE MULTIPLY THE FAC BY TEN AND ADD IN THE NEXT DIGIT
 FINDIG:
 IFN     LENGTH-2,<
@@ -7852,7 +7852,7 @@ IFE     LENGTH-2,<
         MOV     A,H             ;CHECK FOR OVERFLOW
         ORA     A               ;OVERFLOW OCCURRED IF THE MSB IS ON
         JM      FINDG1          ;WE HAVE OVERFLOW!!
-        SHLO    FACLO           ;EVERYTHING IS FINE, STORE THE NEW NUMBER
+        SHLD    FACLO           ;EVERYTHING IS FINE, STORE THE NEW NUMBER
 FINDGE: POP     H               ;ALL DONE, GET THE TEXT POINTER BACK
         POP     B               ;GET DECIMAL POINT INFORMATION BACK
         POP     D               ;GET EXPONENT INFORMATION BACK
