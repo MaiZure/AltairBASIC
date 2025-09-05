@@ -16938,7 +16938,7 @@ F4      MAC     23-AUG-64 06:08         FLOATING POINT INPUT ROUTINE
   2518                                  42200           RET                     ;WE DON'T, POPHRT IS STILL ON THE STACK SO
   2519                                  42220                                   ; WE CAN JUST RETURN
   2520                                  42240
-  2521                                  42260           ;HERE TO CHECK IF WE HAVE SEEN 2 DECIMAL PONTS AND SET THE DECIMAL
+  2521                                  42260           ;HERE TO CHECK IF WE HAVE SEEN 2 DECIMAL POINTS AND SET THE DECIMAL
   2522                                  42280           ; POINT FLAG
   2523                                  42300   FINDP:  INR     C               ;SET THE FLAG
 
@@ -16966,7 +16966,7 @@ F4      MAC     23-AUG-64 06:08         FLOATING POINT INPUT ROUTINE
   2532                                  42480           PUSH    D               ;SAVE EXPONENT INFORMATION
   2533                                  42500           PUSH    B               ;SAVE DECIMAL POINT INFORMATION
   2534                                  42520           PUSH    PSW             ;SAVE WHAT WE WANT THE FAC TO BE
-  2535                                  42540           CZ      FRCSNG          ;CONVERT TO SNG IF WE AHVE TO
+  2535                                  42540           CZ      FRCSNG          ;CONVERT TO SNG IF WE HAVE TO
   2536                                  42560           POP     PSW             ;GET TYPE FLAG BACK
   2537                                  42580           CNZ     FRCDBL          ;CONVERT TO DBL IF WE HAVE TO
   2538                                  42600           POP     B               ;GET DECIMAL POINT INFORMATION BACK
@@ -16983,7 +16983,7 @@ F4      MAC     23-AUG-64 06:08         FLOATING POINT INPUT ROUTINE
   2549  001675' 000000  001106'
   2550  001676' 000000  001666'
   2551                                  42820   IFE     LENGTH-2,<
-  2552                                  42840           LDA     CALTYP          ;SEE WHAT KIND OF NUMBER WE HAVE
+  2552                                  42840           LDA     VALTYP          ;SEE WHAT KIND OF NUMBER WE HAVE
   2553                                  42960           CPI     4
   2554                                  42980           PUSH    PSW             ;SAVE THE TYPE
   2555                                  42900           CZ      MUL10           ;WE HAVE A SNG, MULTIPLY BY 10.0
