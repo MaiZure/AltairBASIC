@@ -7748,7 +7748,7 @@ FINEF2: CP      FINMUL          ;MULTIPLY IF WE HAVE TO
         RET                     ;WE DON'T, POPHRT IS STILL ON THE STACK SO
                                 ; WE CAN JUST RETURN
 
-        ;HERE TO CHECK IF WE HAVE SEEN 2 DECIMAL PONTS AND SET THE DECIMAL
+        ;HERE TO CHECK IF WE HAVE SEEN 2 DECIMAL POINTS AND SET THE DECIMAL
         ; POINT FLAG
 FINDP:  INR     C               ;SET THE FLAG
         JNZ     FINEF           ;WE HAD 2 DECIMAL POINTS, NOW WE ARE DONE
@@ -7762,7 +7762,7 @@ FINFRC: PUSH    H               ;SAVE TEXT POINTER
         PUSH    D               ;SAVE EXPONENT INFORMATION
         PUSH    B               ;SAVE DECIMAL POINT INFORMATION
         PUSH    PSW             ;SAVE WHAT WE WANT THE FAC TO BE
-        CZ      FRCSNG          ;CONVERT TO SNG IF WE AHVE TO
+        CZ      FRCSNG          ;CONVERT TO SNG IF WE HAVE TO
         POP     PSW             ;GET TYPE FLAG BACK
         CNZ     FRCDBL          ;CONVERT TO DBL IF WE HAVE TO
         POP     B               ;GET DECIMAL POINT INFORMATION BACK
@@ -7776,7 +7776,7 @@ FINMLT: PUSH    PSW             ;SAVE EXPONENT, ENTRY FROM FOUT
 IFN     LENGTH-2,<
         CALL    MUL10>          ;MULTIPLY BY TEN
 IFE     LENGTH-2,<
-        LDA     CALTYP          ;SEE WHAT KIND OF NUMBER WE HAVE
+        LDA     VALTYP          ;SEE WHAT KIND OF NUMBER WE HAVE
         CPI     4
         PUSH    PSW             ;SAVE THE TYPE
         CZ      MUL10           ;WE HAVE A SNG, MULTIPLY BY 10.0

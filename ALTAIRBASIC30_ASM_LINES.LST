@@ -7748,7 +7748,7 @@
 42200           RET                     ;WE DON'T, POPHRT IS STILL ON THE STACK SO
 42220                                   ; WE CAN JUST RETURN
 42240
-42260           ;HERE TO CHECK IF WE HAVE SEEN 2 DECIMAL PONTS AND SET THE DECIMAL
+42260           ;HERE TO CHECK IF WE HAVE SEEN 2 DECIMAL POINTS AND SET THE DECIMAL
 42280           ; POINT FLAG
 42300   FINDP:  INR     C               ;SET THE FLAG
 42320           JNZ     FINEF           ;WE HAD 2 DECIMAL POINTS, NOW WE ARE DONE
@@ -7762,7 +7762,7 @@
 42480           PUSH    D               ;SAVE EXPONENT INFORMATION
 42500           PUSH    B               ;SAVE DECIMAL POINT INFORMATION
 42520           PUSH    PSW             ;SAVE WHAT WE WANT THE FAC TO BE
-42540           CZ      FRCSNG          ;CONVERT TO SNG IF WE AHVE TO
+42540           CZ      FRCSNG          ;CONVERT TO SNG IF WE HAVE TO
 42560           POP     PSW             ;GET TYPE FLAG BACK
 42580           CNZ     FRCDBL          ;CONVERT TO DBL IF WE HAVE TO
 42600           POP     B               ;GET DECIMAL POINT INFORMATION BACK
@@ -7776,7 +7776,7 @@
 42780   IFN     LENGTH-2,<
 42800           CALL    MUL10>          ;MULTIPLY BY TEN
 42820   IFE     LENGTH-2,<
-42840           LDA     CALTYP          ;SEE WHAT KIND OF NUMBER WE HAVE
+42840           LDA     VALTYP          ;SEE WHAT KIND OF NUMBER WE HAVE
 42960           CPI     4
 42980           PUSH    PSW             ;SAVE THE TYPE
 42900           CZ      MUL10           ;WE HAVE A SNG, MULTIPLY BY 10.0
