@@ -4809,7 +4809,7 @@
 32380           LHLD    ARYTAB          ;GET END OF SIMPS
 32400           XCHG                    ;FLIP
 32420           COMPAR                  ;SEE IF AT END OF SIMPS
-32440           JZ      ARYTAB          ;IF YES, DO ARRAY TYPE STRINGS
+32440           JZ      ARYVAR          ;IF YES, DO ARRAY TYPE STRINGS
 32460           MOV     A,M             ;GET 2ND CHARACTER OF VARIABLE
 32480           INX     H               ;BUMP POINTER TWICE
 32500           INX     H               ;

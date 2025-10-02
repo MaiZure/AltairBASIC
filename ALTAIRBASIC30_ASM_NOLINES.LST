@@ -4809,7 +4809,7 @@ SVAR:   XCHG                    ;GET IN [D,E]
         LHLD    ARYTAB          ;GET END OF SIMPS
         XCHG                    ;FLIP
         COMPAR                  ;SEE IF AT END OF SIMPS
-        JZ      ARYTAB          ;IF YES, DO ARRAY TYPE STRINGS
+        JZ      ARYVAR          ;IF YES, DO ARRAY TYPE STRINGS
         MOV     A,M             ;GET 2ND CHARACTER OF VARIABLE
         INX     H               ;BUMP POINTER TWICE
         INX     H               ;
