@@ -9665,7 +9665,7 @@ F3      MAC      6-SEP-64 03:11         STRING FUNCTIONS
   6886  010270' 001000  000046          34640           MVI     H,0             ;[H,L] GET CHARACTER COUNT
   6887  010271' 000000  000000
   6888  010272' 001000  000011          34660           DAD     B               ;[H,L]=POINTER BEYOND STRING
-  6889  010273' 001000  000120          34680           MOV     D,0
+  6889  010273' 001000  000120          34680           MOV     D,B
   6890  010274' 001000  000131          34700           MOV     E,C             ;[D,E]=ORIGINAL POINTER
   6891  010275' 001000  000053          34720           DCX     H               ;DON'T MOVE ONE BEYOND STRING
   6892  010276' 001000  000104          34740           MOV     B,H             ;GET TOP OF STRING IN [B,C]
@@ -17839,7 +17839,7 @@ F4      MAC     23-AUG-64 06:08         FLOATING POINT OUTPUT ROUTINE
   3186                                  53180           MOV     M,A             ;PUT ONE'S DIGIT IN BUFFER
   3187                                  53200   FOUTZR: INX     H               ;INCREMENT POINTER, HERE TO FINISH UP PRINTING
   3188                                  53220                                   ; A FREE FORMAT ZERO
-  3189                                  53240   FOUTON: MVI     M,0             ;PUT A ZERO AT THE END OF THE NUMBER
+  3189                                  53240   FOUTDN: MVI     M,0             ;PUT A ZERO AT THE END OF THE NUMBER
   3190                                  53260           XCHG                    ;SAVE THE POINTER TO THE END OF THE NUMBER
   3191                                  53280                                   ; IN (DE) FOR FFXFLV
   3192                                  53300           LXI     H,FBUFFR+1      ;GET A POINTER TO THE BEGINNING
@@ -17904,7 +17904,7 @@ F4      MAC     23-AUG-64 06:08         FLOATING POINT OUTPUT ROUTINE
   3237                                  54200           JZ      FFXIX1          ;CHECK IF WE HAVE A TRAILING SIGN
   3238                                  54220           MOV     M,B             ;WE DO, PUT THE SIGN IN THE BUFFER
   3239                                  54240           INX     H               ;INCREMENT THE BUFFER POINTER
-  3240                                  54260   FFXIXI: MVI     M,0             ;PUT A ZERO AT THE END OF THE NUMBER
+  3240                                  54260   FFXIX1: MVI     M,0             ;PUT A ZERO AT THE END OF THE NUMBER
   3241                                  54280
   3242                                  54300           ;HERE TO CHECK IF A FIXED FORMAT-FIXED POINT NUMBER OVERFLOWED ITS
   3243                                  54320           ;FIELD LENGTH
@@ -18039,7 +18039,7 @@ F4      MAC     23-AUG-64 06:08         FLOATING POINT OUTPUT ROUTINE
   3344                                  56320           ;HERE TO PRINT A SNG IN FIXED FORMAT--FIXED POINT NOTATION
   3345                                  56340   FFXSFX: MOVRI   226,016,033,312 ;GET 1E16, CHECK IF THE NUMBER IS TOO BIG
   3346                                  56360           CALL    FCOMP
-  3347                                  56380           JP      FFXSD0          ;IT IS,PRINT IT IN FREE FORMAT WITH A % SIGN
+  3347                                  56380           JP      FFXSDO          ;IT IS,PRINT IT IN FREE FORMAT WITH A % SIGN
   3348                                  56400           LXI     D,6*400+2+$CODE ;SET UP FLAGS FOR SNG --
   3349                                  56420                                   ;D = NUMBER OF DIGITS TO PRINT IN A SNG
   3350                                  56440                                   ;C = 2 (THIS IS FOR THE COMMAS)
@@ -18129,7 +18129,7 @@ F4      MAC     23-AUG-64 06:08         FLOATING POINT OUTPUT ROUTINE
   3420                                  57820           ;HERE TO PRINT A NUMBER .LT. 1
   3421                                  57840   FFXXV3: CALL    FOTZER          ;PUT ALL ZEROS BEFORE THE DECIMAL POINT
   3422                                  57860           MOV     A,C             ;SAVE C
-  3423                                  57880           CALL    FOUTOP          ;PUT IN A DECIMAL POINT
+  3423                                  57880           CALL    FOUTDP          ;PUT IN A DECIMAL POINT
   3424                                  57900           MOV     C,A             ;RESTORE C
   3425                                  57920           POP     PSW             ;GET THE NUMBER WE SAVED
   3426                                  57940           JM      FFXXV4          ;DECIDE HOW MANY ZEROS TO PRINT BETWEEN THE
@@ -18173,7 +18173,7 @@ F4      MAC     23-AUG-64 06:08         FLOATING POINT OUTPUT ROUTINE
   3450                                  58420   FFXXV7: LHLD    TEMP2           ;THE END OF THE NUMBER IS WHERE THE DP IS
   3451                                  58440           JMP     FOUTTS          ;FINISH UP THE NUMBER
   3452                                  58460
-  3453                                  58480           ;HERE TO PRINT AN INTEGER IN FIXED FORMAT--FLOATING POING NOTATION
+  3453                                  58480           ;HERE TO PRINT AN INTEGER IN FIXED FORMAT--FLOATING POINT NOTATION
   3454                                  58500   FFXIFL: PUSH    H               ;SAVE THE BUFFER POINTER
   3455                                  58520           PUSH    D               ;SAVE THE FORMAT SPECS
   3456                                  58540           CALL    CONSI           ;CONVERT THE INTEGER TO A SNG
@@ -18246,7 +18246,7 @@ F4      MAC     23-AUG-64 06:08         FLOATING POINT OUTPUT ROUTINE
   3509                                  59680           SUB     B
   3510                                  59600           SUB     D
   3511                                  59620           PUSH    B               ;SAVE THE "B" FIELD SPEC
-  3512                                  59640           CALL    FOFLON          ;PUT THE EXPONENT IN THE BUFFER
+  3512                                  59640           CALL    FOFLDN          ;PUT THE EXPONENT IN THE BUFFER
   3513                                  59660           XCHG                    ;GET THE POINTER TO THE END IN (HL)
   3514                                  59680                                   ; IN CASE WE HAVE A TRAILING SIGN
   3515                                  59700           POP     D               ;GET THE "B" FIELD SPEC IN D, PUT ON A POSSIBLE
@@ -18270,7 +18270,7 @@ F4      MAC     23-AUG-64 06:08         FLOATING POINT OUTPUT ROUTINE
   3533                                  60040           POP     PSW             ;IT ISN'T, MULTIPLY BY TEN
   3534                                  60060           CALL    FINMLT
   3535                                  60080           PUSH    PSW             ;SAVE THE EXPONENT AGAIN
-  3536                                  60100           JMP     FOUNDS1         ;NOW SEE IF IT IS BIG ENOUGH
+  3536                                  60100           JMP     FOUNS1          ;NOW SEE IF IT IS BIG ENOUGH
   3537                                  60120   FOUNS2: POP     PSW             ;THE FAC IS TOO BIG, GET THE EXPONENT
   3538                                  60140           CALL    FINDIV          ;DIVIDE IT BY TEN
   3539                                  60160           PUSH    PSW             ;SAVE THE EXPONENT AGAIN
@@ -19583,7 +19583,7 @@ F4      MAC     23-AUG-64 06:08         SYSTEM INITIALIZATION CODE
   4388  003517' 001000  000041          71400   TTYW:   LXI     H,TTYWID
   4389  003520' 000000  004127'
   4390  003521' 000000  003511'
-  4391  003522' 001000  000315          71420           CALL    STDOUT
+  4391  003522' 001000  000315          71420           CALL    STROUT
   4392  003523' 000000  003436*
   4393  003524' 000000  003520'
   4394  003525' 001000  000315          71440           CALL    QINLIN
@@ -20187,8 +20187,8 @@ C               000001          FACLO           002430' EXT     FOUT12          
 CASSW           000001  SPD     FADD            000025' INT     FOUT14          002252'
 CNLCA1          000000  EXT     FADD1           000057'         FOUT15          002254'
 CNLCA2          000000  EXT     FADD3           000125'         FOUT17          002271'
-CNLCS3          000000  EXT     FADDA           000274'         FOUT19          002266'
-CNLCS4          000000  EXT     FADDH           000000'         FOUT3           002034'
+CNLCA3          000000  EXT     FADDA           000274'         FOUT19          002266'
+CNLCA4          000000  EXT     FADDH           000000'         FOUT3           002034'
 CNTWFL          003417' EXT     FADDS           000003' INT     FOUT5           002071'
 CONSSW          000000  SPD     FADDT           000023' INT     FOUT6           002124'
 CONTRW          000001  SPD     FADFLT          000143'         FOUT8           002132'
@@ -20318,7 +20318,7 @@ A          212     213     218     231     251     299     301     302     304  
           3829    3848    3925    3927    4023    4318    4348    4356    4358    4363    4364    4378    4398    4408
           4409    4413    4438    4575    4577    4578    4580
 ABS         89    1111#
-AFF       4642#   4643#   4644#   4645#   4646#   4647#   4648#   4649#   4650#   4651#   4652#   4653#   4654#   4655#
+AFFF      4642#   4643#   4644#   4645#   4646#   4647#   4648#   4649#   4650#   4651#   4652#   4653#   4654#   4655#
           4656#   4657#   4658#   4659#   4660#   4661#   4661    4667#   4668#   4669#   4670#   4671#   4672#   4673#
           4674#   4675#   4676#   4677#   4678#   4679#   4680#   4681#   4682#   4683#   4684#   4685#   4686#   4687#
           4688#   4689#   4690#   4691#   4692#   4693#   4694#   4695#   4696#   4697#   4698#   4699#   4700#   4701#
@@ -20542,10 +20542,10 @@ LENGTH       4#     19      29      34      79      93      97      99     101  
           3885    3887    4258    4290    4422    4782    4783    4801    4822    4824
 LINGET    4225#   4376    4406
 LINPRT      90    2713#   4589
-LINPR1    4420#   4420
-LINPR2    4424#   4424
-LINPR3    4428#   4428
-LINPR4    4441#   4441
+LINPT1    4420#   4420
+LINPT2    4424#   4424
+LINPT3    4428#   4428
+LINPT4    4441#   4441
 LOG         92     604#   3684
 LOGCN2     590#    641
 LOOPMM    4355#   4367
