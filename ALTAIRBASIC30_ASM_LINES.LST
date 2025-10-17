@@ -4923,7 +4923,7 @@
 34620           MOV     L,M             ;[L]=STRING LENGTH
 34640           MVI     H,0             ;[H,L] GET CHARACTER COUNT
 34660           DAD     B               ;[H,L]=POINTER BEYOND STRING
-34680           MOV     D,0
+34680           MOV     D,B
 34700           MOV     E,C             ;[D,E]=ORIGINAL POINTER
 34720           DCX     H               ;DON'T MOVE ONE BEYOND STRING
 34740           MOV     B,H             ;GET TOP OF STRING IN [B,C]
@@ -8285,7 +8285,7 @@
 53180           MOV     M,A             ;PUT ONE'S DIGIT IN BUFFER
 53200   FOUTZR: INX     H               ;INCREMENT POINTER, HERE TO FINISH UP PRINTING
 53220                                   ; A FREE FORMAT ZERO
-53240   FOUTON: MVI     M,0             ;PUT A ZERO AT THE END OF THE NUMBER
+53240   FOUTDN: MVI     M,0             ;PUT A ZERO AT THE END OF THE NUMBER
 53260           XCHG                    ;SAVE THE POINTER TO THE END OF THE NUMBER
 53280                                   ; IN (DE) FOR FFXFLV
 53300           LXI     H,FBUFFR+1      ;GET A POINTER TO THE BEGINNING
@@ -8336,7 +8336,7 @@
 54200           JZ      FFXIX1          ;CHECK IF WE HAVE A TRAILING SIGN
 54220           MOV     M,B             ;WE DO, PUT THE SIGN IN THE BUFFER
 54240           INX     H               ;INCREMENT THE BUFFER POINTER
-54260   FFXIXI: MVI     M,0             ;PUT A ZERO AT THE END OF THE NUMBER
+54260   FFXIX1: MVI     M,0             ;PUT A ZERO AT THE END OF THE NUMBER
 54280
 54300           ;HERE TO CHECK IF A FIXED FORMAT-FIXED POINT NUMBER OVERFLOWED ITS
 54320           ;FIELD LENGTH
@@ -8442,7 +8442,7 @@
 56320           ;HERE TO PRINT A SNG IN FIXED FORMAT--FIXED POINT NOTATION
 56340   FFXSFX: MOVRI   226,016,033,312 ;GET 1E16, CHECK IF THE NUMBER IS TOO BIG
 56360           CALL    FCOMP
-56380           JP      FFXSD0          ;IT IS,PRINT IT IN FREE FORMAT WITH A % SIGN
+56380           JP      FFXSDO          ;IT IS,PRINT IT IN FREE FORMAT WITH A % SIGN
 56400           LXI     D,6*400+2+$CODE ;SET UP FLAGS FOR SNG --
 56420                                   ;D = NUMBER OF DIGITS TO PRINT IN A SNG
 56440                                   ;C = 2 (THIS IS FOR THE COMMAS)
@@ -8517,7 +8517,7 @@
 57820           ;HERE TO PRINT A NUMBER .LT. 1
 57840   FFXXV3: CALL    FOTZER          ;PUT ALL ZEROS BEFORE THE DECIMAL POINT
 57860           MOV     A,C             ;SAVE C
-57880           CALL    FOUTOP          ;PUT IN A DECIMAL POINT
+57880           CALL    FOUTDP          ;PUT IN A DECIMAL POINT
 57900           MOV     C,A             ;RESTORE C
 57920           POP     PSW             ;GET THE NUMBER WE SAVED
 57940           JM      FFXXV4          ;DECIDE HOW MANY ZEROS TO PRINT BETWEEN THE
@@ -8547,7 +8547,7 @@
 58420   FFXXV7: LHLD    TEMP2           ;THE END OF THE NUMBER IS WHERE THE DP IS
 58440           JMP     FOUTTS          ;FINISH UP THE NUMBER
 58460
-58480           ;HERE TO PRINT AN INTEGER IN FIXED FORMAT--FLOATING POING NOTATION
+58480           ;HERE TO PRINT AN INTEGER IN FIXED FORMAT--FLOATING POINT NOTATION
 58500   FFXIFL: PUSH    H               ;SAVE THE BUFFER POINTER
 58520           PUSH    D               ;SAVE THE FORMAT SPECS
 58540           CALL    CONSI           ;CONVERT THE INTEGER TO A SNG
@@ -8605,7 +8605,7 @@
 59680           SUB     B
 59600           SUB     D
 59620           PUSH    B               ;SAVE THE "B" FIELD SPEC
-59640           CALL    FOFLON          ;PUT THE EXPONENT IN THE BUFFER
+59640           CALL    FOFLDN          ;PUT THE EXPONENT IN THE BUFFER
 59660           XCHG                    ;GET THE POINTER TO THE END IN (HL)
 59680                                   ; IN CASE WE HAVE A TRAILING SIGN
 59700           POP     D               ;GET THE "B" FIELD SPEC IN D, PUT ON A POSSIBLE
@@ -8628,7 +8628,7 @@
 60040           POP     PSW             ;IT ISN'T, MULTIPLY BY TEN
 60060           CALL    FINMLT
 60080           PUSH    PSW             ;SAVE THE EXPONENT AGAIN
-60100           JMP     FOUNDS1         ;NOW SEE IF IT IS BIG ENOUGH
+60100           JMP     FOUNS1          ;NOW SEE IF IT IS BIG ENOUGH
 60120   FOUNS2: POP     PSW             ;THE FAC IS TOO BIG, GET THE EXPONENT
 60140           CALL    FINDIV          ;DIVIDE IT BY TEN
 60160           PUSH    PSW             ;SAVE THE EXPONENT AGAIN
@@ -9174,7 +9174,7 @@
 71360           LXI     H,$CODE+16190>
 71380           PUSH    H               ;ALSO SAVE FOR LATER
 71400   TTYW:   LXI     H,TTYWID
-71420           CALL    STDOUT
+71420           CALL    STROUT
 71440           CALL    QINLIN
 71460           CHRGET
 71480           ORA     A

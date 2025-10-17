@@ -4923,7 +4923,7 @@ IFN     LENFTH-2,<
         MOV     L,M             ;[L]=STRING LENGTH
         MVI     H,0             ;[H,L] GET CHARACTER COUNT
         DAD     B               ;[H,L]=POINTER BEYOND STRING
-        MOV     D,0
+        MOV     D,B
         MOV     E,C             ;[D,E]=ORIGINAL POINTER
         DCX     H               ;DON'T MOVE ONE BEYOND STRING
         MOV     B,H             ;GET TOP OF STRING IN [B,C]
@@ -8285,7 +8285,7 @@ FOUCE2: INR     B               ;INCREMENT DIGIT
         MOV     M,A             ;PUT ONE'S DIGIT IN BUFFER
 FOUTZR: INX     H               ;INCREMENT POINTER, HERE TO FINISH UP PRINTING
                                 ; A FREE FORMAT ZERO
-FOUTON: MVI     M,0             ;PUT A ZERO AT THE END OF THE NUMBER
+FOUTDN: MVI     M,0             ;PUT A ZERO AT THE END OF THE NUMBER
         XCHG                    ;SAVE THE POINTER TO THE END OF THE NUMBER
                                 ; IN (DE) FOR FFXFLV
         LXI     H,FBUFFR+1      ;GET A POINTER TO THE BEGINNING
@@ -8336,7 +8336,7 @@ FOUTTS: PUSH    H               ;SAVE BUFFER POINTER
         JZ      FFXIX1          ;CHECK IF WE HAVE A TRAILING SIGN
         MOV     M,B             ;WE DO, PUT THE SIGN IN THE BUFFER
         INX     H               ;INCREMENT THE BUFFER POINTER
-FFXIXI: MVI     M,0             ;PUT A ZERO AT THE END OF THE NUMBER
+FFXIX1: MVI     M,0             ;PUT A ZERO AT THE END OF THE NUMBER
 
         ;HERE TO CHECK IF A FIXED FORMAT-FIXED POINT NUMBER OVERFLOWED ITS
         ;FIELD LENGTH
@@ -8442,7 +8442,7 @@ FFXSDO: XRA     A               ;SET THE FORMAT SPECS TO FREE FORMAT
         ;HERE TO PRINT A SNG IN FIXED FORMAT--FIXED POINT NOTATION
 FFXSFX: MOVRI   226,016,033,312 ;GET 1E16, CHECK IF THE NUMBER IS TOO BIG
         CALL    FCOMP
-        JP      FFXSD0          ;IT IS,PRINT IT IN FREE FORMAT WITH A % SIGN
+        JP      FFXSDO          ;IT IS,PRINT IT IN FREE FORMAT WITH A % SIGN
         LXI     D,6*400+2+$CODE ;SET UP FLAGS FOR SNG --
                                 ;D = NUMBER OF DIGITS TO PRINT IN A SNG
                                 ;C = 2 (THIS IS FOR THE COMMAS)
@@ -8517,7 +8517,7 @@ FFXXV2: CM      FINDIV          ;THIS IS THE DIVIDE LOOP
         ;HERE TO PRINT A NUMBER .LT. 1
 FFXXV3: CALL    FOTZER          ;PUT ALL ZEROS BEFORE THE DECIMAL POINT
         MOV     A,C             ;SAVE C
-        CALL    FOUTOP          ;PUT IN A DECIMAL POINT
+        CALL    FOUTDP          ;PUT IN A DECIMAL POINT
         MOV     C,A             ;RESTORE C
         POP     PSW             ;GET THE NUMBER WE SAVED
         JM      FFXXV4          ;DECIDE HOW MANY ZEROS TO PRINT BETWEEN THE
@@ -8547,7 +8547,7 @@ FFXXV6: CALL    FOUTCV          ;CONVERT THE NUMBER TO DECIMAL DIGITS
 FFXXV7: LHLD    TEMP2           ;THE END OF THE NUMBER IS WHERE THE DP IS
         JMP     FOUTTS          ;FINISH UP THE NUMBER
 
-        ;HERE TO PRINT AN INTEGER IN FIXED FORMAT--FLOATING POING NOTATION
+        ;HERE TO PRINT AN INTEGER IN FIXED FORMAT--FLOATING POINT NOTATION
 FFXIFL: PUSH    H               ;SAVE THE BUFFER POINTER
         PUSH    D               ;SAVE THE FORMAT SPECS
         CALL    CONSI           ;CONVERT THE INTEGER TO A SNG
@@ -8605,7 +8605,7 @@ FFXLV1: CM      FINDIV          ; OF SOME BY DIVIDING BY TEN AND ROUNDING
         SUB     B
         SUB     D
         PUSH    B               ;SAVE THE "B" FIELD SPEC
-        CALL    FOFLON          ;PUT THE EXPONENT IN THE BUFFER
+        CALL    FOFLDN          ;PUT THE EXPONENT IN THE BUFFER
         XCHG                    ;GET THE POINTER TO THE END IN (HL)
                                 ; IN CASE WE HAVE A TRAILING SIGN
         POP     D               ;GET THE "B" FIELD SPEC IN D, PUT ON A POSSIBLE
@@ -8628,7 +8628,7 @@ FOUNS1: MOVRI   221,103,117,370 ;GET 99999.9499 TO SEE IF THE FAC IS BIG
         POP     PSW             ;IT ISN'T, MULTIPLY BY TEN
         CALL    FINMLT
         PUSH    PSW             ;SAVE THE EXPONENT AGAIN
-        JMP     FOUNDS1         ;NOW SEE IF IT IS BIG ENOUGH
+        JMP     FOUNS1          ;NOW SEE IF IT IS BIG ENOUGH
 FOUNS2: POP     PSW             ;THE FAC IS TOO BIG, GET THE EXPONENT
         CALL    FINDIV          ;DIVIDE IT BY TEN
         PUSH    PSW             ;SAVE THE EXPONENT AGAIN
@@ -9174,7 +9174,7 @@ IFE     REALIO,<
         LXI     H,$CODE+16190>
         PUSH    H               ;ALSO SAVE FOR LATER
 TTYW:   LXI     H,TTYWID
-        CALL    STDOUT
+        CALL    STROUT
         CALL    QINLIN
         CHRGET
         ORA     A
