@@ -1340,7 +1340,7 @@ IFN     LENGTH,<
         JMP     ERROR>
 PAGE
 SUBTTL ERROR HANDLER, READY, COMPACTIFICATION, NEW, CLEAR, MAIN
-IFN      LENGTH,<
+IFN     LENGTH,<
 DATSNE: LHLD    DATLIN          ;GET DATA LINE
         SHLD    CURLIN>         ;MAKE IT CURRENT LINE
 SNERR:  MVI     E,ERRSN         ;"SYNTAX ERROR"
@@ -4150,7 +4150,7 @@ MAKDFN: POP     D               ;POP OFF LENGTH OF THIS VARIABLE
         XCHG                    ;TEXT POINTER INTO [H,L]
         RET                     ;VARIABLE POINTER INTO [D,E]
 
-NOTFOD: MOV     M,E             ;PUT LOOKS DOWN
+NOTFDD: MOV     M,E             ;PUT LOOKS DOWN
         INX     H
         MOV     M,D
         INX     H
@@ -4298,7 +4298,7 @@ BSERR:  MVI     E,ERRBS         ;"SUBSCRIPT OUT OF RANGE"
 ;       OTHERWISE INDEX INTO THE VARIABLE AS IF IT
 ;       WERE FOUND ON THE INITIAL SEARCH
 ;
-NOTFDO:
+NOTFOD:
 IFE     LENGTH-2,<
         MOV     M,A             ;PUT DOWN THE VARIABLE TYPE
         INX     H
@@ -4918,7 +4918,7 @@ GRBPAS: POP     D               ;POP OFF MAX POINTER
                                 ;CAN BE UPDATED AFTER THE STRING IS
                                 ;MOVED
         DCX     H
-IFN     LENFTH-2,<
+IFN     LENGTH-2,<
         DCX     H>
         MOV     L,M             ;[L]=STRING LENGTH
         MVI     H,0             ;[H,L] GET CHARACTER COUNT
@@ -5084,7 +5084,7 @@ FINBCK: POP     B               ;RETURN TO HIGHER LEVEL &
 ;
 ; THE FOLLOWING IS THE LEFT$($,#) FUNCTION.
 ; IT TAKES THE LEFTMOST # CHARS OF THE STR.
-; IF # IS .GR. THAN THE LEN OF THE STR, IT REURNS THE WHOLE STR.
+; IF # IS .GR. THAN THE LEN OF THE STR, IT RETURNS THE WHOLE STR.
 ;
 LEFT$:  CALL    PREAM           ;TEST THE PARAMETERS
         XRA     A               ;LEFT NEVER CHANGES STRING POINTER
@@ -5931,7 +5931,7 @@ NORM2:  CPI     340             ;IS THE RESULT ZERO?
         CALL    SHFTLO          ;SHIFT THE REST OF THE NUMBER LEFT ONE
         MOV     A,H             ;GET THE SHIFT COUNT
         JP      NORM2>          ;CONTINUE IF NUMBER IS NOT NORMALIZED
-IFN     LENFRG,<
+IFN     LENGTH,<
         MOV     L,B             ;PUT LOWEST 2 BYTES IN (HL)
         MOV     H,E
         XRA     A               ;ZERO SHIFT COUNT
@@ -6026,7 +6026,7 @@ FADDA:  MOV     A,M             ;GET LOWEST ORDER
         ADD     E               ;ADD IN OTHER LOWEST ORDER
         MOV     E,A             ;SAVE IT
         INX     H               ;UPDATE POINTER TO NEXT BYTE
-        MOX     A,M             ;ADD MIDDLE ORDERS
+        MOV     A,M             ;ADD MIDDLE ORDERS
         ADC     D
         MOV     D,A
         INX     H               ;UPDATE POINTER TO HIGH ORDER
@@ -6037,7 +6037,7 @@ FADDA:  MOV     A,M             ;GET LOWEST ORDER
         ;NEGATE NUMBER IN C,D,E,B
         ;THIS CODE IS USED BY FADD, QINT
         ;ALTERS A,B,C,D,E,L
-NEGH:   LXI     H,FAC+1         ;NEGATE FAC
+NEGR:   LXI     H,FAC+1         ;NEGATE FAC
         MOV     A,M             ;GET SIGN
         CMA                     ;COMPLEMENT IT
         MOV     M,A             ;SAVE IT AGAIN
@@ -6078,7 +6078,7 @@ SHFTR3: XRA     A               ;CLEAR CARRY
         DCR     L               ;ARE WE DONE SHIFTING?
         RZ                      ;RETURN IF WE ARE
 IFE     LENGTH,<
-SHRADD: CALL    SHFTRD>         ;SHIFT THE NUMBER RIGHT ONE
+SHRADD: CALL    SHFTRO>         ;SHIFT THE NUMBER RIGHT ONE
 IFN     LENGTH,<
         MOV     A,C             ;GET HO
 SHRADD: RAR                     ;ENTRY FROM FADD, SHIFT IT RIGHT
@@ -6098,7 +6098,7 @@ IFE     LENGTH,<
         ;THIS IS USED BY SHIFTR, FMULT, FADD
         ;ALTERS A,B,C,D,E
 SHFTRO: MOV     A,C             ;GET THE HO
-SHFR0A: RAR                     LSHIFT IS RIGHT, ENTRY FROM FMULT
+SHFROA: RAR                     ;SHIFT IS RIGHT, ENTRY FROM FMULT
         MOV     C,A
         MOV     A,D             ;SHIFT THE MO RIGHT
         RAR
@@ -6167,7 +6167,7 @@ IFE     EXTFNC,<
 FMULTS: CALL    MOVRM>          ;ENTRY WITH POINTER TO ARG IN (HL)
 IFN     LENGTH-2,<
         XWD     1000,041        ;"LXI   H" AROUND NEXT 2 BYTES
-FMULTI: POPR>                   ;ENTRY IF ARGUMENT IS ON THE STACK
+FMULTT: POPR>                   ;ENTRY IF ARGUMENT IS ON THE STACK
 FMULT:  FSIGN                   ;CHECK IF FAC IS ZERO
         RZ                      ;IF IT IS, RESULT IS ZERO
         MVI     L,0             ;ADD THE TWO EXPONENTS, L IS A FLAG
@@ -6243,7 +6243,7 @@ FMULT5: RAR                     ;ROTATE RESULT RIGHT ONE
         MOV     A,D>            ;GET NUMBER WE ARE MULTIPLYING BY
         JNZ     FMULT4          ;MULTIPLY AGAIN IF WE ARE NOT DONE
 IFN     LENGTH,<
-        XHG>                    ;GET LO'S IN (HL)
+        XCHG>                   ;GET LO'S IN (HL)
 POPHRT: POP     H               ;GET POINTER TO NUMBER TO MULTIPLY BY
         RET                     ;ALL DONE
 IFN     LENGTH,<
@@ -6642,7 +6642,7 @@ VMVVFM: PUSH    D               ;SHOVE IT ON THE STACK
         MOV     B,A             ;SET UP THECOUNT
         CPI     10              ;DO WE HAVE DBL?
         RNZ                     ;WE DO NOT, GO DO THE MOVE
-        LXI     D,DFACLO        ;WE DO, GET LO ADDR OF THE DBL DUMBER
+        LXI     D,DFACLO        ;WE DO, GET LO ADDR OF THE DBL NUMBER
         RET>                    ;GO DO THE MOVE
 PAGE
 SUBTTL  COMPARE TWO NUMBERS
@@ -6759,7 +6759,7 @@ FRCINT: LDA     VALTYP          ;SEE WHAT WE HAVE
 
 
         ;CONVERT SINGLE PRECISION NUMBER TO INTEGER
-        ;ALTRS A,B,C,D,E,H,K
+        ;ALTERS A,B,C,D,E,H,K
 CONIS:  LDA     FAC             ;GET THE EXPONENT
         CPI     220             ;SEE IF IT IS TOO BIG
         JNC     CONIS2          ;IT IS, BUT IT MIGHT BE -32768
@@ -7020,7 +7020,7 @@ ISUB:   MOV     A,H             ;EXTEND THE SIGN OF (HL) TO B
         JMP     IADDS           ;GO ADD THE NUMBERS
 
 
-        LINTEGER ADDITION       (HL):=(DE)+(HL)
+        ;INTEGER ADDITION       (HL):=(DE)+(HL)
         ;ALTERS A,B,C,D,E,H,L
 IADD:   MOV     A,H             ;EXTEND THE SIGN OF (HL) TO B
         RAL                     ;GET SIGN IN CARRY
@@ -7059,7 +7059,7 @@ IMULT:  PUSH    H               ;SAVE SECOND ARGUMENT IN CASE OF OVERFLOW
         LXI     H,$CODE         ;ZERO (HL), THAT IS WHERE THE PRODUCT GOES
         MVI     A,20            ;SET UP A COUNT
 IMULT1: DAD     H               ;ROTATE PRODUCT LEFT ONE
-        JC      IMULTS          ;CHECK FOR OVERFLOW
+        JC      IMULT5          ;CHECK FOR OVERFLOW
         XCHG                    ;ROTATE FIRST ARGUMENT LEFT ONE TO SEE IF
         DAD     H               ; WE ADD IN (BC) OR NOT
         XCHG
@@ -7165,7 +7165,7 @@ INEGHL: XRA     A               ;CLEAR A
         SUB     L               ;NEGATE LO
         MOV     L,A             ;SAVE IT
         MOV     A,C             ;GET A ZERO BACK
-        DBB     H               ;NEGATE HO
+        SBB     H               ;NEGATE HO
         MOV     H,A             ;SAVE IT
         RET                     ;ALL DONE
 
@@ -7202,7 +7202,7 @@ MOD:    PUSH    D               ;SAVE (DE) FOR ITS SIGN
         MVI     A,2             ;SET VALTYP TO "INTEGER" IN CASE RESULT OF
         STA     VALTYP          ; THE DIVISION WAS 32768
         POP     PSW             ;GET THE SIGN OF (DE) BACK
-        JNP     INEGA>          ;NEGATE THE REMAINDER IF NECESSARY
+        JMP     INEGA>          ;NEGATE THE REMAINDER IF NECESSARY
 PAGE
 SUBTTL  DOUBLE PRECISION ARITHMETIC ROUTINES
 IFE     LENGTH-2,<
@@ -7267,7 +7267,7 @@ DADD2:  CPI     71              ;ARE WE WITHIN 56 BITS?
         RNC                     ;NO, ALL DONE
         PUSH    PSW             ;SAVE SHIFT COUNT
         CALL    UNPACK          ;UNPACK THE NUMBERS
-        MOV     A,B             ;SAVE SUBTRACTION FLAG
+        MOV     B,A             ;SAVE SUBTRACTION FLAG
         MOV     A,C             ;SAVE THE UNPACKED HO
         STA     ARG-1
         POP     PSW             ;GET SHIFT COUNT
@@ -7315,7 +7315,7 @@ DNORM2: MOV     D,M             ;GET A BYTE OF FAC
         JMP     ZERO            ;YES, THE NUMBER IS ZERO
 DNORM3: DCR     B               ;DECREMENT SHIFT COUNT
         LXI     H,DFACLO-1      ;GET POINTER TO LO
-        CALL    DSMFLC          ;SHIFT THE FAC LEFT
+        CALL    DSHFLC          ;SHIFT THE FAC LEFT
         ORA     A               ;SEE IF NUMBER IS NORMALIZED
 DNORM5: JP      DNORM3          ;SHIFT FAC LEFT ONE IF IT IS NOT NORMALIZED
         MOV     A,B             ;GET THE SHIFT COUNT
@@ -7424,7 +7424,7 @@ DSHFR4: XRA     A               ;CLEAR CARRY
         DCR     D               ;ARE WE DONE?
         RZ                      ;YES
 DSHFRA: LXI     H,FAC-1         ;NO, GET POINTER TO LO, ENTRY FROM DADD, DMULT
-        MVI     E,10            ;SET UP A COUNT, RORARE FAC ONE LEFT
+        MVI     E,10            ;SET UP A COUNT, ROTATE FAC ONE LEFT
 DSHFR5: MOV     A,M             ;GET A BYTE OF THE FAC
         RAR                     ;ROTATE IT LEFT
         MOV     M,A             ;PUT THE UPDATED BYTE BACK
@@ -7504,7 +7504,7 @@ DDIV:   FSIGN                   ;CHECK FOR DIVISION BY ZERO
         CALL    MULDVS          ;SUBTRACT EXPONENTS AND CHECK SIGNS
         INR     M               ;ADD TWO TO EXPONENT TO CORRECT SCALING
         INR     M
-        CALL    DMULDV          ;ZERO FAC AND PUT FAC IN FBUFFT
+        CALL    DMULDV          ;ZERO FAC AND PUT FAC IN FBUFFR
         LXI     H,ARG           ;GET POINTE RTO THE EXTRA HO BYTE WE WILL USE
         MOV     M,C             ;ZERO IT
         MXI     B,0             ;ZERO FLAG TO SEE WHEN WE START DIVIDING
@@ -7566,7 +7566,7 @@ DMUL10: CALL    VMOVAF          ;SAVE THE FAC IN ARG
                                 ;VMOVAF EXITS WITH (DE)=FAC+1
         XCHG                    ;GET THE POINTER INTO THE FAC IN (HL)
         DCX     H               ;POINT TO THE EXPONENT
-        MDV     A,M             ;GET THE EXPONENT
+        MOV     A,M             ;GET THE EXPONENT
         ADI     2               ;MULTIPLY FAC BY 4 BY ADDING 2 TO THE EXPONENT
         JC      OVERR           ;CHECK FOR OVERFLOW
         MOV     M,A             ;SAVE THE NEW EXPONENT
@@ -7786,7 +7786,7 @@ IFE     LENGTH-2,<
 DCRART: DCR     A               ;DECREASE IT
         RET                     ;ALL DONE
 IFE     LENGTH-2,<
-FINDIC: PUSH    PSW             ;WE HAVE TO DIVIDE -- SAVE COUNT
+FINDIV: PUSH    PSW             ;WE HAVE TO DIVIDE -- SAVE COUNT
         LDA     VALTYP          ;SEE WHAT KIND OF NUMBER WE HAVE
         CPI     4
         PUSH    PSW             ;SAVE THE TYPE
@@ -7871,7 +7871,7 @@ FINDGV: JNZ     FINDGD          ;FALL THROUGH IF VALTYP WAS 4 I.E. SNG PREC
         POP     PSW             ;GET THE NEXT DIGIT
         CALL    FINLOG          ;PACK IT INTO THE FAC
         JMP     FINDGE          ;GET FLAGS OFF STACK AND WE ARE DONE
-        ;HERE TO CONVERY A 7 DIGIT DINGLE PRECISION NUMBER TO DOUBLE PRECISION
+        ;HERE TO CONVERT A 7 DIGIT SINGLE PRECISION NUMBER TO DOUBLE PRECISION
 FINDG3: CALL    CONDS           ;CONVERT SINGLE TO DOUBLE PRECISION
         ;HERE TO PACK IN THE NEXT DIGIT OF A DOUBLE PRECISION NUMBER
 FINDGD: CALL    DMUL10          ;MULTIPLY THE FAC BY 10
@@ -8035,7 +8035,7 @@ FOUT11: DCX     H               ;GO BACK TO LAST CHARACTER
         JZ      FOUT11
         ;SUPPRESS DECIMAL POINT IF WE HAVE AN INTEGER
         CPI     "."             ;IGNORE DECIMAL POINT BEFORE TRAILING ZEROS
-        CNZ     INXHRT          ;IF NO DP, MOVE POINER TO NEXT POSITION
+        CNZ     INXHRT          ;IF NO DP, MOVE POINTER TO NEXT POSITION
 FOUT12: POP     PSW             ;GET DECIMAL EXPONENT
         JZ      FOUT17          ;RETURN IF NUMBER WAS IN FIXED POINT FORMAT
         ;FLOATING POINT NOTATION -- PUT AN "E" IN THE BUFFER
@@ -8053,7 +8053,7 @@ FOUT15: INR     B               ;INCREMENT DIGIT
         SUI     12              ;SUBTRACT TEN
         JNC     FOUT15          ;DO IT AGAIN IF RESULT WAS POSITIVE
         ADI     "0"+12          ;ADD BACK IN TEN AND CONVERT TO ASCII
-        LPUT THE EXPONENT IN THE BUFFER
+        ;PUT THE EXPONENT IN THE BUFFER
         INX     H
         MOV     M,B             ;PUT TEN'S DIGIT OF EXPONENT IN BUFFER
 FOUT19: INX     H               ;WHEN WE JUMP TO HERE, A IS ZERO
@@ -8191,7 +8191,7 @@ FOTZS1: MOV     M,C             ;FILL IN THE ZERO OR THE SIGN
         CPI     "0"             ;DO WE HAVE A ZERO?
         JZ      FOTZS1          ;YES, SUPPRESS IT
         CPI     54              ;54=","  DO WE HAVE A COMMA?
-        JZ      FOTSZ1          ;YES. SUPPRESS IT
+        JZ      FOTZS1          ;YES. SUPPRESS IT
         CPI     "."             ;ARE WE AT THE DECIMAL POINT?
         JNZ     FOTZS2          ;NO, I GUESS NOT
         DCX     H               ;YES, BACK UP AND PUT A ZERO BEFORE IT
@@ -8940,7 +8940,7 @@ IFN     EXTFNC,<
         FSIGN
         STC                     ;SEE EQUADRANT I FLAG
         JP      SIN1            ;FIRST QUADRANT, GET BACK ORIGINAL X
-        CALL    FADDM           ;ADD 1/2
+        CALL    FADDH           ;ADD 1/2
         FSIGN
         ORA     A               ;CLEAR CARRY
 SIN1:   PUSH    PSW             ;SAVE QUADRANT FLAG
@@ -9260,7 +9260,7 @@ OKCHAR: LXI     H,ILLFUN        ;MAKE SURE BOMBS IF TRIES TO CALL THEM
         SHLD    ATNFIX##
         CPI     "A"             ;DELETE ATN BUT NOT SIN, COS?
         JZ      HAVFNS          ;TEST
-        SHLD    COSFIN##
+        SHLD    COSFIX##
         SHLD    TANFIX##
         SHLD    SINFIX##
         LXI     D,COS>
