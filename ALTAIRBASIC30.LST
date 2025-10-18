@@ -2685,7 +2685,7 @@ BASIC MCS 8080  GATES/ALLEN/DAVIDOFF    MACRO 47(113) 03:12 10-SEP-75 PAGE 8
 F3      MAC      6-SEP-64 03:11         ERROR HANDLER, READY, COMPACTIFICATION, NEW, CLEAR, MAIN
 
   1866                                  27860   SUBTTL ERROR HANDLER, READY, COMPACTIFICATION, NEW, CLEAR, MAIN
-  1867                                  27880   IFN      LENGTH,<
+  1867                                  27880   IFN     LENGTH,<
   1868  002064' 001000  000052          27900   DATSNE: LHLD    DATLIN          ;GET DATA LINE
   1869  002065' 000000  001577'
   1870  002066' 000000  002062'
@@ -4921,7 +4921,7 @@ F3      MAC      6-SEP-64 03:11         "LET"
   3473  004147' 001000  000000          50500           SHLD    TEMP            ;SAVE VARIABLE POINTER ON "FOR"
   3474  004150' 000000  001603'
   3475  004151' 000000  004144'
-  3476            1                     50520   IFN     STRING,<
+  3476                                  50520   IFN     STRING,<
   3477  004152' 001000  000321          50540           POP     D               ;GET TEXT POINTER OFF
   3478  004153' 001000  000361          50560           POP     PSW             ;GET THE VALTYP OF THE
   3479                                  50580                                   ;VARIABLE INTO [A]
@@ -8192,7 +8192,7 @@ F3      MAC      6-SEP-64 03:11         DIMENSION & VARIABLE SEARCHING
   5825                                  19360           XCHG                    ;TEXT POINTER INTO [H,L]
   5826                                  19380           RET                     ;VARIABLE POINTER INTO [D,E]
   5827                                  19400
-  5828                                  19420   NOTFOD: MOV     M,E             ;PUT LOOKS DOWN
+  5828                                  19420   NOTFDD: MOV     M,E             ;PUT LOOKS DOWN
   5829                                  19440           INX     H
   5830                                  19460           MOV     M,D
   5831                                  19480           INX     H
@@ -8428,7 +8428,7 @@ F3      MAC      6-SEP-64 03:11         MULTIPLE DIMENSION CODE
   6012                                  22360   ;       OTHERWISE INDEX INTO THE VARIABLE AS IF IT
   6013                                  22380   ;       WERE FOUND ON THE INITIAL SEARCH
   6014                                  22400   ;
-  6015  007104'                         22420   NOTFDO:
+  6015  007104'                         22420   NOTFOD:
   6016                                  22440   IFE     LENGTH-2,<
   6017  007104' 010000  000167          22460           MOV     M,A             ;PUT DOWN THE VARIABLE TYPE
   6018  007105' 010000  000043          22480           INX     H
@@ -9659,7 +9659,7 @@ F3      MAC      6-SEP-64 03:11         STRING FUNCTIONS
   6880                                  34552                                   ;CAN BE UPDATED AFTER THE STRING IS
   6881                                  34554                                   ;MOVED
   6882  010266' 001000  000053          34560           DCX     H
-  6883                                  34580   IFN     LENFTH-2,<
+  6883                                  34580   IFN     LENGTH-2,<
   6884                                  34600           DCX     H>
   6885  010267' 001000  000156          34620           MOV     L,M             ;[L]=STRING LENGTH
   6886  010270' 001000  000046          34640           MVI     H,0             ;[H,L] GET CHARACTER COUNT
@@ -9953,7 +9953,7 @@ F3      MAC      6-SEP-64 03:11         STRING FUNCTIONS
   7118                                  37900   ;
   7119                                  37920   ; THE FOLLOWING IS THE LEFT$($,#) FUNCTION.
   7120                                  37940   ; IT TAKES THE LEFTMOST # CHARS OF THE STR.
-  7121                                  37960   ; IF # IS .GR. THAN THE LEN OF THE STR, IT REURNS THE WHOLE STR.
+  7121                                  37960   ; IF # IS .GR. THAN THE LEN OF THE STR, IT RETURNS THE WHOLE STR.
   7122                                  37980   ;
   7123  010552' 001000  000315          38000   LEFT$:  CALL    PREAM           ;TEST THE PARAMETERS
   7124  010553' 000000  010764'
@@ -11000,7 +11000,7 @@ ALLSTR          010570'         CNLCB1          003124' SPD     DEFFIN          
 ANDORD          005571'         CNLCB2          003136' SPD     DEL             011271'
 APPLOP          005642'         CNTCCN          003465'         DELETE          011245'
 ARG             001654' INT     CNTWFL          001541' INT     DFACLO          001633' INT
-ARGLD           001645' INT     COLIS           002705'         DIM             006500'
+ARGLO           001645' INT     COLIS           002705'         DIM             006500'
 ARYSTR          010177'         COMPRT          004553'         DIMCON          006473'
 ARYTAB          001623'         CONIA           006405' EXT     DIMFLG          001542'
 ARYVA2          010137'         CONINT          011023'         DIRIS           003542'
@@ -11015,12 +11015,12 @@ B               000000          COSFIX          000131' INT     DONMUL          
 BLTLOP          002013'         CR              000015  SPD     DORES           001544'
 BLTU            002005'         CRDO            004523' INT     DOSIZT          004621'
 BLTUC           002010'         CRDONE          002753'         DSCTMP          001570'
-COTCON          000016  SPD     CRFIN           004534'         DSKFUN          000000  SPD
+BOTCON          000016  SPD     CRFIN           004534'         DSKFUN          000000  SPD
 BRKTXT          001734'         CRUNCH          002533'         DSUB            000674' EXT
 BSERR           007077' INT     CSLOOP          006345'         DV0ERR          002075' INT
 BUF             001431' INT     CURLIN          001607' INT     DVAR            010214'
 BUFLEN          000110  SPD     CZLOOP          002316'         DVAR2           010213'
-BIFLIN          011163'         D               000002          DVARS           010214'
+BUFLIN          011163'         D               000002          DVARS           010214'
 BUFMIN          001430'         DADD            000672' EXT     E               000003
 C               000001          DANDOR          006437'         EATEM           006535'
 CASSW           000000  SPD     DATA            004072'         EDIT            000632' EXT
@@ -11029,7 +11029,7 @@ CHEAD           002302'         DATBK           005025'         ELSETK          
 CHKCOM          004560'         DATFND          005166'         END             003474'
 CHKSTR          010432' EXT     DATLIN          001577'         ENDCON          003501'
 CHR$            010532'         DATLOP          005163'         ENDREL          005415'
-CMRCON          003433'         DATPTR          001627'         ENDTK           000200  SPD
+CHRCON          003433'         DATPTR          001627'         ENDTK           000200  SPD
 CHRGTR          003426'         DATSNE          002064'         EQULTK          000260
 CLEAR           003703'         DBLDSP          000672'         ERRBS           000011  SPD
 CLEARC          002443'                                         ERRCN           000021  SPD
@@ -11077,7 +11077,7 @@ EXP             000127' EXT     FRMEVL          005336'         INT             
 EXPSTK          005553'         FSUB            000706' EXT     INTDSP          000716'
 EXTFNC          000001  SPD     FUNCTS          000001  SPD     INTID2          003623'
 FAC             001642' INT     FUNDSP          000103'         INTIDX          003622'
-FACOBL          005775'         GARBA2          010042'         INTXT           001720' INT
+FACDBL          005775'         GARBA2          010042'         INTXT           001720' INT
 FACLO           001637' INT     GARBAG          010026'         INXHRT          002664' EXT
 FACSNG          006034'         GETAGN          004741'         ISARY           006745'
 FADD            000704' EXT     GETBCD          007752' EXT     ISCNTC          003460'
@@ -11152,12 +11152,12 @@ LOPFND          006623'         NOTFRF          006272'         PREAM2          
 LOPPTA          007135'         NOTIT1          006660'         PRINT           004411'
 LOPREL          005363'         NOTLST          010477'         PRINTC          004414'
 LPOPER          005341'         NOTOL           003176'         PRINTK          000231  SPD
-LPTLEN          000110  SPD     NOTQT1          004735'         PRIT3           011232'
+LPTLEN          000110  SPD     NOTQTI          004735'         PRIT3           011232'
 LPTSW           000000  SPD     NOTSTV          005360'         PRIT4           011167
 LSTOPK          000007  SPD     NOTTHR          010753'         PRTNUL          004537'
 M               000006  SPD     NOTTK           000246  SPD     PSW             000006  SPD
-MAIN            002165'         NOTTRK          003367'         PTRGET          006505'
-MAKINT          007404' EXT     NUMGET          005053'         PTRGT2          006512'
+MAIN            002165'         NOTTRC          003367'         PTRGET          006505'
+MAKINT          007404' EXT     NOWGET          005053'         PTRGT2          006512'
 MEMSIZ          001545' INT     NOWLIN          005214'         PUFOUT          000000  EXT
 MID$            010643'         NTHIS           002736'         PURE            000000  SPD
 MID2            010665'         NTHIS1          002742'         PUSHF           006036' EXT
@@ -11224,7 +11224,7 @@ SCRATH          002421'         STREND          001625' INT     TTYCHR          
 SCRATK          000237'         STRFIN          007665'         TTYIST          004616'
 SCRTCH          002422' INT     STRGET          007646'         TTYPOS          000047'
 SETDBL          005750'         STRING          000001  SPD     TVAR            010063'
-SETID           011003'         STRINI          007624'         TXTTAB          001617' INT
+SETIO           011003'         STRINI          007624'         TXTTAB          001617' INT
 SGN             000103' EXT     STRLIT          007637' INT     UMULT           007267'
 SIGN            000050' INT     STRLT2          007643'         USERR           004037'
 SIGNC           000055' EXT     STRLT3          007642'         USINTK          000244  SPD
@@ -11468,7 +11468,7 @@ CNLCA2     138    2631#
 CNLCA3     138    2998#
 CNLCA4    2859#
 CNLCB1    2624#
-CBLCB2    2639#
+CNLCB2    2639#
 CNTCCN    2863    3002#
 CNTWFL     162     810    1595#   1889    1945    2647    2651    3043    4044
 COLIS     2401    2408#
@@ -11641,7 +11641,7 @@ FLGINP    1631#   4017    4098    4139    4247
 FLOAT      145#
 FLOATR    143#
 FMULT     1159    1159#
-FNOFOR    1735#   2745    3357    4381
+FNDFOR    1735#   2745    3357    4381
 FNDLIN    1989    2148#   3333    7523
 FNDOER    5042    6344#
 FNDVAR    6706#   6908
@@ -11832,7 +11832,7 @@ LENGTH       4#     22      32      37      82     111     117     119     131  
           6512    6587    6596    6628    6635    6749    6764    6781    6787    6791    6797    6823    6832    6883
           6975    6982    7029    7072    7088    7147    7231    7303    7311    7314    7327    7329    7339    7369
           7397    7763    7764    7769    7775    7784
-LETSKP    1898#   1904
+LEPSKP    1898#   1904
 LESSTK    1036#   4544
 LET       1072    2738    2934    3451#
 LINCHK    3828#
@@ -12065,7 +12065,7 @@ REMER     3400#   3421    3430
 REMTK      992#   2412
 REPINI     135    1956#
 REPOUT    3976#   3979
-REDCR1    7488#   7492
+RESCR1    7488#   7492
 RESER     2357#   2447
 RESFIN    2989#   4254
 RESLST     986#   2351    7484
@@ -12093,7 +12093,7 @@ SIN        926     926#
 SINFIX     139     926#
 SKPMRF    3715#   3727    3732
 SKPVAR    6754    6760#
-SKPVAL    6179    6186#
+SMLVAL    6179    6186#
 SNERR      135     773    1874#   2122    2884    2940    3186    3227    4557    5538    6396
 SNGDBL    4893#   4940
 SNGDO     4959#   4990
@@ -13744,7 +13744,7 @@ F4      MAC     23-AUG-64 06:08         FLOATING POINT ADDITION AND SUBTRACTION
    338                                  04440           CALL    SHFTLO          ;SHIFT THE REST OF THE NUMBER LEFT ONE
    339                                  04460           MOV     A,H             ;GET THE SHIFT COUNT
    340                                  04480           JP      NORM2>          ;CONTINUE IF NUMBER IS NOT NORMALIZED
-   341                                  04500   IFN     LENFRG,<
+   341                                  04500   IFN     LENGTH,<
    342  000146' 001000  000150          04520           MOV     L,B             ;PUT LOWEST 2 BYTES IN (HL)
    343  000147' 001000  000143          04540           MOV     H,E
    344  000150' 001000  000257          04560           XRA     A               ;ZERO SHIFT COUNT
@@ -13907,7 +13907,7 @@ F4      MAC     23-AUG-64 06:08         FLOATING POINT ADDITION AND SUBTRACTION
    473  000275' 001000  000203          06600           ADD     E               ;ADD IN OTHER LOWEST ORDER
    474  000276' 001000  000137          06620           MOV     E,A             ;SAVE IT
    475  000277' 001000  000043          06640           INX     H               ;UPDATE POINTER TO NEXT BYTE
-   476  000300' 001000  000176          06660           MOX     A,M             ;ADD MIDDLE ORDERS
+   476  000300' 001000  000176          06660           MOV     A,M             ;ADD MIDDLE ORDERS
    477  000301' 001000  000212          06680           ADC     D
    478  000302' 001000  000127          06700           MOV     D,A
    479  000303' 001000  000043          06720           INX     H               ;UPDATE POINTER TO HIGH ORDER
@@ -13920,7 +13920,7 @@ F4      MAC     23-AUG-64 06:08         FLOATING POINT ADDITION AND SUBTRACTION
    486                                  06860           ;NEGATE NUMBER IN C,D,E,B
    487                                  06880           ;THIS CODE IS USED BY FADD, QINT
    488                                  06900           ;ALTERS A,B,C,D,E,L
-   489  000310' 001000  000041          06920   NEGH:   LXI     H,FAC+1         ;NEGATE FAC
+   489  000310' 001000  000041          06920   NEGR:   LXI     H,FAC+1         ;NEGATE FAC
    490  000311' 000000  000001*
    491  000312' 000000  000272'
    492  000313' 001000  000176          06940           MOV     A,M             ;GET SIGN
@@ -13987,7 +13987,7 @@ F4      MAC     23-AUG-64 06:08         FLOATING POINT ADDITION AND SUBTRACTION
    539  000357' 001000  000055          07720           DCR     L               ;ARE WE DONE SHIFTING?
    540  000360' 001000  000310          07740           RZ                      ;RETURN IF WE ARE
    541                                  07760   IFE     LENGTH,<
-   542                                  07780   SHRADD: CALL    SHFTRD>         ;SHIFT THE NUMBER RIGHT ONE
+   542                                  07780   SHRADD: CALL    SHFTRO>         ;SHIFT THE NUMBER RIGHT ONE
    543                                  07800   IFN     LENGTH,<
    544  000361' 001000  000171          07820           MOV     A,C             ;GET HO
    545  000362' 001000  000037          07840   SHRADD: RAR                     ;ENTRY FROM FADD, SHIFT IT RIGHT
@@ -14025,7 +14025,7 @@ F4      MAC     23-AUG-64 06:08         FLOATING POINT ADDITION AND SUBTRACTION
    563                                  08160           ;THIS IS USED BY SHIFTR, FMULT, FADD
    564                                  08180           ;ALTERS A,B,C,D,E
    565                                  08200   SHFTRO: MOV     A,C             ;GET THE HO
-   566                                  08220   SHFR0A: RAR                     LSHIFT IS RIGHT, ENTRY FROM FMULT
+   566                                  08220   SHFROA: RAR                     ;SHIFT IS RIGHT, ENTRY FROM FMULT
    567                                  08240           MOV     C,A
    568                                  08260           MOV     A,D             ;SHIFT THE MO RIGHT
    569                                  08280           RAR
@@ -14215,7 +14215,7 @@ F4      MAC     23-AUG-64 06:08         FLOATING MULTIPLICATION AND DIVISION
    671                                  09580   FMULTS: CALL    MOVRM>          ;ENTRY WITH POINTER TO ARG IN (HL)
    672                                  09600   IFN     LENGTH-2,<
    673  000514' 001000  000041          09620           XWD     1000,041        ;"LXI   H" AROUND NEXT 2 BYTES
-   674  000515' 001000  000301          09640   FMULTI: POPR>                   ;ENTRY IF ARGUMENT IS ON THE STACK
+   674  000515' 001000  000301          09640   FMULTT: POPR>                   ;ENTRY IF ARGUMENT IS ON THE STACK
    675  000516' 001000  000321
    676  000517' 001000  000357          09660   FMULT:  FSIGN                   ;CHECK IF FAC IS ZERO
    677  000520' 001000  000310          09680           RZ                      ;IF IT IS, RESULT IS ZERO
@@ -14346,7 +14346,7 @@ F4      MAC     23-AUG-64 06:08         FLOATING MULTIPLICATION AND DIVISION
    774  000625' 000000  000571'
    775  000626' 000000  000601'
    776                                  11160   IFN     LENGTH,<
-   777  000627' 001000  000353          11180           XHG>                    ;GET LO'S IN (HL)
+   777  000627' 001000  000353          11180           XCHG>                   ;GET LO'S IN (HL)
    778  000630' 001000  000341          11200   POPHRT: POP     H               ;GET POINTER TO NUMBER TO MULTIPLY BY
    779  000631' 001000  000311          11220           RET                     ;ALL DONE
    780                                  11240   IFN     LENGTH,<
@@ -15130,7 +15130,7 @@ F4      MAC     23-AUG-64 06:08         FLOATING POINT MOVEMENT ROUTINES
   1319                                  19880           MOV     B,A             ;SET UP THECOUNT
   1320                                  19900           CPI     10              ;DO WE HAVE DBL?
   1321                                  19920           RNZ                     ;WE DO NOT, GO DO THE MOVE
-  1322                                  19940           LXI     D,DFACLO        ;WE DO, GET LO ADDR OF THE DBL DUMBER
+  1322                                  19940           LXI     D,DFACLO        ;WE DO, GET LO ADDR OF THE DBL NUMBER
   1323                                  19960           RET>                    ;GO DO THE MOVE
 
 
@@ -15430,7 +15430,7 @@ F4      MAC     23-AUG-64 06:08         CONVERSION ROUTINES BETWEEN INTEGER, SIN
   1446                                  22260
   1447                                  22280
   1448                                  22300           ;CONVERT SINGLE PRECISION NUMBER TO INTEGER
-  1449                                  22320           ;ALTRS A,B,C,D,E,H,K
+  1449                                  22320           ;ALTERS A,B,C,D,E,H,K
   1450                                  22340   CONIS:  LDA     FAC             ;GET THE EXPONENT
   1451                                  22360           CPI     220             ;SEE IF IT IS TOO BIG
   1452                                  22380           JNC     CONIS2          ;IT IS, BUT IT MIGHT BE -32768
@@ -15896,7 +15896,7 @@ F4      MAC     23-AUG-64 06:08         INTEGER ARITHMETIC ROUTINES
   1750                                  27640           JMP     IADDS           ;GO ADD THE NUMBERS
   1751                                  27660
   1752                                  27680
-  1753                                  27700           LINTEGER ADDITION       (HL):=(DE)+(HL)
+  1753                                  27700           ;INTEGER ADDITION       (HL):=(DE)+(HL)
   1754                                  27720           ;ALTERS A,B,C,D,E,H,L
   1755                                  27740   IADD:   MOV     A,H             ;EXTEND THE SIGN OF (HL) TO B
   1756                                  27760           RAL                     ;GET SIGN IN CARRY
@@ -15935,7 +15935,7 @@ F4      MAC     23-AUG-64 06:08         INTEGER ARITHMETIC ROUTINES
   1789                                  28420           LXI     H,$CODE         ;ZERO (HL), THAT IS WHERE THE PRODUCT GOES
   1790                                  28440           MVI     A,20            ;SET UP A COUNT
   1791                                  28460   IMULT1: DAD     H               ;ROTATE PRODUCT LEFT ONE
-  1792                                  28480           JC      IMULTS          ;CHECK FOR OVERFLOW
+  1792                                  28480           JC      IMULT5          ;CHECK FOR OVERFLOW
 
 
 
@@ -16084,7 +16084,7 @@ F4      MAC     23-AUG-64 06:08         INTEGER ARITHMETIC ROUTINES
 MATHPK FOR BASIC MCS 8080  GATES/ALLEN/DAVIDOFF MACRO 47(113) 06:09 27-AUG-75 PAGE 10-4
 F4      MAC     23-AUG-64 06:08         INTEGER ARITHMETIC ROUTINES
 
-  1899                                  30600           DBB     H               ;NEGATE HO
+  1899                                  30600           SBB     H               ;NEGATE HO
   1900                                  30620           MOV     H,A             ;SAVE IT
   1901                                  30640           RET                     ;ALL DONE
   1902                                  30660
@@ -16121,7 +16121,7 @@ F4      MAC     23-AUG-64 06:08         INTEGER ARITHMETIC ROUTINES
   1933                                  31280           MVI     A,2             ;SET VALTYP TO "INTEGER" IN CASE RESULT OF
   1934                                  31300           STA     VALTYP          ; THE DIVISION WAS 32768
   1935                                  31320           POP     PSW             ;GET THE SIGN OF (DE) BACK
-  1936                                  31340           JNP     INEGA>          ;NEGATE THE REMAINDER IF NECESSARY
+  1936                                  31340           JMP     INEGA>          ;NEGATE THE REMAINDER IF NECESSARY
   1937                                  31360   PAGE
 
 
@@ -16228,7 +16228,7 @@ F4      MAC     23-AUG-64 06:08         DOUBLE PRECISION ARITHMETIC ROUTINES
   1998                                  32580           RNC                     ;NO, ALL DONE
   1999                                  32600           PUSH    PSW             ;SAVE SHIFT COUNT
   2000                                  32620           CALL    UNPACK          ;UNPACK THE NUMBERS
-  2001                                  32640           MOV     A,B             ;SAVE SUBTRACTION FLAG
+  2001                                  32640           MOV     B,A             ;SAVE SUBTRACTION FLAG
   2002                                  32660           MOV     A,C             ;SAVE THE UNPACKED HO
   2003                                  32680           STA     ARG-1
   2004                                  32700           POP     PSW             ;GET SHIFT COUNT
@@ -16290,7 +16290,7 @@ F4      MAC     23-AUG-64 06:08         DOUBLE PRECISION ARITHMETIC ROUTINES
   2046                                  33540           JMP     ZERO            ;YES, THE NUMBER IS ZERO
   2047                                  33560   DNORM3: DCR     B               ;DECREMENT SHIFT COUNT
   2048                                  33580           LXI     H,DFACLO-1      ;GET POINTER TO LO
-  2049                                  33600           CALL    DSMFLC          ;SHIFT THE FAC LEFT
+  2049                                  33600           CALL    DSHFLC          ;SHIFT THE FAC LEFT
   2050                                  33620           ORA     A               ;SEE IF NUMBER IS NORMALIZED
   2051                                  33640   DNORM5: JP      DNORM3          ;SHIFT FAC LEFT ONE IF IT IS NOT NORMALIZED
   2052                                  33660           MOV     A,B             ;GET THE SHIFT COUNT
@@ -16427,7 +16427,7 @@ F4      MAC     23-AUG-64 06:08         DOUBLE PRECISION ARITHMETIC ROUTINES
   2155                                  35720           DCR     D               ;ARE WE DONE?
   2156                                  35740           RZ                      ;YES
   2157                                  35760   DSHFRA: LXI     H,FAC-1         ;NO, GET POINTER TO LO, ENTRY FROM DADD, DMULT
-  2158                                  35780           MVI     E,10            ;SET UP A COUNT, RORARE FAC ONE LEFT
+  2158                                  35780           MVI     E,10            ;SET UP A COUNT, ROTATE FAC ONE LEFT
   2159                                  35800   DSHFR5: MOV     A,M             ;GET A BYTE OF THE FAC
   2160                                  35820           RAR                     ;ROTATE IT LEFT
   2161                                  35840           MOV     M,A             ;PUT THE UPDATED BYTE BACK
@@ -16522,7 +16522,7 @@ F4      MAC     23-AUG-64 06:08         DOUBLE PRECISION ARITHMETIC ROUTINES
   2236                                  37320           CALL    MULDVS          ;SUBTRACT EXPONENTS AND CHECK SIGNS
   2237                                  37340           INR     M               ;ADD TWO TO EXPONENT TO CORRECT SCALING
   2238                                  37360           INR     M
-  2239                                  37380           CALL    DMULDV          ;ZERO FAC AND PUT FAC IN FBUFFT
+  2239                                  37380           CALL    DMULDV          ;ZERO FAC AND PUT FAC IN FBUFFR
   2240                                  37400           LXI     H,ARG           ;GET POINTE RTO THE EXTRA HO BYTE WE WILL USE
   2241                                  37420           MOV     M,C             ;ZERO IT
   2242                                  37440           MXI     B,0             ;ZERO FLAG TO SEE WHEN WE START DIVIDING
@@ -16598,7 +16598,7 @@ F4      MAC     23-AUG-64 06:08         DOUBLE PRECISION ARITHMETIC ROUTINES
   2298                                  38560                                   ;VMOVAF EXITS WITH (DE)=FAC+1
   2299                                  38580           XCHG                    ;GET THE POINTER INTO THE FAC IN (HL)
   2300                                  38600           DCX     H               ;POINT TO THE EXPONENT
-  2301                                  38620           MDV     A,M             ;GET THE EXPONENT
+  2301                                  38620           MOV     A,M             ;GET THE EXPONENT
   2302                                  38640           ADI     2               ;MULTIPLY FAC BY 4 BY ADDING 2 TO THE EXPONENT
   2303                                  38660           JC      OVERR           ;CHECK FOR OVERFLOW
   2304                                  38680           MOV     M,A             ;SAVE THE NEW EXPONENT
@@ -16994,7 +16994,7 @@ F4      MAC     23-AUG-64 06:08         FLOATING POINT INPUT ROUTINE
   2560  001701' 001000  000311          43000           RET                     ;ALL DONE
   2561
   2562                                  43040   IFE     LENGTH-2,<
-  2563                                  43060   FINDIC: PUSH    PSW             ;WE HAVE TO DIVIDE -- SAVE COUNT
+  2563                                  43060   FINDIV: PUSH    PSW             ;WE HAVE TO DIVIDE -- SAVE COUNT
   2564                                  43080           LDA     VALTYP          ;SEE WHAT KIND OF NUMBER WE HAVE
   2565                                  43100           CPI     4
   2566                                  43120           PUSH    PSW             ;SAVE THE TYPE
@@ -17115,7 +17115,7 @@ F4      MAC     23-AUG-64 06:08         FLOATING POINT INPUT ROUTINE
   2653                                  44720           POP     PSW             ;GET THE NEXT DIGIT
   2654                                  44740           CALL    FINLOG          ;PACK IT INTO THE FAC
   2655                                  44760           JMP     FINDGE          ;GET FLAGS OFF STACK AND WE ARE DONE
-  2656                                  44780           ;HERE TO CONVERY A 7 DIGIT DINGLE PRECISION NUMBER TO DOUBLE PRECISION
+  2656                                  44780           ;HERE TO CONVERT A 7 DIGIT SINGLE PRECISION NUMBER TO DOUBLE PRECISION
   2657                                  44800   FINDG3: CALL    CONDS           ;CONVERT SINGLE TO DOUBLE PRECISION
   2658                                  44820           ;HERE TO PACK IN THE NEXT DIGIT OF A DOUBLE PRECISION NUMBER
   2659                                  44840   FINDGD: CALL    DMUL10          ;MULTIPLY THE FAC BY 10
@@ -17493,7 +17493,7 @@ F4      MAC     23-AUG-64 06:08         FLOATING POINT OUTPUT ROUTINE
 
   2911  002225' 001000  000376          48180           CPI     "."             ;IGNORE DECIMAL POINT BEFORE TRAILING ZEROS
   2912  002226' 000000  000056
-  2913  002227' 001000  000304          48200           CNZ     INXHRT          ;IF NO DP, MOVE POINER TO NEXT POSITION
+  2913  002227' 001000  000304          48200           CNZ     INXHRT          ;IF NO DP, MOVE POINTER TO NEXT POSITION
   2914  002230' 000000  001252'
   2915  002231' 000000  002223'
   2916  002232' 001000  000361          48220   FOUT12: POP     PSW             ;GET DECIMAL EXPONENT
@@ -17525,7 +17525,7 @@ F4      MAC     23-AUG-64 06:08         FLOATING POINT OUTPUT ROUTINE
   2942  002261' 000000  002244'
   2943  002262' 001000  000306          48540           ADI     "0"+12          ;ADD BACK IN TEN AND CONVERT TO ASCII
   2944  002263' 000000  000072
-  2945                                  48560           LPUT THE EXPONENT IN THE BUFFER
+  2945                                  48560           ;PUT THE EXPONENT IN THE BUFFER
   2946  002264' 001000  000043          48580           INX     H
   2947  002265' 001000  000160          48600           MOV     M,B             ;PUT TEN'S DIGIT OF EXPONENT IN BUFFER
   2948  002266' 001000  000043          48620   FOUT19: INX     H               ;WHEN WE JUMP TO HERE, A IS ZERO
@@ -17717,7 +17717,7 @@ F4      MAC     23-AUG-64 06:08         FLOATING POINT OUTPUT ROUTINE
   3092                                  51300           CPI     "0"             ;DO WE HAVE A ZERO?
   3093                                  51320           JZ      FOTZS1          ;YES, SUPPRESS IT
   3094                                  51340           CPI     54              ;54=","  DO WE HAVE A COMMA?
-  3095                                  51360           JZ      FOTSZ1          ;YES. SUPPRESS IT
+  3095                                  51360           JZ      FOTZS1          ;YES. SUPPRESS IT
   3096                                  51380           CPI     "."             ;ARE WE AT THE DECIMAL POINT?
   3097                                  51400           JNZ     FOTZS2          ;NO, I GUESS NOT
   3098                                  51420           DCX     H               ;YES, BACK UP AND PUT A ZERO BEFORE IT
@@ -19044,7 +19044,7 @@ F4      MAC     23-AUG-64 06:08         SINE, COSINE AND TANGENT FUNCTIONS
   4016  003034' 001000  000362          66600           JP      SIN1            ;FIRST QUADRANT, GET BACK ORIGINAL X
   4017  003035' 000000  003044'
   4018  003036' 000000  003030'
-  4019  003037' 001000  000315          66620           CALL    FADDM           ;ADD 1/2
+  4019  003037' 001000  000315          66620           CALL    FADDH           ;ADD 1/2
   4020  003040' 000000  000000'
   4021  003041' 000000  003035'
   4022  003042' 001000  000357          66640           FSIGN
@@ -19772,7 +19772,7 @@ F4      MAC     23-AUG-64 06:08         SYSTEM INITIALIZATION CODE
   4535  003673' 001000  000312          73120           JZ      HAVFNS          ;TEST
   4536  003674' 000000  003712'
   4537  003675' 000000  003667'
-  4538  003676' 001000  000042          73140           SHLD    COSFIN##
+  4538  003676' 001000  000042          73140           SHLD    COSFIX##
   4539  003677' 000000  000000*
   4540  003700' 000000  003674'
   4541  003701' 001000  000042          73160           SHLD    TANFIX##
